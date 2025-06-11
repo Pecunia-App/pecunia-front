@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@use './styles/themes/theme-light';
+@use './styles/themes/theme-dark';
+@use './styles/tokens/variables-desktop' as *;
+@use './styles/tokens/variables-mobile' as *;
+
+@use './styles/abstracts/$breakpoints' as *;
+@use './styles/base/reset' as *;
+
+h1 {
+  color: red;
+
+  @include mq(desktop) {
+    color: blue;
+  }
+}
