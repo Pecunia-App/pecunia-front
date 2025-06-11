@@ -57,3 +57,14 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+## Gestion des Design Tokens
+
+Nous avons fait le choix de conserver les noms d'origine Figma (ex. `4 - 1rem, 16px`) dans notre base de tokens pour garantir :
+- une synchronisation parfaite Figma → code
+- une traçabilité directe sans retraitement
+
+Ces noms peu pratiques en SCSS sont masqués par des **aliases explicites**, utilisés par les composants Angular et SCSS. Ainsi, les développeurs accèdent à `$spacing-md`, tout en conservant l’intégrité des exports Figma.
+
+Le typage strict des tokens (`"dimension"`, `"color"`, etc.) garantit la compatibilité avec Style Dictionary.
