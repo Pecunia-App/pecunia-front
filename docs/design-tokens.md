@@ -26,10 +26,46 @@ Ce plugin permet d'exporter toutes les variables Figma sous forme de fichiers JS
 
 Les fichiers exportés sont stockés dans :
 
+```tree
 tokens/
 └── import/
-├── primitives.json
-├── colors.light.json
-├── colors.dark.json
-├── size.desktop.json
-└── size.mobile.json
+    ├── primitives.json
+    ├── colors.light.json
+    ├── colors.dark.json
+    ├── size.desktop.json
+    └── size.mobile.json
+```
+## 🏗️ Pipeline de génération SCSS
+
+Les fichiers SCSS sont générés automatiquement via Style Dictionary à l’aide du script suivant :
+
+```tree
+tokens/
+└── build-tokens.js
+```
+
+### ▶️ Commande
+
+```bash
+npm run build-tokens
+```
+
+### 🎯 résultat attendu
+
+```tree
+ src/styles/tokens/
+├── _variables-light.scss
+├── _variables-dark.scss
+├── _variables-desktop.scss
+└── _variables-mobile.scss
+```
+
+### 🔍 Règle de filtrage
+Les primitives (définies dans primitives.json) sont utilisées comme références ({color.gray.950}) mais ne sont pas exportées dans les SCSS.
+
+Le filtre appliqué ignore les catégories suivantes :
+
+color
+spacing
+border radius
+typo
