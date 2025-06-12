@@ -2,65 +2,65 @@
   "Common": {
     "Spacing": {
       "4XS": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.0,5 - 0,125rem, 2px}"
       },
       "3XS": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.1 - 0,25rem, 4px}"
       },
       "2XS": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.1,5 - 0,375rem, 6px}"
       },
       "XS": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.2 - 0,5rem, 8px}"
       },
       "S": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.3 - 0,75rem, 12px}"
       },
       "M": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.4 - 1rem, 16px}"
       },
       "L": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.6 - 1,5rem, 24px}"
       },
       "XL": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.8 - 2rem, 32px}"
       },
       "2XL": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.12 - 3rem, 48px}"
       },
       "3XL": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{spacing.16 - 4rem, 64px}"
       }
     },
     "Radius": {
       "Square": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{border radius.rounded-none}"
       },
       "M": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{border radius.rounded}"
       },
       "L": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{border radius.rounded-lg}"
       },
       "XL": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{border radius.rounded-2xl}"
       },
       "Round": {
-        "$type": "dimension",
+        "$type": "number",
         "$value": "{border radius.rounded-full}"
       }
     }
@@ -69,172 +69,172 @@
     "Display": {
       "h1": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "80px"
+          "$type": "number",
+          "$value": 80
         }
       },
       "h2": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "60px"
+          "$type": "number",
+          "$value": 60
         }
       },
       "h3": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "48px"
+          "$type": "number",
+          "$value": 48
         }
       },
       "h4": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "36px"
+          "$type": "number",
+          "$value": 36
         }
       },
       "h5": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "24px"
+          "$type": "number",
+          "$value": 24
         }
       },
       "h6": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "20px"
+          "$type": "number",
+          "$value": 20
         }
       }
     },
     "Heading": {
       "h1": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "30px"
+          "$type": "number",
+          "$value": 30
         }
       },
       "h2": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "24px"
+          "$type": "number",
+          "$value": 24
         }
       },
       "h3": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "20px"
+          "$type": "number",
+          "$value": 20
         }
       },
       "h4": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "18px"
+          "$type": "number",
+          "$value": 18
         }
       },
       "h5": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "16px"
+          "$type": "number",
+          "$value": 16
         }
       },
       "h6": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "14px"
+          "$type": "number",
+          "$value": 14
         }
       }
     },
     "Text": {
       "Large": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "18px"
+          "$type": "number",
+          "$value": 18
         }
       },
       "Medium": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "16px"
+          "$type": "number",
+          "$value": 16
         }
       },
       "Small": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "14px"
+          "$type": "number",
+          "$value": 14
         }
       },
       "Smaller": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "12px"
+          "$type": "number",
+          "$value": 12
         }
       },
       "Smallest": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "10px"
+          "$type": "number",
+          "$value": 10
         }
       }
     },
     "Text-bold": {
       "Large": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "18px"
+          "$type": "number",
+          "$value": 18
         }
       },
       "Medium": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "16px"  
+          "$type": "number",
+          "$value": 16
         }
       },
       "Small": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "14px"
+          "$type": "number",
+          "$value": 14
         }
       },
       "Smaller": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "12px"
+          "$type": "number",
+          "$value": 12
         }
       },
       "Smallest": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "10px"
+          "$type": "number",
+          "$value": 10
         }
       }
     },
     "Label": {
       "Large": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "18px"
+          "$type": "number",
+          "$value": 18
         }
       },
       "Medium": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "16px"
+          "$type": "number",
+          "$value": 16
         }
       },
       "Small": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "14px"
+          "$type": "number",
+          "$value": 14
         }
       },
       "Smaller": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "12px"
+          "$type": "number",
+          "$value": 12
         }
       },
       "Smallest": {
         "Font-size": {
-          "$type": "dimension",
-          "$value": "10px"
+          "$type": "number",
+          "$value": 10
         }
       }
     }
