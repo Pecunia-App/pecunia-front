@@ -1,0 +1,18 @@
+@use 'sass:map';
+
+$breakpoints: (
+  mobile: 390px,
+  tablet: 768px,
+  desktop: 1024px,
+);
+
+@mixin mq($breakpoint) {
+  $value: map.get($breakpoints, $breakpoint);
+  @if $value {
+    @media screen and (min-width: $value) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint #{$breakpoint} non défini dans la map.";
+  }
+}
