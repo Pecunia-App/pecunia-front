@@ -1,6 +1,8 @@
 @use '../tokens/variables-light' as *;
 @use '../tokens/variables-desktop' as *;
 
+@use '../themes/tokens' as theme;
+
 *,
 *::before,
 *::after {
@@ -12,8 +14,6 @@ body {
   margin: 0;
   padding: 0;
   // font-family: var(--typo-text-font-family, sans-serif);
-  background-color: $background-primary-default;
-  color: $text-neutral-default;
   font-size: #{$typo-text-medium-font-size}px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
