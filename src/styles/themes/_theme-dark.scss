@@ -1,0 +1,10 @@
+@use '../tokens/variables-dark' as *;
+
+[data-theme='dark'] {
+  body {
+    background-color: $background-neutral-primary;
+    color: $text-neutral-default;
+  }
+
+  // mêmes éléments stylés que dans light mais avec les variables dark
+}

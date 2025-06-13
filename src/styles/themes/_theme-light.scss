@@ -1,0 +1,10 @@
+@use '../tokens/variables-light' as *;
+
+[data-theme='light'] {
+  body {
+    background-color: $background-neutral-primary;
+    color: $text-neutral-default;
+  }
+
+  //ajouter d’autres éléments ici (h1, input, etc.)
+}

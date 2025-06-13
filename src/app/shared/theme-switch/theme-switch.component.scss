@@ -1,0 +1,12 @@
+@use './theming/light' as *;
+@use './theming/dark' as *;
+@use '../../../styles/tokens/variables-mobile' as *;
+
+// Style commun
+.btn-switch {
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: $common-spacing-m + px;
+  border-radius: $common-radius-l + px;
+}

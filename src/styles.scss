@@ -1,5 +1,5 @@
-@use './styles/tokens/variables-light' as *;
-@use './styles/tokens/variables-dark' as *;
+@use './styles/themes/theme-light';
+@use './styles/themes/theme-dark';
 @use './styles/tokens/variables-desktop' as *;
 @use './styles/tokens/variables-mobile' as *;
 

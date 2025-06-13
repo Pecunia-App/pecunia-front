@@ -1,0 +1,11 @@
+@use '../../../../styles/tokens/variables-light' as *;
+
+:host-context([data-theme='light']) .btn-switch {
+  background: $background-primary-default;
+  color: $text-neutral-default-inverse;
+
+  &:hover {
+    background: $background-primary-hover;
+    color: $text-neutral-default;
+  }
+}
