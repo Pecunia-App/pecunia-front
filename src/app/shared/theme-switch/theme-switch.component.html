@@ -1,0 +1,15 @@
+<button 
+type="button"
+class="btn-switch"
+(click)="toggleTheme()"
+[attr.aria-label]="isDark() ? 'Activer le thème clair' : 'Activer le thème sombre'"
+>
+<span>
+  @if (isDark(); as dark) {
+    dark mode
+  } @else {
+    light mode
+  }
+</span>
+</button>
+
