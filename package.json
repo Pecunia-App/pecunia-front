@@ -12,7 +12,9 @@
     "pre-commit": "lint-staged",
     "lint": "ng lint",
     "format": "prettier --write .",
-    "build-tokens": "node tokens/build-tokens.mjs"
+    "generate-token-map": "node scripts/generate-token-map.mjs",
+    "build-tokens": "node scripts/build-tokens.mjs",
+    "build-color-tokens": "npm run build-tokens && npm run generate-token-map"
   },
   "private": true,
   "dependencies": {
