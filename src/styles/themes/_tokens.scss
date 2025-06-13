@@ -1,0 +1,47 @@
+// -----------------------------------------------------------------------------
+// 🎨 Mapping & Fonctions utilitaires pour les Design Tokens Angular
+// -----------------------------------------------------------------------------
+// Ce fichier expose les fonctions SCSS pour accéder dynamiquement aux tokens
+// selon le thème (light/dark) et centralise la logique de mapping.
+//
+// - themed($key, $theme-name) : récupère la valeur d'un token pour un thème donné
+// - themed-block($props-map) : applique plusieurs propriétés selon le thème
+//
+// Pourquoi ?
+// - Centraliser la logique de theming
+// - Éviter la duplication de styles
+// - Faciliter la maintenance et l'évolution du design system
+// ----------------------------------------------------------------------------
+
+@use 'sass:map';
+@use 'tokens.map' as tokens-map;
+
+$theme-names: (light, dark);
+
+/// Retourne la valeur d'un token pour un thème donné
+/// @param $key        Nom du token (ex: 'background-neutral-primary')
+/// @param $theme-name Nom du thème ('light' ou 'dark')
+/// @return            Valeur du token pour ce thème
+@function themed($key, $theme-name) {
+  $entry: map.get(tokens-map.$tokens, $key);
+  @if $entry == null {
+    @return null;
+  }
+  $value: map.get($entry, $theme-name);
+  @if $value == null {
+    @return null;
+  }
+  @return $value;
+}
+
+/// Applique dynamiquement plusieurs propriétés CSS selon le thème
+/// @param $props-map  Map SCSS de propriétés et tokens (ex: (color: 'text-primary', background: 'background-neutral-primary'))
+@mixin themed-block($props-map) {
+  @each $theme-name in $theme-names {
+    :host-context([data-theme='#{$theme-name}']) & {
+      @each $prop, $token in $props-map {
+        #{$prop}: themed($token, $theme-name);
+      }
+    }
+  }
+}

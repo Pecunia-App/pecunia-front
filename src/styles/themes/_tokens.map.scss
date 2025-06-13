@@ -1,0 +1,689 @@
+@use '../tokens/variables-light' as light;
+@use '../tokens/variables-dark' as dark;
+
+$tokens: (
+  'background-alert-default-low': (
+    light: light.$background-alert-default-low,
+    dark: dark.$background-alert-default-low,
+  ),
+  'background-alert-default-medium': (
+    light: light.$background-alert-default-medium,
+    dark: dark.$background-alert-default-medium,
+  ),
+  'background-alert-disabled': (
+    light: light.$background-alert-disabled,
+    dark: dark.$background-alert-disabled,
+  ),
+  'background-alert-focus-low': (
+    light: light.$background-alert-focus-low,
+    dark: dark.$background-alert-focus-low,
+  ),
+  'background-alert-focus-medium': (
+    light: light.$background-alert-focus-medium,
+    dark: dark.$background-alert-focus-medium,
+  ),
+  'background-alert-hover-low': (
+    light: light.$background-alert-hover-low,
+    dark: dark.$background-alert-hover-low,
+  ),
+  'background-alert-hover-medium': (
+    light: light.$background-alert-hover-medium,
+    dark: dark.$background-alert-hover-medium,
+  ),
+  'background-badge-blue-low': (
+    light: light.$background-badge-blue-low,
+    dark: dark.$background-badge-blue-low,
+  ),
+  'background-badge-blue-medium': (
+    light: light.$background-badge-blue-medium,
+    dark: dark.$background-badge-blue-medium,
+  ),
+  'background-badge-green-low': (
+    light: light.$background-badge-green-low,
+    dark: dark.$background-badge-green-low,
+  ),
+  'background-badge-green-medium': (
+    light: light.$background-badge-green-medium,
+    dark: dark.$background-badge-green-medium,
+  ),
+  'background-badge-grey': (
+    light: light.$background-badge-grey,
+    dark: dark.$background-badge-grey,
+  ),
+  'background-badge-orange-low': (
+    light: light.$background-badge-orange-low,
+    dark: dark.$background-badge-orange-low,
+  ),
+  'background-badge-orange-medium': (
+    light: light.$background-badge-orange-medium,
+    dark: dark.$background-badge-orange-medium,
+  ),
+  'background-badge-pink-low': (
+    light: light.$background-badge-pink-low,
+    dark: dark.$background-badge-pink-low,
+  ),
+  'background-badge-pink-medium': (
+    light: light.$background-badge-pink-medium,
+    dark: dark.$background-badge-pink-medium,
+  ),
+  'background-badge-red-low': (
+    light: light.$background-badge-red-low,
+    dark: dark.$background-badge-red-low,
+  ),
+  'background-badge-red-medium': (
+    light: light.$background-badge-red-medium,
+    dark: dark.$background-badge-red-medium,
+  ),
+  'background-badge-violet-low': (
+    light: light.$background-badge-violet-low,
+    dark: dark.$background-badge-violet-low,
+  ),
+  'background-badge-violet-medium': (
+    light: light.$background-badge-violet-medium,
+    dark: dark.$background-badge-violet-medium,
+  ),
+  'background-badge-yellow-low': (
+    light: light.$background-badge-yellow-low,
+    dark: dark.$background-badge-yellow-low,
+  ),
+  'background-badge-yellow-medium': (
+    light: light.$background-badge-yellow-medium,
+    dark: dark.$background-badge-yellow-medium,
+  ),
+  'background-neutral-primary': (
+    light: light.$background-neutral-primary,
+    dark: dark.$background-neutral-primary,
+  ),
+  'background-neutral-primary-inverse': (
+    light: light.$background-neutral-primary-inverse,
+    dark: dark.$background-neutral-primary-inverse,
+  ),
+  'background-neutral-primary-static': (
+    light: light.$background-neutral-primary-static,
+    dark: dark.$background-neutral-primary-static,
+  ),
+  'background-neutral-primary-static-inverse': (
+    light: light.$background-neutral-primary-static-inverse,
+    dark: dark.$background-neutral-primary-static-inverse,
+  ),
+  'background-neutral-secondary': (
+    light: light.$background-neutral-secondary,
+    dark: dark.$background-neutral-secondary,
+  ),
+  'background-neutral-secondary-inverse': (
+    light: light.$background-neutral-secondary-inverse,
+    dark: dark.$background-neutral-secondary-inverse,
+  ),
+  'background-neutral-secondary-static': (
+    light: light.$background-neutral-secondary-static,
+    dark: dark.$background-neutral-secondary-static,
+  ),
+  'background-neutral-secondary-static-inverse': (
+    light: light.$background-neutral-secondary-static-inverse,
+    dark: dark.$background-neutral-secondary-static-inverse,
+  ),
+  'background-neutral-tertiary': (
+    light: light.$background-neutral-tertiary,
+    dark: dark.$background-neutral-tertiary,
+  ),
+  'background-primary-default': (
+    light: light.$background-primary-default,
+    dark: dark.$background-primary-default,
+  ),
+  'background-primary-disabled': (
+    light: light.$background-primary-disabled,
+    dark: dark.$background-primary-disabled,
+  ),
+  'background-primary-focus': (
+    light: light.$background-primary-focus,
+    dark: dark.$background-primary-focus,
+  ),
+  'background-primary-hover': (
+    light: light.$background-primary-hover,
+    dark: dark.$background-primary-hover,
+  ),
+  'background-primary-hover-ghost': (
+    light: light.$background-primary-hover-ghost,
+    dark: dark.$background-primary-hover-ghost,
+  ),
+  'background-secondary-default': (
+    light: light.$background-secondary-default,
+    dark: dark.$background-secondary-default,
+  ),
+  'background-secondary-disabled': (
+    light: light.$background-secondary-disabled,
+    dark: dark.$background-secondary-disabled,
+  ),
+  'background-secondary-focus': (
+    light: light.$background-secondary-focus,
+    dark: dark.$background-secondary-focus,
+  ),
+  'background-secondary-hover': (
+    light: light.$background-secondary-hover,
+    dark: dark.$background-secondary-hover,
+  ),
+  'background-secondary-hover-ghost': (
+    light: light.$background-secondary-hover-ghost,
+    dark: dark.$background-secondary-hover-ghost,
+  ),
+  'background-success-default-low': (
+    light: light.$background-success-default-low,
+    dark: dark.$background-success-default-low,
+  ),
+  'background-success-default-medium': (
+    light: light.$background-success-default-medium,
+    dark: dark.$background-success-default-medium,
+  ),
+  'background-success-default-medium-static': (
+    light: light.$background-success-default-medium-static,
+    dark: dark.$background-success-default-medium-static,
+  ),
+  'background-success-focus-low': (
+    light: light.$background-success-focus-low,
+    dark: dark.$background-success-focus-low,
+  ),
+  'background-success-focus-medium': (
+    light: light.$background-success-focus-medium,
+    dark: dark.$background-success-focus-medium,
+  ),
+  'background-success-hover-low': (
+    light: light.$background-success-hover-low,
+    dark: dark.$background-success-hover-low,
+  ),
+  'background-success-hover-medium': (
+    light: light.$background-success-hover-medium,
+    dark: dark.$background-success-hover-medium,
+  ),
+  'border-alert-default-low': (
+    light: light.$border-alert-default-low,
+    dark: dark.$border-alert-default-low,
+  ),
+  'border-alert-default-medium': (
+    light: light.$border-alert-default-medium,
+    dark: dark.$border-alert-default-medium,
+  ),
+  'border-alert-default-medium-static': (
+    light: light.$border-alert-default-medium-static,
+    dark: dark.$border-alert-default-medium-static,
+  ),
+  'border-alert-disabled': (
+    light: light.$border-alert-disabled,
+    dark: dark.$border-alert-disabled,
+  ),
+  'border-alert-focus-low': (
+    light: light.$border-alert-focus-low,
+    dark: dark.$border-alert-focus-low,
+  ),
+  'border-alert-focus-medium': (
+    light: light.$border-alert-focus-medium,
+    dark: dark.$border-alert-focus-medium,
+  ),
+  'border-alert-hover-low': (
+    light: light.$border-alert-hover-low,
+    dark: dark.$border-alert-hover-low,
+  ),
+  'border-alert-hover-medium': (
+    light: light.$border-alert-hover-medium,
+    dark: dark.$border-alert-hover-medium,
+  ),
+  'border-neutral-primary': (
+    light: light.$border-neutral-primary,
+    dark: dark.$border-neutral-primary,
+  ),
+  'border-neutral-primary-inverse': (
+    light: light.$border-neutral-primary-inverse,
+    dark: dark.$border-neutral-primary-inverse,
+  ),
+  'border-neutral-primary-static': (
+    light: light.$border-neutral-primary-static,
+    dark: dark.$border-neutral-primary-static,
+  ),
+  'border-neutral-primary-static-inverse': (
+    light: light.$border-neutral-primary-static-inverse,
+    dark: dark.$border-neutral-primary-static-inverse,
+  ),
+  'border-neutral-secondary': (
+    light: light.$border-neutral-secondary,
+    dark: dark.$border-neutral-secondary,
+  ),
+  'border-neutral-secondary-inverse': (
+    light: light.$border-neutral-secondary-inverse,
+    dark: dark.$border-neutral-secondary-inverse,
+  ),
+  'border-neutral-secondary-static': (
+    light: light.$border-neutral-secondary-static,
+    dark: dark.$border-neutral-secondary-static,
+  ),
+  'border-neutral-secondary-static-inverse': (
+    light: light.$border-neutral-secondary-static-inverse,
+    dark: dark.$border-neutral-secondary-static-inverse,
+  ),
+  'border-primary-default': (
+    light: light.$border-primary-default,
+    dark: dark.$border-primary-default,
+  ),
+  'border-primary-disabled': (
+    light: light.$border-primary-disabled,
+    dark: dark.$border-primary-disabled,
+  ),
+  'border-primary-focus': (
+    light: light.$border-primary-focus,
+    dark: dark.$border-primary-focus,
+  ),
+  'border-primary-hover': (
+    light: light.$border-primary-hover,
+    dark: dark.$border-primary-hover,
+  ),
+  'border-primary-hover-ghost': (
+    light: light.$border-primary-hover-ghost,
+    dark: dark.$border-primary-hover-ghost,
+  ),
+  'border-secondary-default': (
+    light: light.$border-secondary-default,
+    dark: dark.$border-secondary-default,
+  ),
+  'border-secondary-disabled': (
+    light: light.$border-secondary-disabled,
+    dark: dark.$border-secondary-disabled,
+  ),
+  'border-secondary-focus': (
+    light: light.$border-secondary-focus,
+    dark: dark.$border-secondary-focus,
+  ),
+  'border-secondary-hover': (
+    light: light.$border-secondary-hover,
+    dark: dark.$border-secondary-hover,
+  ),
+  'border-secondary-hover-ghost': (
+    light: light.$border-secondary-hover-ghost,
+    dark: dark.$border-secondary-hover-ghost,
+  ),
+  'border-success-default-low': (
+    light: light.$border-success-default-low,
+    dark: dark.$border-success-default-low,
+  ),
+  'border-success-default-medium': (
+    light: light.$border-success-default-medium,
+    dark: dark.$border-success-default-medium,
+  ),
+  'border-success-default-medium-static': (
+    light: light.$border-success-default-medium-static,
+    dark: dark.$border-success-default-medium-static,
+  ),
+  'border-success-focus-low': (
+    light: light.$border-success-focus-low,
+    dark: dark.$border-success-focus-low,
+  ),
+  'border-success-focus-medium': (
+    light: light.$border-success-focus-medium,
+    dark: dark.$border-success-focus-medium,
+  ),
+  'border-success-hover-low': (
+    light: light.$border-success-hover-low,
+    dark: dark.$border-success-hover-low,
+  ),
+  'border-success-hover-medium': (
+    light: light.$border-success-hover-medium,
+    dark: dark.$border-success-hover-medium,
+  ),
+  'common-danger-hight': (
+    light: light.$common-danger-hight,
+    dark: dark.$common-danger-hight,
+  ),
+  'common-danger-highter': (
+    light: light.$common-danger-highter,
+    dark: dark.$common-danger-highter,
+  ),
+  'common-danger-hightest': (
+    light: light.$common-danger-hightest,
+    dark: dark.$common-danger-hightest,
+  ),
+  'common-danger-low': (
+    light: light.$common-danger-low,
+    dark: dark.$common-danger-low,
+  ),
+  'common-danger-lower': (
+    light: light.$common-danger-lower,
+    dark: dark.$common-danger-lower,
+  ),
+  'common-danger-lowest': (
+    light: light.$common-danger-lowest,
+    dark: dark.$common-danger-lowest,
+  ),
+  'common-danger-medium': (
+    light: light.$common-danger-medium,
+    dark: dark.$common-danger-medium,
+  ),
+  'common-information-hight': (
+    light: light.$common-information-hight,
+    dark: dark.$common-information-hight,
+  ),
+  'common-information-highter': (
+    light: light.$common-information-highter,
+    dark: dark.$common-information-highter,
+  ),
+  'common-information-hightest': (
+    light: light.$common-information-hightest,
+    dark: dark.$common-information-hightest,
+  ),
+  'common-information-low': (
+    light: light.$common-information-low,
+    dark: dark.$common-information-low,
+  ),
+  'common-information-lower': (
+    light: light.$common-information-lower,
+    dark: dark.$common-information-lower,
+  ),
+  'common-information-lowest': (
+    light: light.$common-information-lowest,
+    dark: dark.$common-information-lowest,
+  ),
+  'common-information-medium': (
+    light: light.$common-information-medium,
+    dark: dark.$common-information-medium,
+  ),
+  'common-neutral-hight': (
+    light: light.$common-neutral-hight,
+    dark: dark.$common-neutral-hight,
+  ),
+  'common-neutral-highter': (
+    light: light.$common-neutral-highter,
+    dark: dark.$common-neutral-highter,
+  ),
+  'common-neutral-hightest': (
+    light: light.$common-neutral-hightest,
+    dark: dark.$common-neutral-hightest,
+  ),
+  'common-neutral-low': (
+    light: light.$common-neutral-low,
+    dark: dark.$common-neutral-low,
+  ),
+  'common-neutral-lower': (
+    light: light.$common-neutral-lower,
+    dark: dark.$common-neutral-lower,
+  ),
+  'common-neutral-lowest': (
+    light: light.$common-neutral-lowest,
+    dark: dark.$common-neutral-lowest,
+  ),
+  'common-neutral-medium': (
+    light: light.$common-neutral-medium,
+    dark: dark.$common-neutral-medium,
+  ),
+  'common-primary-high': (
+    light: light.$common-primary-high,
+    dark: dark.$common-primary-high,
+  ),
+  'common-primary-higher': (
+    light: light.$common-primary-higher,
+    dark: dark.$common-primary-higher,
+  ),
+  'common-primary-highest': (
+    light: light.$common-primary-highest,
+    dark: dark.$common-primary-highest,
+  ),
+  'common-primary-low': (
+    light: light.$common-primary-low,
+    dark: dark.$common-primary-low,
+  ),
+  'common-primary-lower': (
+    light: light.$common-primary-lower,
+    dark: dark.$common-primary-lower,
+  ),
+  'common-primary-lowest': (
+    light: light.$common-primary-lowest,
+    dark: dark.$common-primary-lowest,
+  ),
+  'common-primary-medium': (
+    light: light.$common-primary-medium,
+    dark: dark.$common-primary-medium,
+  ),
+  'common-secondary-high': (
+    light: light.$common-secondary-high,
+    dark: dark.$common-secondary-high,
+  ),
+  'common-secondary-higher': (
+    light: light.$common-secondary-higher,
+    dark: dark.$common-secondary-higher,
+  ),
+  'common-secondary-highest': (
+    light: light.$common-secondary-highest,
+    dark: dark.$common-secondary-highest,
+  ),
+  'common-secondary-low': (
+    light: light.$common-secondary-low,
+    dark: dark.$common-secondary-low,
+  ),
+  'common-secondary-lower': (
+    light: light.$common-secondary-lower,
+    dark: dark.$common-secondary-lower,
+  ),
+  'common-secondary-lowest': (
+    light: light.$common-secondary-lowest,
+    dark: dark.$common-secondary-lowest,
+  ),
+  'common-secondary-medium': (
+    light: light.$common-secondary-medium,
+    dark: dark.$common-secondary-medium,
+  ),
+  'common-success-hight': (
+    light: light.$common-success-hight,
+    dark: dark.$common-success-hight,
+  ),
+  'common-success-highter': (
+    light: light.$common-success-highter,
+    dark: dark.$common-success-highter,
+  ),
+  'common-success-hightest': (
+    light: light.$common-success-hightest,
+    dark: dark.$common-success-hightest,
+  ),
+  'common-success-low': (
+    light: light.$common-success-low,
+    dark: dark.$common-success-low,
+  ),
+  'common-success-lower': (
+    light: light.$common-success-lower,
+    dark: dark.$common-success-lower,
+  ),
+  'common-success-lowest': (
+    light: light.$common-success-lowest,
+    dark: dark.$common-success-lowest,
+  ),
+  'common-success-medium': (
+    light: light.$common-success-medium,
+    dark: dark.$common-success-medium,
+  ),
+  'common-warning-hight': (
+    light: light.$common-warning-hight,
+    dark: dark.$common-warning-hight,
+  ),
+  'common-warning-highter': (
+    light: light.$common-warning-highter,
+    dark: dark.$common-warning-highter,
+  ),
+  'common-warning-hightest': (
+    light: light.$common-warning-hightest,
+    dark: dark.$common-warning-hightest,
+  ),
+  'common-warning-low': (
+    light: light.$common-warning-low,
+    dark: dark.$common-warning-low,
+  ),
+  'common-warning-lower': (
+    light: light.$common-warning-lower,
+    dark: dark.$common-warning-lower,
+  ),
+  'common-warning-lowest': (
+    light: light.$common-warning-lowest,
+    dark: dark.$common-warning-lowest,
+  ),
+  'common-warning-medium': (
+    light: light.$common-warning-medium,
+    dark: dark.$common-warning-medium,
+  ),
+  'icon-text-alert-default': (
+    light: light.$icon-text-alert-default,
+    dark: dark.$icon-text-alert-default,
+  ),
+  'icon-text-alert-default-darker': (
+    light: light.$icon-text-alert-default-darker,
+    dark: dark.$icon-text-alert-default-darker,
+  ),
+  'icon-text-alert-default-lighter': (
+    light: light.$icon-text-alert-default-lighter,
+    dark: dark.$icon-text-alert-default-lighter,
+  ),
+  'icon-text-default': (
+    light: light.$icon-text-default,
+    dark: dark.$icon-text-default,
+  ),
+  'icon-text-default-inverse': (
+    light: light.$icon-text-default-inverse,
+    dark: dark.$icon-text-default-inverse,
+  ),
+  'icon-text-default-static': (
+    light: light.$icon-text-default-static,
+    dark: dark.$icon-text-default-static,
+  ),
+  'icon-text-default-static-inverse': (
+    light: light.$icon-text-default-static-inverse,
+    dark: dark.$icon-text-default-static-inverse,
+  ),
+  'icon-text-neutral-secondary': (
+    light: light.$icon-text-neutral-secondary,
+    dark: dark.$icon-text-neutral-secondary,
+  ),
+  'icon-text-primary-default': (
+    light: light.$icon-text-primary-default,
+    dark: dark.$icon-text-primary-default,
+  ),
+  'icon-text-primary-focus': (
+    light: light.$icon-text-primary-focus,
+    dark: dark.$icon-text-primary-focus,
+  ),
+  'icon-text-primary-hover': (
+    light: light.$icon-text-primary-hover,
+    dark: dark.$icon-text-primary-hover,
+  ),
+  'icon-text-secondary-default': (
+    light: light.$icon-text-secondary-default,
+    dark: dark.$icon-text-secondary-default,
+  ),
+  'icon-text-secondary-focus': (
+    light: light.$icon-text-secondary-focus,
+    dark: dark.$icon-text-secondary-focus,
+  ),
+  'icon-text-secondary-hover': (
+    light: light.$icon-text-secondary-hover,
+    dark: dark.$icon-text-secondary-hover,
+  ),
+  'icon-text-success-default': (
+    light: light.$icon-text-success-default,
+    dark: dark.$icon-text-success-default,
+  ),
+  'icon-text-success-default-darker': (
+    light: light.$icon-text-success-default-darker,
+    dark: dark.$icon-text-success-default-darker,
+  ),
+  'icon-text-success-default-lighter': (
+    light: light.$icon-text-success-default-lighter,
+    dark: dark.$icon-text-success-default-lighter,
+  ),
+  'overlay-100': (
+    light: light.$overlay-100,
+    dark: dark.$overlay-100,
+  ),
+  'overlay-200': (
+    light: light.$overlay-200,
+    dark: dark.$overlay-200,
+  ),
+  'overlay-300': (
+    light: light.$overlay-300,
+    dark: dark.$overlay-300,
+  ),
+  'overlay-50': (
+    light: light.$overlay-50,
+    dark: dark.$overlay-50,
+  ),
+  'overlay-500': (
+    light: light.$overlay-500,
+    dark: dark.$overlay-500,
+  ),
+  'text-alert-default': (
+    light: light.$text-alert-default,
+    dark: dark.$text-alert-default,
+  ),
+  'text-alert-default-darker': (
+    light: light.$text-alert-default-darker,
+    dark: dark.$text-alert-default-darker,
+  ),
+  'text-alert-default-lighter': (
+    light: light.$text-alert-default-lighter,
+    dark: dark.$text-alert-default-lighter,
+  ),
+  'text-neutral-default': (
+    light: light.$text-neutral-default,
+    dark: dark.$text-neutral-default,
+  ),
+  'text-neutral-default-inverse': (
+    light: light.$text-neutral-default-inverse,
+    dark: dark.$text-neutral-default-inverse,
+  ),
+  'text-neutral-default-static': (
+    light: light.$text-neutral-default-static,
+    dark: dark.$text-neutral-default-static,
+  ),
+  'text-neutral-default-static-inverse': (
+    light: light.$text-neutral-default-static-inverse,
+    dark: dark.$text-neutral-default-static-inverse,
+  ),
+  'text-neutral-secondary': (
+    light: light.$text-neutral-secondary,
+    dark: dark.$text-neutral-secondary,
+  ),
+  'text-primary-default': (
+    light: light.$text-primary-default,
+    dark: dark.$text-primary-default,
+  ),
+  'text-primary-default-darker': (
+    light: light.$text-primary-default-darker,
+    dark: dark.$text-primary-default-darker,
+  ),
+  'text-primary-default-lighter': (
+    light: light.$text-primary-default-lighter,
+    dark: dark.$text-primary-default-lighter,
+  ),
+  'text-primary-disabled': (
+    light: light.$text-primary-disabled,
+    dark: dark.$text-primary-disabled,
+  ),
+  'text-secondary-default': (
+    light: light.$text-secondary-default,
+    dark: dark.$text-secondary-default,
+  ),
+  'text-secondary-default-darker': (
+    light: light.$text-secondary-default-darker,
+    dark: dark.$text-secondary-default-darker,
+  ),
+  'text-secondary-default-lighter': (
+    light: light.$text-secondary-default-lighter,
+    dark: dark.$text-secondary-default-lighter,
+  ),
+  'text-secondary-disabled': (
+    light: light.$text-secondary-disabled,
+    dark: dark.$text-secondary-disabled,
+  ),
+  'text-success-default': (
+    light: light.$text-success-default,
+    dark: dark.$text-success-default,
+  ),
+  'text-success-default-darker': (
+    light: light.$text-success-default-darker,
+    dark: dark.$text-success-default-darker,
+  ),
+  'text-success-default-lighter': (
+    light: light.$text-success-default-lighter,
+    dark: dark.$text-success-default-lighter,
+  ),
+);
