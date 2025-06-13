@@ -87,7 +87,8 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/styles"]
             },
-            "scripts": []
+            "scripts": [],
+            "karmaConfig": "karma.conf.js"
           }
         },
         "lint": {
