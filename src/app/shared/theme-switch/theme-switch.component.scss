@@ -1,12 +1,35 @@
-@use './theming/light' as *;
-@use './theming/dark' as *;
+@use '../../../styles/themes/tokens' as theme;
 @use '../../../styles/tokens/variables-mobile' as *;
 
-// Style commun
 .btn-switch {
+  // Utilisation des variables de thème
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
   padding: $common-spacing-m + px;
   border-radius: $common-radius-l + px;
+
+  //style identique pour les deux thèmes
+  @include theme.themed-block(
+    (
+      background-color: 'background-primary-default',
+      color: 'text-neutral-default-inverse',
+    )
+  );
+
+  // hover séparé
+  &:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-primary-hover',
+      )
+    );
+  }
+}
+
+// 🎯 Exception uniquement pour le light
+:host-context([data-theme='light']) .btn-switch {
+  &:hover {
+    color: #{theme.themed('text-neutral-default', 'light')};
+  }
 }
