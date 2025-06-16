@@ -1,6 +1,8 @@
+@use './styles/fonts/font-face' as *;
 @use './styles/tokens/variables-desktop' as *;
 @use './styles/tokens/variables-mobile' as *;
 @use './styles/abstracts/$breakpoints' as *;
+@use './styles/abstracts/typography' as typo;
 @use './styles/base/reset' as *;
 @use './styles/themes/tokens' as theme;
 
@@ -13,6 +15,7 @@
 
 h1 {
   color: red;
+  @include typo.text-style(display-h1, regular);
 
   @include mq(desktop) {
     color: blue;
