@@ -21,19 +21,19 @@ Ce document explique comment importer et synchroniser les **Design Tokens** Figm
 
 ### 2. **Génération des SCSS et du mapping avec Style Dictionary**
 
-- La commande suivante automatise **à la fois** la génération des fichiers SCSS (un par thème ou plateforme) et la création/mise à jour du mapping SCSS :
+- La commande suivante automatise la création des fichiers SCSS (un par thème ou plateforme) **et** du mapping SCSS :
   ```bash
   npm run build-color-token
   ```
-- Cette commande exécute les scripts nécessaires pour :
+- Cette commande fait tout le travail pour toi :
 
-  - Transformer les JSON Figma en fichiers SCSS utilisables dans Angular
-  - Générer le mapping SCSS ([`src/styles/themes/_tokens.map.scss`](/src/styles/themes/_tokens.map.scss)) qui associe chaque token à sa valeur pour chaque thème (light/dark)
+  - Elle transforme les fichiers JSON de Figma en fichiers SCSS utilisables dans Angular.
+  - Elle crée un fichier de mapping ([`src/styles/themes/_tokens.map.scss`](/src/styles/themes/_tokens.map.scss)) qui relie chaque nom de variable à sa valeur pour chaque thème (clair/sombre).
 
-- **Pourquoi ce process ?**
-  - Automatiser la conversion pour garantir la cohérence entre Figma et le code
-  - Centraliser la logique de mapping pour éviter la duplication et faciliter la maintenance
-  - Éviter toute erreur manuelle ou oubli lors de la mise à jour des tokens
+- **Pourquoi faire comme ça ?**
+  - Pour être sûr que les couleurs et autres variables sont toujours à jour entre Figma et le code.
+  - Pour éviter de devoir tout refaire à la main à chaque changement.
+  - Pour ne pas se tromper ou oublier une variable.
 
 ---
 
@@ -97,6 +97,13 @@ $tokens: (
   // ...autres tokens
 );
 ```
+
+**Explication**
+
+Ce mapping permet de retrouver la bonne valeur d'une variable (token) selon le thème (clair ou sombre).  
+Exemple : si tu veux la couleur de fond pour le thème "dark", tu demandes `'background-neutral-primary'` et tu obtiens la bonne couleur pour "dark".
+
+---
 
 ### Configuration dans `package.json`
 
