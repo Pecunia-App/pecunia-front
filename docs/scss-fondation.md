@@ -2,7 +2,7 @@
 
 ## 🌟 Objectif
 
-Mise en place du socle SCSS global pour exploiter les Design Tokens dans Angular 19. Ce socle garantit une cohérence de style, une facilité de maintenance et une base pour les composants standalone.
+Mettre en place une base SCSS pour avoir des styles cohérents et faciles à maintenir dans Angular 19. On utilise des "Design Tokens" (variables globales) pour que tout soit centralisé.
 
 ---
 
@@ -42,11 +42,9 @@ Le fichier `styles.scss` est chargé globalement via `angular.json`.
 
 Il contient :
 
-les variables light et desktop
-
-le reset CSS
-
-les mixins de breakpoints
+- les variables light et desktop
+- le reset CSS
+- les mixins de breakpoints
 
 ⚠️ Les fonctions `themed()` et `themed-block()` ne sont pas chargées globalement.
 Elles doivent être importées localement dans chaque composant qui utilise les thèmes :
@@ -54,6 +52,7 @@ Elles doivent être importées localement dans chaque composant qui utilise les 
 ```scss
 @use '../../../styles/themes/tokens' as theme;
 ```
+
 ---
 
 ## 📊 Mixins et outils SCSS
@@ -97,11 +96,13 @@ h1 {
 }
 ```
 
-**Explication**
+**Explication simplifiée**
 
-Le mixin `mq` permet d’écrire des media-queries de façon centralisée et lisible, en utilisant des noms de breakpoints définis dans une map.
-Cela évite la répétition des valeurs dans tout le code (DRY) et facilite la maintenance : il suffit de modifier la map pour changer tous les breakpoints du projet.
-On respecte ainsi le principe S de SOLID (une seule responsabilité : gérer les media-queries) et on améliore la lisibilité et la robustesse des styles.
+Le mixin `mq` sert à écrire facilement des media-queries (pour adapter le style selon la taille d'écran).  
+Au lieu de répéter les tailles partout, on utilise des noms comme `mobile`, `tablet`, `desktop`.  
+Si on veut changer une taille, il suffit de modifier la map en haut du fichier.
+
+Cela évite de recopier les mêmes valeurs partout (DRY) et chaque fichier a un rôle précis (S de SOLID).
 
 ---
 
@@ -145,13 +146,20 @@ Un système centralisé permet de faire correspondre un token logique à la bonn
   }
 }
 ```
-**Explication**
 
-- `themed($key, $theme-name)` permet de récupérer dynamiquement la valeur d’un token pour un thème donné, ce qui évite la duplication de styles et centralise la logique de theming.
-- `themed-block($props-map)` applique un ensemble de propriétés CSS selon le thème actif, ce qui rend le code SCSS plus DRY et maintenable.
-- Respecte SOLID (S : chaque fonction/mixin a une responsabilité unique) et DRY (pas de duplication de logique dans chaque composant).
-- L’utilisation de `:host-context([data-theme='#{$theme-name}'])` permet d’appliquer dynamiquement les styles à un composant Angular en fonction de l’attribut data-theme présent sur un parent (souvent html ou body).
-Cela rend le composant réactif au changement de thème sans modifier son code, tout en gardant l’isolation des styles Angular.
+**Explication simplifiée**
+
+- `themed($key, $theme-name)` :  
+  Cette fonction va chercher la bonne valeur d'une variable (token) selon le thème (clair ou sombre).  
+  Exemple : si tu demandes la couleur de fond pour le thème "dark", elle te donne la bonne couleur.
+
+- `themed-block($props-map)` :  
+  Ce mixin applique plusieurs propriétés CSS selon le thème actif.  
+  Tu lui donnes une liste de propriétés et il les applique automatiquement pour chaque thème.
+
+- On utilise `:host-context([data-theme='#{$theme-name}'])` pour que le style change tout seul quand le thème change, sans toucher au code du composant.
+
+- Ça évite de recopier la logique de thème partout (DRY) et chaque fonction/mixin a un but précis (S de SOLID).
 
 ---
 
@@ -194,13 +202,91 @@ Cela rend le composant réactif au changement de thème sans modifier son code, 
 
 ---
 
-
 ## 🎯 Pourquoi cette organisation ?
 
-- **Séparation des responsabilités** : chaque fichier/fonction/mixin a un rôle précis (S de SOLID).
-- **Centralisation** : le mapping et les fonctions utilitaires évitent la duplication (DRY).
-- **Scalabilité** : facile d’ajouter de nouveaux thèmes, tokens ou breakpoints.
-- **Lisibilité** : chaque développeur comprend où et comment utiliser les outils du design system.
+- **Chaque fichier ou fonction a un rôle précis** (S de SOLID)
+- **Tout est centralisé** : on ne répète pas les valeurs (DRY)
+- **Facile à faire évoluer** : ajouter un thème ou changer une couleur est simple
+- **Lisible** : tout le monde comprend où et comment utiliser les outils du design system
 
 ---
+## 🔤 Gestion des polices – Open Sans
 
+Nous utilisons **Open Sans** dans différentes variantes pour couvrir tous les styles du projet (Display, Heading, Text).
+
+### 📦 Organisation des fichiers
+
+les fichiers de polices sont placées dans le dossier [`src/assets/fonts`](/src/assets/fonts/)
+
+les déclarations sont définies dans le dossier [`src/styles/fonts/_font-face.scss`](/src/styles/fonts/_font-face.scss)
+
+Les variables typographiques (tailles, poids, interlignes) et la mixin utilitaire sont dans [`src/styles/abstracts/_typography.scss`](/src/styles/abstracts/_typography.scss)
+
+### 🧱 Mixin typographique
+
+```scss
+@mixin text-style($size-key, $weight-key) {
+  font-family: $font-family-base;
+  font-size: map.get($font-sizes, $size-key);
+  line-height: map.get($line-heights, $size-key);
+  font-weight: map.get($font-weights, $weight-key);
+}
+```
+
+Cette mixin permet d’appliquer une règle typographique complète (police, taille, interligne, poids) à partir de clés logiques comme `heading-h2`, `text-sm`, etc.
+
+les clés sont dans `typography.scss`
+
+
+### ✅ Exemple d'utilisation d'une font
+```scss
+
+@use '../../../styles/abstracts/typography' as typo;
+
+h2 {
+  @include typo.text-style(heading-h2, extrabold);
+}
+
+``` 
+Cet exemple applique :
+
+- la police "Open Sans"
+- une taille adaptée à un titre de niveau 2
+- un poids fort (extrabold)
+- un interligne cohérent avec la maquette
+
+
+🔧 📋 Tâches SCSS & Design System à intégrer
+🧩 1. Intégration des icônes Lucide (en local)
+ Sélectionner ~50 icônes sur https://lucide.dev/icons
+
+ Télécharger les SVG et les placer dans src/assets/icons/lucide/
+
+ Vérifier que le dossier est bien référencé dans angular.json (section assets)
+
+ Créer un composant Angular IconComponent réutilisable (input name, size, alt)
+
+ Documenter l’usage dans la doc SCSS avec quelques exemples (trash, eye, arrow-right, etc.)
+
+📐 2. Taille sans tokens + conversion px → rem
+ Créer une fonction SCSS px-to-rem($px, $base: 10px)
+
+ Appliquer dans typographies, paddings, margins (si besoin)
+
+ Documenter dans la doc SCSS comment l’utiliser
+
+🌫 3. Box-shadows
+ Définir une échelle de shadows (sm, md, lg, xl) dans abstracts/_shadows.scss
+
+ Créer un mixin apply-shadow($key)
+
+ Ajouter un exemple visuel dans la doc
+
+📦 4. Mixins utilitaires layout
+ Ajouter un mixin flex-center (justify-content + align-items)
+
+ Ajouter des mixins m/p-x/y/t/b($space) pour margin/padding par côté
+
+ Ajouter un mixin container($max-width) pour wrapper
+
+ Documenter avec usage dans la doc SCSS
