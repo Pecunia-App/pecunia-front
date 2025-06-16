@@ -1,0 +1,56 @@
+$font-family-base: 'Open Sans', sans-serif;
+
+$font-sizes: (
+  display-h1: 80px,
+  display-h2: 60px,
+  display-h3: 48px,
+  display-h4: 36px,
+  display-h5: 24px,
+  display-h6: 20px,
+  heading-h1: 30px,
+  heading-h2: 24px,
+  heading-h3: 20px,
+  heading-h4: 18px,
+  heading-h5: 16px,
+  heading-h6: 14px,
+  text-lg: 18px,
+  text-md: 16px,
+  text-sm: 14px,
+  text-xs: 12px,
+  text-xxs: 10px,
+);
+
+$line-heights: (
+  display-h1: 80px,
+  display-h2: 60px,
+  display-h3: 48px,
+  display-h4: 40px,
+  display-h5: 32px,
+  display-h6: 28px,
+  heading-h1: 36px,
+  heading-h2: 32px,
+  heading-h3: 28px,
+  heading-h4: 28px,
+  heading-h5: 24px,
+  heading-h6: 20px,
+  text-lg: 28px,
+  text-md: 24px,
+  text-sm: 20px,
+  text-xs: 16px,
+  text-xxs: 13px,
+);
+
+$font-weights: (
+  regular: 400,
+  bold: 700,
+  extrabold: 800,
+);
+
+@use 'sass:map';
+
+@mixin text-style($size-key, $weight-key) {
+  font-family: $font-family-base;
+  font-size: map.get($font-sizes, $size-key);
+  line-height: map.get($line-heights, $size-key);
+  font-weight: map.get($font-weights, $weight-key);
+}
