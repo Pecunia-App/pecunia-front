@@ -9,6 +9,10 @@
   padding: $common-spacing-m + px;
   border-radius: $common-radius-l + px;
   font-family: 'open-sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $common-spacing-xs + px;
 
   @include typo.text-style(text-md, regular);
 
