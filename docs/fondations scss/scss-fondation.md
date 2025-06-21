@@ -225,15 +225,20 @@ Les variables typographiques (tailles, poids, interlignes) et la mixin utilitair
 ### 🧱 Mixin typographique
 
 ```scss
-@mixin text-style($size-key, $weight-key) {
+@mixin text-style($size-key, $weight-key: regular, $mode: desktop) {
+  $sizes: if($mode == desktop, $sizes-desktop, $sizes-mobile);
+
   font-family: $font-family-base;
-  font-size: map.get($font-sizes, $size-key);
-  line-height: map.get($line-heights, $size-key);
+  font-size: map.get($sizes, $size-key);
+  line-height: map.get($sizes, $size-key);
   font-weight: map.get($font-weights, $weight-key);
 }
 ```
 
 Cette mixin permet d’appliquer une règle typographique complète (police, taille, interligne, poids) à partir de clés logiques comme `heading-h2`, `text-sm`, etc.
+
+Le paramètre `$mode` permet de basculer dynamiquement entre mobile et desktop.  
+
 
 les clés sont dans `typography.scss`
 
@@ -244,7 +249,7 @@ les clés sont dans `typography.scss`
 @use '../../../styles/abstracts/typography' as typo;
 
 h2 {
-  @include typo.text-style(heading-h2, extrabold);
+  @include typo.text-style(heading-h2, extrabold, mobile);
 }
 
 ``` 
