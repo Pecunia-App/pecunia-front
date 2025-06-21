@@ -15,9 +15,10 @@
 
 h1 {
   color: red;
-  @include typo.text-style(display-h1, regular);
+  @include typo.text-style(display-h1, regular, mobile);
 
   @include mq(desktop) {
     color: blue;
+    @include typo.text-style(display-h1, regular, desktop);
   }
 }
