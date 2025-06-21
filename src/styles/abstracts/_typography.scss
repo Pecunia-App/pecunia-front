@@ -1,43 +1,48 @@
+@use '../tokens/variables-desktop' as desktop;
+@use '../tokens/variables-mobile' as mobile;
+
 $font-family-base: 'Open Sans', sans-serif;
 
-$font-sizes: (
-  display-h1: 80px,
-  display-h2: 60px,
-  display-h3: 48px,
-  display-h4: 36px,
-  display-h5: 24px,
-  display-h6: 20px,
-  heading-h1: 30px,
-  heading-h2: 24px,
-  heading-h3: 20px,
-  heading-h4: 18px,
-  heading-h5: 16px,
-  heading-h6: 14px,
-  text-lg: 18px,
-  text-md: 16px,
-  text-sm: 14px,
-  text-xs: 12px,
-  text-xxs: 10px,
+// 📐 Typo desktop – tailles et hauteurs de ligne
+$sizes-desktop: (
+  display-h1: desktop.$typo-display-h1-font-size + px,
+  display-h2: desktop.$typo-display-h2-font-size + px,
+  display-h3: desktop.$typo-display-h3-font-size + px,
+  display-h4: desktop.$typo-display-h4-font-size + px,
+  display-h5: desktop.$typo-display-h5-font-size + px,
+  display-h6: desktop.$typo-display-h6-font-size + px,
+  heading-h1: desktop.$typo-heading-h1-font-size + px,
+  heading-h2: desktop.$typo-heading-h2-font-size + px,
+  heading-h3: desktop.$typo-heading-h3-font-size + px,
+  heading-h4: desktop.$typo-heading-h4-font-size + px,
+  heading-h5: desktop.$typo-heading-h5-font-size + px,
+  heading-h6: desktop.$typo-heading-h6-font-size + px,
+  text-lg: desktop.$typo-text-large-font-size + px,
+  text-md: desktop.$typo-text-medium-font-size + px,
+  text-sm: desktop.$typo-text-small-font-size + px,
+  text-xs: desktop.$typo-text-smaller-font-size + px,
+  text-xxs: desktop.$typo-text-smallest-font-size + px,
 );
 
-$line-heights: (
-  display-h1: 80px,
-  display-h2: 60px,
-  display-h3: 48px,
-  display-h4: 40px,
-  display-h5: 32px,
-  display-h6: 28px,
-  heading-h1: 36px,
-  heading-h2: 32px,
-  heading-h3: 28px,
-  heading-h4: 28px,
-  heading-h5: 24px,
-  heading-h6: 20px,
-  text-lg: 28px,
-  text-md: 24px,
-  text-sm: 20px,
-  text-xs: 16px,
-  text-xxs: 13px,
+// 📐 Typo mobile – tailles et hauteurs de ligne
+$sizes-mobile: (
+  display-h1: mobile.$typo-display-h1-font-size + px,
+  display-h2: mobile.$typo-display-h2-font-size + px,
+  display-h3: mobile.$typo-display-h3-font-size + px,
+  display-h4: mobile.$typo-display-h4-font-size + px,
+  display-h5: mobile.$typo-display-h5-font-size + px,
+  display-h6: mobile.$typo-display-h6-font-size + px,
+  heading-h1: mobile.$typo-heading-h1-font-size + px,
+  heading-h2: mobile.$typo-heading-h2-font-size + px,
+  heading-h3: mobile.$typo-heading-h3-font-size + px,
+  heading-h4: mobile.$typo-heading-h4-font-size + px,
+  heading-h5: mobile.$typo-heading-h5-font-size + px,
+  heading-h6: mobile.$typo-heading-h6-font-size + px,
+  text-lg: mobile.$typo-text-large-font-size + px,
+  text-md: mobile.$typo-text-medium-font-size + px,
+  text-sm: mobile.$typo-text-small-font-size + px,
+  text-xs: mobile.$typo-text-smaller-font-size + px,
+  text-xxs: mobile.$typo-text-smallest-font-size + px,
 );
 
 $font-weights: (
@@ -46,11 +51,18 @@ $font-weights: (
   extrabold: 800,
 );
 
+$mode: (
+  desktop: 'desktop',
+  mobile: 'mobile',
+);
+
 @use 'sass:map';
 
-@mixin text-style($size-key, $weight-key) {
+@mixin text-style($size-key, $weight-key: regular, $mode: desktop) {
+  $sizes: if($mode == desktop, $sizes-desktop, $sizes-mobile);
+
   font-family: $font-family-base;
-  font-size: map.get($font-sizes, $size-key);
-  line-height: map.get($line-heights, $size-key);
+  font-size: map.get($sizes, $size-key);
+  line-height: map.get($sizes, $size-key);
   font-weight: map.get($font-weights, $weight-key);
 }
