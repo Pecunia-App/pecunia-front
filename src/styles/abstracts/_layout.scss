@@ -1,0 +1,82 @@
+@use 'sass:map';
+@use 'sass:math';
+
+@function px-to-rem($px) {
+  @return math.div($px, 16) * 1rem;
+}
+
+$space-2: px-to-rem(2); // 2px
+$space-4: px-to-rem(4); // 4px
+$space-6: px-to-rem(6); // 6px
+$space-8: px-to-rem(8); // 8px
+$space-10: px-to-rem(10); // 10px
+$space-12: px-to-rem(12); // 12px
+$space-16: px-to-rem(16); // 16px
+$space-24: px-to-rem(24); // 24px
+$space-32: px-to-rem(32); // 32px
+
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 16px;
+$radius-xl: 24px;
+$radius-pill: 9999px;
+
+@mixin margin($top, $right: null, $bottom: null, $left: null) {
+  margin-top: $top;
+  margin-right: if($right != null, $right, $top);
+  margin-bottom: if($bottom != null, $bottom, $top);
+  margin-left: if($left != null, $left, if($right != null, $right, $top));
+}
+@mixin padding($top, $right: null, $bottom: null, $left: null) {
+  padding-top: $top;
+  padding-right: if($right != null, $right, $top);
+  padding-bottom: if($bottom != null, $bottom, $top);
+  padding-left: if($left != null, $left, if($right != null, $right, $top));
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex($dir: null, $wrap: null, $justify: null, $align: null, $gap: null) {
+  display: flex;
+
+  @if $dir != null {
+    flex-direction: $dir;
+  }
+
+  @if $wrap != null {
+    flex-wrap: $wrap;
+  }
+
+  @if $justify != null {
+    justify-content: $justify;
+  }
+
+  @if $align != null {
+    align-items: $align;
+  }
+
+  @if $gap != null {
+    gap: $gap;
+  }
+}
+
+$radii: (
+  sm: $radius-sm,
+  md: $radius-md,
+  lg: $radius-lg,
+  xl: $radius-xl,
+  pill: $radius-pill,
+);
+
+@mixin radius($key: md) {
+  $radius: map.get($radii, $key);
+  @if $radius {
+    border-radius: $radius;
+  } @else {
+    @warn "Radius `#{$key}` non trouvé dans la map \$radii.";
+  }
+}

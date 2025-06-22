@@ -1,18 +1,23 @@
 @use '../../../styles/themes/tokens' as theme;
-@use '../../../styles/tokens/variables-mobile' as *;
 @use '../../../styles/abstracts/typography' as typo;
+@use '../../../styles/abstracts/layout' as layout;
+@use '../../../styles/abstracts/shadows' as shadows;
 
 .btn-switch {
   // Utilisation des variables de thème
+  @include layout.flex(
+    $dir: row,
+    $align: center,
+    $justify: space-between,
+    $gap: layout.$space-8
+  );
+  @include layout.padding(layout.$space-8, layout.$space-12);
+  @include layout.margin(layout.$space-8, layout.$space-12);
+  @include layout.radius(md);
+  @include shadows.shadow(lg, dark);
   border: none;
   cursor: pointer;
-  padding: $common-spacing-m + px;
-  border-radius: $common-radius-l + px;
   font-family: 'open-sans', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: $common-spacing-xs + px;
 
   @include typo.text-style(text-md, regular);
 
@@ -36,6 +41,7 @@
 
 // 🎯 Exception uniquement pour le light
 :host-context([data-theme='light']) .btn-switch {
+  @include shadows.shadow(lg, light);
   &:hover {
     color: #{theme.themed('text-neutral-default', 'light')};
   }
