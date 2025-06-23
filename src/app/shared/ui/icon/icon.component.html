@@ -1,0 +1,8 @@
+<span
+  [ngClass]="cssClasses()"
+  [style.mask-image]="maskImageUrl()"
+  [style.webkit-mask-image]="maskImageUrl()"
+  [attr.aria-hidden]="_isDecorative() ? 'true' : null"
+  [attr.role]="!_isDecorative() ? 'img' : null"
+  [attr.aria-label]="!_isDecorative() ? computedArialLabel() : null"
+></span>
