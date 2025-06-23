@@ -5,7 +5,9 @@
 
 .icon {
   display: inline-block;
-  background-color: currentColor; // Hérite de la couleur du texte parent
+  // Hérite de la couleur du texte parent
+  background-color: currentColor;
+  // Utilise une image SVG comme masque (les parties non transparentes prennent la couleur de fond)
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;

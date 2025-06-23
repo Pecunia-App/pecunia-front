@@ -1,21 +1,16 @@
 <button
-type="button"
-class="btn-switch"
-(click)="toggleTheme()"
-[attr.aria-label]="isDark() ? 'Activer le thème clair' : 'Activer le thème sombre'"
+  type="button"
+  class="btn-switch"
+  (click)="toggleTheme()"
+  [attr.aria-label]="
+    isDark() ? 'Activer le thème clair' : 'Activer le thème sombre'
+  "
 >
-
-@if (isDark(); as dark) {
-<span>
-    dark mode
-  </span>
-  <app-icon setName="sun-moon" setSize="md" [setDecorative]="true"/>
+  @if (isDark(); as dark) {
+    <span> dark mode </span>
+    <app-ui-icon name="sun-moon" size="md" [isDecorative]="true" />
   } @else {
-    <span>
-      light mode
-    </span>
-    <app-icon setName="sun" setSize="md" [setDecorative]="true" />
+    <span> light mode </span>
+    <app-ui-icon name="sun" size="md" [isDecorative]="true" />
   }
-
 </button>
-

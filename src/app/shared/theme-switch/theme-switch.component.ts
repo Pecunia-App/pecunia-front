@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { ThemeService } from '../../_core/services/theme/theme.service';
-import { IconComponent } from '../icon/icon.component';
+import { IconComponent } from '../ui/icon/icon.component';
 
 @Component({
   selector: 'app-theme-switch',
