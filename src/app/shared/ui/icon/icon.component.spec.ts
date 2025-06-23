@@ -19,7 +19,7 @@ describe('IconComponent', () => {
   });
 
   it('should render icon path correctly', () => {
-    component.setName = 'arrow-left';
+    component.name = 'arrow-left';
     fixture.detectChanges();
     const span = fixture.debugElement.query(By.css('span.icon'))
       .nativeElement as HTMLSpanElement;
@@ -27,8 +27,8 @@ describe('IconComponent', () => {
   });
 
   it('should apply correct size class', () => {
-    component.setName = 'plus';
-    component.setSize = 'lg';
+    component.name = 'plus';
+    component.size = 'lg';
     fixture.detectChanges();
     const span = fixture.debugElement.query(By.css('span.icon'));
     expect(span.classes['icon-size-lg']).toBeTrue();
@@ -37,12 +37,12 @@ describe('IconComponent', () => {
   it('should fallback to "plus" if icon does not exist', async () => {
     spyOn(console, 'warn'); // pour vérifier le message de fallback
 
-    component.setName = 'not-a-real-icon';
+    component.name = 'not-a-real-icon';
     fixture.detectChanges();
 
     await fixture.whenStable();
 
-    expect(component.name()).toBe('plus');
+    expect(component._name()).toBe('plus');
     expect(console.warn).toHaveBeenCalledWith(
       'Icône "not-a-real-icon" introuvable, fallback "plus" appliqué.'
     );
