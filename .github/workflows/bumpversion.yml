@@ -1,7 +1,10 @@
+permissions:
+  contents: write
+
 name: Bump version
 
 on:
-  push:
+  pull-request:
     branches:
       - main
 
