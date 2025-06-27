@@ -1,0 +1,11 @@
+<button
+  [type]="btnType()"
+  [ngClass]="cssClasses()"
+  [attr.aria-label]="btnAriaLabel()"
+  [disabled]="isDisabled()"
+  (click)="handleClick($event)"
+  (focus)="handleFocus()"
+  (blur)="handleBlur()"
+>
+  <ng-content></ng-content>
+</button>

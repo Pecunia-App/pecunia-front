@@ -1,0 +1,13 @@
+<app-button
+  type="button"
+  (buttonClick)="toggleTheme()"
+  [ariaLabel]="isDark() ? 'Activer le thème clair' : 'Activer le thème sombre'"
+>
+  @if (isDark(); as dark) {
+    <span> dark mode </span>
+    <app-ui-icon name="sun-moon" size="md" [isDecorative]="true" />
+  } @else {
+    <span> light mode </span>
+    <app-ui-icon name="sun" size="md" [isDecorative]="true" />
+  }
+</app-button>

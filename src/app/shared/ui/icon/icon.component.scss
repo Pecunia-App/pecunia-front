@@ -1,0 +1,38 @@
+:host {
+  display: inline-block;
+  line-height: 0;
+}
+
+.icon {
+  display: inline-block;
+  // Hérite de la couleur du texte parent
+  background-color: currentColor;
+  // Utilise une image SVG comme masque (les parties non transparentes prennent la couleur de fond)
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  vertical-align: middle;
+
+  &.icon-size-xs {
+    width: 12px;
+    height: 12px;
+  }
+
+  &.icon-size-sm {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.icon-size-md {
+    width: 24px;
+    height: 24px;
+  }
+
+  &.icon-size-lg {
+    width: 32px;
+    height: 32px;
+  }
+}
