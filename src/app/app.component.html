@@ -1,3 +1,88 @@
 <h1>Hello, {{ title }}</h1>
 <app-theme-switch />
+<div class="btn-container">
+
+  <app-button
+    variant="secondary"
+    size="large"
+    radius="large"
+    width="auto"
+    (buttonClick)="handleButtonClick()"
+    ariaLabel="ajouter aria-label"
+  >
+    <app-ui-icon name="arrow-left" size="md" [isDecorative]="true" />
+    Label Button
+    <app-ui-icon name="arrow-right" size="md" [isDecorative]="true" />
+  </app-button>
+
+
+  <app-button
+    variant="primary"
+    width="auto"
+    (buttonClick)="handleButtonClick()"
+    >Label Button</app-button
+  >
+
+  <app-button
+    variant="secondary-ghost"
+    size="square"
+    radius="large"
+    width="auto"
+    (buttonClick)="handleButtonClick()"
+  >
+    <app-ui-icon name="plus" size="md" ariaLabel="ajouter la transaction" />
+  </app-button>
+
+
+  <app-button
+    variant="primary-ghost"
+    size="large"
+    width="auto"
+    (buttonClick)="handleButtonClick()"
+    ariaLabel="ajouter ariaLabel"
+    >
+    <app-ui-icon name="chevron-down" size="md" [isDecorative]="true" />
+    Ghost
+    </app-button
+  >
+
+  <app-button
+  variant="primary"
+  size="square"
+  radius="medium"
+  width="auto"
+  (buttonClick)="handleButtonClick()"
+  ariaLabel="ajouter la transaction"
+>
+ajout transaction
+  <app-ui-icon name="plus" size="md" [isDecorative]="true" />
+</app-button>
+
+
+  <app-button
+    variant="alert"
+    radius="large"
+    width="auto"
+    (buttonClick)="handleButtonClick()"
+    >supprimer compte</app-button
+  >
+
+  <app-button
+  variant="alert"
+  size="square"
+  width="auto"
+  (buttonClick)="handleButtonClick()"
+>
+  <app-ui-icon name="trash-2" size="md" ariaLabel="supprimer" />
+</app-button>
+
+<app-button
+variant="success"
+size="square"
+width="auto"
+(buttonClick)="handleButtonClick()"
+>
+<app-ui-icon name="settings" size="md" ariaLabel="réglages" />
+</app-button>
+</div>
 <router-outlet></router-outlet>

@@ -1,10 +1,7 @@
-<button
+<app-button
   type="button"
-  class="btn-switch"
-  (click)="toggleTheme()"
-  [attr.aria-label]="
-    isDark() ? 'Activer le thème clair' : 'Activer le thème sombre'
-  "
+  (buttonClick)="toggleTheme()"
+  [ariaLabel]="isDark() ? 'Activer le thème clair' : 'Activer le thème sombre'"
 >
   @if (isDark(); as dark) {
     <span> dark mode </span>
@@ -13,4 +10,4 @@
     <span> light mode </span>
     <app-ui-icon name="sun" size="md" [isDecorative]="true" />
   }
-</button>
+</app-button>
