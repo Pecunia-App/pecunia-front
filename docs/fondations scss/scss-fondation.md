@@ -431,6 +431,75 @@ Exemple 4 : Valeurs nulles pour omettre certains côtés
 ```
 
 ---
+#### Mixin `radius` – Guide d’utilisation
+
+Ce mixin permet d’appliquer rapidement un `border-radius` cohérent avec le design system Pecunia, en choisissant une valeur prédéfinie.
+
+---
+
+## Définition SCSS
+
+```scss
+$radii: (
+  sm: 4px,
+  md: 8px,
+  lg: 16px,
+  xl: 24px,
+  pill: 9999px,
+);
+
+@mixin radius($key: md) {
+  $radius: map.get($radii, $key);
+  @if $radius {
+    border-radius: $radius;
+  } @else {
+    @warn "Radius `#{$key}` non trouvé dans la map $radii.";
+  }
+}
+```
+
+---
+
+## Paramètres
+
+| Paramètre | Type   | Valeurs possibles      | Défaut | Description                  |
+|-----------|--------|-----------------------|--------|------------------------------|
+| `$key`    | string | sm, md, lg, xl, pill  | md     | Clé du rayon à appliquer     |
+
+---
+
+## Valeurs disponibles
+
+| Clé   | Valeur px | Utilisation recommandée               |
+|-------|-----------|---------------------------------------|
+| sm    | 4px       | Petits éléments, badges               |
+| md    | 8px       | Boutons, inputs, cartes               |
+| lg    | 16px      | Cartes, modales, sections             |
+| xl    | 24px      | Grands conteneurs, illustrations      |
+| pill  | 9999px    | Effet "pilule" (boutons ronds)        |
+
+---
+
+## Exemples d’utilisation
+
+```scss
+// Bord arrondi moyen (par défaut)
+.card {
+  @include radius();
+}
+
+// Bord arrondi large
+.modal {
+  @include radius(lg);
+}
+
+// Effet pilule (pour un bouton rond)
+.button-pill {
+  @include radius(pill);
+}
+```
+
+---
 
 #### Flexbox
 

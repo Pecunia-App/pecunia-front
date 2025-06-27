@@ -3,7 +3,7 @@
 
 $font-family-base: 'Open Sans', sans-serif;
 
-// 📐 Typo desktop – tailles et hauteurs de ligne
+//Typo desktop – tailles et hauteurs de ligne
 $sizes-desktop: (
   display-h1: desktop.$typo-display-h1-font-size + px,
   display-h2: desktop.$typo-display-h2-font-size + px,
@@ -24,7 +24,7 @@ $sizes-desktop: (
   text-xxs: desktop.$typo-text-smallest-font-size + px,
 );
 
-// 📐 Typo mobile – tailles et hauteurs de ligne
+// Typo mobile – tailles et hauteurs de ligne
 $sizes-mobile: (
   display-h1: mobile.$typo-display-h1-font-size + px,
   display-h2: mobile.$typo-display-h2-font-size + px,
@@ -47,6 +47,7 @@ $sizes-mobile: (
 
 $font-weights: (
   regular: 400,
+  semibold: 600,
   bold: 700,
   extrabold: 800,
 );

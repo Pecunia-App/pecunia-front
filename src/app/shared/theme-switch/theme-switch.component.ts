@@ -1,10 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { ThemeService } from '../../_core/services/theme/theme.service';
 import { IconComponent } from '../ui/icon/icon.component';
+import { ButtonComponent } from '../ui/button/button.component';
 
 @Component({
   selector: 'app-theme-switch',
-  imports: [IconComponent],
+  imports: [IconComponent, ButtonComponent],
   templateUrl: './theme-switch.component.html',
   styleUrl: './theme-switch.component.scss',
 })
@@ -15,5 +16,6 @@ export class ThemeSwitchComponent {
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
+    console.log(`Theme switched to: ${this.themeService.theme()}`);
   }
 }
