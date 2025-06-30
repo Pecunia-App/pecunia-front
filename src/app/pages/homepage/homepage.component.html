@@ -1,0 +1,28 @@
+<app-public-layout>
+  <div class="homepage_content">
+    <h2>
+      <span>La seule application qui</span>
+      <span class="homepage_content__highlight">met vos finances en forme</span>
+    </h2>
+    <div class="btn-group">
+      <app-button
+        width="full"
+        size="large"
+        [minWidth]="300"
+        [maxWidth]="392"
+        (click)="navigateToRegister()"
+      >
+        Inscription
+      </app-button>
+      <app-button
+        width="full"
+        size="large"
+        [minWidth]="300"
+        [maxWidth]="392"
+        variant="primary-ghost"
+        (click)="navigateToLogin()"
+        >Connexion</app-button
+      >
+    </div>
+  </div>
+</app-public-layout>

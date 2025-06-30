@@ -1,0 +1,16 @@
+<div class="main-wrapper">
+  <div class="logo-bg"></div>
+  <div class="content-wrapper">
+    <div class="public-card">
+      <div class="public-card_header">
+        <h1 class="public-card__brand">
+          <img 
+          [src]="isDark() ? '/assets/images/logo-pec-text-dark.svg' : '/assets/images/logo-pec-text-light.svg'" 
+          alt="Pecunia">
+          <span class="public-card__brand-text sr-only">PECUNIA</span>
+        </h1>
+      </div>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
