@@ -20,7 +20,9 @@ Il applique automatiquement les styles du Design System (tokens, radius, typogra
 | `type`      | `string` (`ButtonType`)      | `button`, `submit`, `reset`                                                                           | `button`     | Type natif HTML du bouton                                 |
 | `size`      | `string` (`ButtonSize`)      | `medium`, `large`                                                                                     | `medium`     | Taille du bouton (padding et font-size adaptés)           |
 | `radius`    | `string` (`ButtonRadius`)    | `medium`, `pill`                                                                                      | `medium`     | Rayon de bordure (arrondi standard ou pill = très arrondi)|
-| `width`     | `string` (`ButtonWidth`)     | `auto`, `full`                                                                                       | `auto`       | Largeur auto (adaptée au contenu) ou block (100%)         |
+| `width`     | `string` (`ButtonWidth`)     | `auto`, `full`                                                                                       | `auto`       | Largeur auto (adaptée au contenu) ou block (100%)         | 
+|`minWidth`  | `number \| string \| null`      | ex : `160`, `'10rem'`, `'60%'`, `null`                                       | `null`       | Largeur minimale du bouton (en px si number, ou unité CSS)        |
+| `maxWidth`  | `number \| string \| null`      | ex : `320`, `'20rem'`, `'100%'`, `null`                                      | `null`       | Largeur maximale du bouton (en px si number, ou unité CSS)        |
 | `disabled`  | `boolean`                   | `true`, `false`                                                                                       | `false`      | Désactive le bouton                                       |
 | `ariaLabel` | `string`                    | – (libre, recommandé pour bouton icône seule)                                                         | –            | Label accessibilité, obligatoire pour “icon only”         |
 | `buttonClick`| `EventEmitter<Event>` (output)| –                                                                                                | –            | Événement émis lors du clic                               |
@@ -52,6 +54,14 @@ Il applique automatiquement les styles du Design System (tokens, radius, typogra
 #### `width`
 - `auto` : Largeur s’adapte au contenu (défaut)
 - `full` : Largeur 100% du parent (responsive)
+
+#### `min-width`
+- `minWidth` : valeur numérique (ex: `160` pour `160px`) ou string avec unité CSS (`'10rem'`, `'60%'`).  
+  Si non renseigné (`null`), aucune min-width n’est appliquée.
+
+#### `max-width`
+- `maxWidth` : valeur numérique (ex: `320` pour `320px`) ou string avec unité CSS (`'100%'`, `'20rem'`).  
+  Si non renseigné (`null`), aucune max-width n’est appliquée.
 
 ---
 
@@ -107,7 +117,31 @@ Il applique automatiquement les styles du Design System (tokens, radius, typogra
   Action secondaire
 </app-button>
 ```
+### Bouton avec min/max en pixels
 
+```html
+<app-button [minWidth]="160" [maxWidth]="320">
+  Confirmer
+</app-button>
+```
+
+### Bouton avec min/max responsive (en rem et %)
+
+```html
+<app-button minWidth="10rem" maxWidth="80%">
+  S'inscrire
+</app-button>
+```
+
+### Bouton full width dans un parent, avec min/max personnalisés
+
+```html
+<div style="width:400px;">
+  <app-button width="full" minWidth="200" maxWidth="360">
+    Continuer
+  </app-button>
+</div>
+```
 ---
 
 ## Accessibilité : bonnes pratiques

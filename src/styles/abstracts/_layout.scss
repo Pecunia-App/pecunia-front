@@ -5,6 +5,15 @@
   @return math.div($px, 16) * 1rem;
 }
 
+@function size($value) {
+  // Si $value est une clé du map $size, retourne la valeur correspondante
+  @if map.has-key($size, $value) {
+    @return map.get($size, $value);
+  }
+  // Sinon, retourne la valeur telle quelle (utile si on passe 2rem ou 32px direct)
+  @return $value;
+}
+
 $space-2: px-to-rem(2); // 2px
 $space-4: px-to-rem(4); // 4px
 $space-6: px-to-rem(6); // 6px
@@ -15,6 +24,11 @@ $space-14: px-to-rem(14); // 14px
 $space-16: px-to-rem(16); // 16px
 $space-24: px-to-rem(24); // 24px
 $space-32: px-to-rem(32); // 32px
+$space-48: px-to-rem(48); // 48px
+$space-64: px-to-rem(64); // 64px
+$space-80: px-to-rem(80); // 80px
+$space-96: px-to-rem(96); // 96px
+$space-128: px-to-rem(128); // 128px
 
 $radius-sm: 4px;
 $radius-md: 8px;
@@ -22,23 +36,51 @@ $radius-lg: 16px;
 $radius-xl: 24px;
 $radius-pill: 9999px;
 
+$size: (
+  space-2: $space-2,
+  space-4: $space-4,
+  space-6: $space-6,
+  space-8: $space-8,
+  space-10: $space-10,
+  space-12: $space-12,
+  space-14: $space-14,
+  space-16: $space-16,
+  space-24: $space-24,
+  space-32: $space-32,
+  space-48: $space-48,
+  space-64: $space-64,
+  space-80: $space-80,
+  space-96: $space-96,
+  space-128: $space-128,
+);
+
 @mixin margin($top, $right: null, $bottom: null, $left: null) {
-  margin-top: $top;
-  margin-right: if($right != null, $right, $top);
-  margin-bottom: if($bottom != null, $bottom, $top);
-  margin-left: if($left != null, $left, if($right != null, $right, $top));
+  margin-top: size($top);
+  margin-right: if($right != null, size($right), size($top));
+  margin-bottom: if($bottom != null, size($bottom), size($top));
+  margin-left: if(
+    $left != null,
+    size($left),
+    if($right != null, size($right), size($top))
+  );
 }
 @mixin padding($top, $right: null, $bottom: null, $left: null) {
-  padding-top: $top;
-  padding-right: if($right != null, $right, $top);
-  padding-bottom: if($bottom != null, $bottom, $top);
-  padding-left: if($left != null, $left, if($right != null, $right, $top));
+  padding-top: size($top);
+  padding-right: if($right != null, size($right), size($top));
+  padding-bottom: if($bottom != null, size($bottom), size($top));
+  padding-left: if(
+    $left != null,
+    size($left),
+    if($right != null, size($right), size($top))
+  );
 }
 
 @mixin flex-center {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: $space-16;
 }
 
 @mixin flex($dir: null, $wrap: null, $justify: null, $align: null, $gap: null) {
@@ -47,21 +89,17 @@ $radius-pill: 9999px;
   @if $dir != null {
     flex-direction: $dir;
   }
-
   @if $wrap != null {
     flex-wrap: $wrap;
   }
-
   @if $justify != null {
     justify-content: $justify;
   }
-
   @if $align != null {
     align-items: $align;
   }
-
   @if $gap != null {
-    gap: $gap;
+    gap: size($gap);
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ThemeService } from '../../_core/services/theme/theme.service';
 import { IconComponent } from '../ui/icon/icon.component';
 import { ButtonComponent } from '../ui/button/button.component';
@@ -11,11 +11,15 @@ import { ButtonComponent } from '../ui/button/button.component';
 })
 export class ThemeSwitchComponent {
   private themeService = inject(ThemeService);
-
-  isDark = computed(() => this.themeService.theme() === 'dark');
+  @Input() maxWidth: number | string | null = null;
+  @Input() minWidth: number | string | null = null;
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
     console.log(`Theme switched to: ${this.themeService.theme()}`);
+  }
+
+  isDark(): boolean {
+    return this.themeService.isDarkTheme();
   }
 }

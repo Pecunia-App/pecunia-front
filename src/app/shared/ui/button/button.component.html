@@ -6,6 +6,12 @@
   (click)="handleClick($event)"
   (focus)="handleFocus()"
   (blur)="handleBlur()"
+  [style.minWidth]="
+    typeof _minWidth() === 'number' ? _minWidth() + 'px' : _minWidth()
+  "
+  [style.maxWidth]="
+    typeof _maxWidth() === 'number' ? _maxWidth() + 'px' : _maxWidth()
+  "
 >
   <ng-content></ng-content>
 </button>

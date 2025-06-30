@@ -1,0 +1,13 @@
+@use '../../../styles/abstracts/layout' as layout;
+
+.btn-container {
+  @include layout.flex(
+    $dir: row,
+    $wrap: wrap,
+    $align: center,
+    $justify: center,
+    $gap: space-12
+  );
+
+  margin-top: layout.$space-24;
+}
