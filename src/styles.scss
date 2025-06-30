@@ -11,7 +11,7 @@
 @each $theme in (light, dark) {
   html[data-theme='#{$theme}'] body {
     background-color: #{theme.themed('background-neutral-primary', $theme)};
-    color: #{theme.themed('text-neutral-default-inverse', $theme)};
+    color: #{theme.themed('text-neutral-default', $theme)};
   }
 }
 
