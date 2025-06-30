@@ -1,0 +1,48 @@
+@use '../../../styles/abstracts/layout' as layout;
+@use '../../../styles/themes/tokens' as theme;
+@use '../../../styles/abstracts/typography' as typo;
+@use '../../../styles/abstracts/shadows' as shadows;
+@use '../../../styles/abstracts/breakpoints' as breakpoints;
+
+.homepage_content {
+  width: 100%;
+  @include layout.margin(0, auto);
+}
+
+.btn-group {
+  width: 100%;
+  @include layout.flex($dir: column, $justify: center, $gap: space-16);
+  @include layout.margin(space-16, 0, space-16);
+}
+
+h2 {
+  text-align: center;
+  @include layout.margin(layout.$space-48, auto);
+  @include layout.flex($dir: column, $justify: center, $gap: space-16);
+  @include typo.text-style(display-h3, regular, mobile);
+
+  @include theme.themed-block(
+    (
+      color: 'common-neutral-hight',
+    )
+  );
+
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(display-h4, regular, desktop);
+    max-width: 500px;
+  }
+}
+
+.homepage_content__highlight {
+  @include theme.themed-block(
+    (
+      color: 'text-secondary-default',
+    )
+  );
+  @include typo.text-style(display-h3, semibold, mobile);
+  line-height: 35px;
+
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(display-h3, semibold, desktop);
+  }
+}

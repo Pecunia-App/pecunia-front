@@ -173,6 +173,62 @@ Un système centralisé permet de faire correspondre un token logique à la bonn
 - **Facile à faire évoluer** : ajouter un thème ou changer une couleur est simple
 - **Lisible** : tout le monde comprend où et comment utiliser les outils du design system
 
+
+## ⚠️ Limite connue : propriétés CSS complexes (ex : linear-gradient)
+
+
+la mixin `themed-block` remplace chaque propriété CSS du map par la valeur du token pour chaque thème.
+
+Mais elle ne sait pas parser une fonction CSS complexe (ex: linear-gradient(...)) : elle attend un token simple.
+
+Si tu fais ça :
+
+ ```scss
+
+@include theme.themed-block((
+  background: linear-gradient(
+    117deg,
+    'background-neutral-primary' 50.11%,
+    'common-neutral-low' 100%
+  )
+));
+```
+
+→ $token = toute la string linear-gradient(...)
+→ La fonction themed() ne sait pas quoi faire de cette string qui mélange tokens et CSS.
+
+Sass ne peut pas analyser et “remplacer” chaque nom de token à l’intérieur d’une string complexe.
+
+Il faudrait parser la string, reconnaître les tokens, et appeler themed() sur chaque.
+
+Il faut donc le faire à la main, c’est la limite naturelle du SCSS “classique”
+
+→ Soit on passe par une mixin/fonction custom encore plus complexe (peu utile ici),
+→ Soit on écrit le gradient manuellement pour chaque thème, comme tu as fait :
+
+```scss
+.main-wrapper {
+  background: linear-gradient(
+    117deg,
+    #{themed('background-neutral-primary', 'light')} 50.11%,
+    #{themed('common-neutral-low', 'light')} 100%
+  );
+}
+
+:host-context([data-theme='dark']) .main-wrapper {
+  background: linear-gradient(
+    117deg,
+    #{themed('background-neutral-primary', 'dark')} 50.11%,
+    #{themed('common-neutral-low', 'dark')} 100%
+  );
+}
+```
+
+La mixin themed-block fonctionne parfaitement pour remplacer des propriétés simples (color, background-color, border-color, etc.), mais par conception, elle ne peut pas parser ni remplacer automatiquement chaque nom de token à l’intérieur d’une fonction CSS complexe comme un linear-gradient.
+
+Dans ces cas, on utilise directement la fonction themed dans la string de gradient, pour garantir la cohérence DS, tout en restant explicite.
+
+
 ---
 ## 🔤 Gestion des polices – Open Sans
 
@@ -759,9 +815,9 @@ exemple dans le bouton switch du theme avec  les mixins theme, layout, typo et s
 
 // Utilisation des variables de thème
 
-  @include layout.flex($dir: row, $align: center, $justify: space-between, $gap : layout.$space-8);
-  @include layout.padding(layout.$space-8, layout.$space-12);
-  @include layout.margin(layout.$space-8, layout.$space-12);
+  @include layout.flex($dir: row, $align: center, $justify: space-between, $gap : space-8);
+  @include layout.padding(space-8, space-12);
+  @include layout.margin(space-8, space-12);
   @include layout.radius(md);
   @include shadows.shadow(lg, dark);
   border: none;
