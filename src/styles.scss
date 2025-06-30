@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+@use './styles/fonts/font-face' as *;
+@use './styles/tokens/variables-desktop' as desktop;
+@use './styles/tokens/variables-mobile' as mobile;
+@use './styles/abstracts/breakpoints' as breakpoints;
+@use './styles/abstracts/typography' as typo;
+@use './styles/abstracts/layout' as layout;
+@use './styles/abstracts/shadows' as shadows;
+@use './styles/themes/tokens' as theme;
+@use './styles/base/reset' as *;
+
+@each $theme in (light, dark) {
+  html[data-theme='#{$theme}'] body {
+    background-color: #{theme.themed('background-neutral-primary', $theme)};
+    color: #{theme.themed('text-neutral-default', $theme)};
+  }
+}
+
+h1 {
+  color: red;
+  @include typo.text-style(display-h1, regular, mobile);
+
+  @include breakpoints.mq(desktop) {
+    color: blue;
+    @include typo.text-style(display-h1, regular, desktop);
+  }
+}

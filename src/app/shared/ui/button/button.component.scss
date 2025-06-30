@@ -1,0 +1,252 @@
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+.ui-btn {
+  // Utilisation des variables de thème
+  @include layout.flex(
+    $dir: row,
+    $align: center,
+    $justify: center,
+    $gap: space-12
+  );
+  border: none;
+  cursor: pointer;
+  font-family: 'open-sans', sans-serif;
+  @include typo.text-style(text-md, semibold, mobile);
+  line-height: 24px;
+  border: solid 2px transparent;
+  background-color: transparent;
+  margin: 0 auto;
+
+  &:focus-visible {
+    outline: 2px solid black;
+    outline-offset: 2px;
+  }
+
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(text-md, semibold, desktop);
+    line-height: 24px;
+  }
+}
+
+:host-context([data-theme='dark']) .ui-btn {
+  &:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+}
+
+.ui-btn--size--medium {
+  @include layout.padding(space-6, space-12);
+}
+.ui-btn--size--large {
+  @include layout.padding(space-10, space-12);
+}
+.ui-btn--size--small {
+  @include layout.padding(space-4);
+}
+.ui-btn--size--square {
+  @include layout.padding(space-6);
+}
+.ui-btn--pill--medium {
+  @include layout.radius(md);
+}
+.ui-btn--pill--large {
+  @include layout.radius(pill);
+}
+.ui-btn--full {
+  width: 100%;
+}
+.ui-btn--auto {
+  width: auto;
+}
+
+.ui-btn--primary {
+  //style identique pour les deux thèmes
+  @include theme.themed-block(
+    (
+      background-color: 'background-primary-default',
+      border-color: 'border-primary-default',
+      color: 'text-neutral-default-inverse',
+    )
+  );
+
+  // hover séparé
+  &:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-primary-hover',
+        border-color: 'border-primary-hover',
+      )
+    );
+  }
+}
+
+// 🎯 Exception uniquement pour le light
+:host-context([data-theme='light']) .ui-btn--primary {
+  &:hover {
+    color: #{theme.themed('text-neutral-default', 'light')};
+  }
+}
+
+.ui-btn--secondary {
+  //style identique pour les deux thèmes
+  @include theme.themed-block(
+    (
+      background-color: 'background-secondary-default',
+      border-color: 'border-secondary-default',
+      color: 'text-neutral-default-inverse',
+    )
+  );
+
+  // hover séparé
+  &:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-secondary-hover',
+        border-color: 'border-secondary-hover',
+      )
+    );
+  }
+}
+
+// 🎯 Exception uniquement pour le light
+:host-context([data-theme='light']) .ui-btn--secondary {
+  &:hover {
+    color: #{theme.themed('text-neutral-default', 'light')};
+  }
+}
+
+.ui-btn--primary-ghost {
+  //style identique pour les deux thèmes
+  @include theme.themed-block(
+    (
+      color: 'text-primary-default',
+      border-color: 'border-primary-default',
+    )
+  );
+
+  // hover séparé
+  &:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-primary-hover-ghost',
+        border-color: 'border-primary-hover-ghost',
+        color: 'text-neutral-default-static',
+      )
+    );
+  }
+}
+.ui-btn--secondary-ghost {
+  //style identique pour les deux thèmes
+  @include theme.themed-block(
+    (
+      color: 'text-secondary-default',
+      border-color: 'border-secondary-default',
+    )
+  );
+
+  // hover séparé
+  &:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-secondary-hover-ghost',
+        border-color: 'border-secondary-hover-ghost',
+        color: 'text-neutral-default-static',
+      )
+    );
+  }
+}
+.ui-btn--alert {
+  //style identique pour les deux thèmes
+  @include theme.themed-block(
+    (
+      background-color: 'background-alert-default-low',
+      color: 'text-alert-default-darker',
+      border-color: 'background-alert-default-low',
+    )
+  );
+
+  // hover séparé
+  &:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-alert-hover-medium',
+        border-color: 'border-alert-hover-medium',
+        color: 'text-neutral-default-inverse',
+      )
+    );
+  }
+}
+.ui-btn--success {
+  //style identique pour les deux thèmes
+  @include theme.themed-block(
+    (
+      background-color: 'background-success-default-low',
+      color: 'text-success-default-darker',
+      border-color: 'background-success-default-low',
+    )
+  );
+
+  // hover séparé
+  &:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-success-hover-medium',
+        border-color: 'border-success-hover-medium',
+        color: 'text-neutral-default-inverse',
+      )
+    );
+  }
+}
+
+// Style spécifique pour les boutons avec icônes personnalisées
+.ui-btn--custom-icon {
+  // Style similaire au bouton primaire
+  @include theme.themed-block(
+    (
+      background-color: 'background-primary-default',
+      border-color: 'border-primary-default',
+      color: 'text-neutral-default-inverse',
+    )
+  );
+
+  // Ajustement du padding pour bien positionner les icônes
+  @include layout.padding(space-6, space-12);
+
+  // Style spécifique pour les icônes à l'intérieur du bouton
+  app-ui-icon {
+    // Assurez-vous que les icônes ont une couleur blanche par défaut
+    color: white;
+  }
+
+  // État hover
+  &:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-primary-hover',
+        border-color: 'border-primary-hover',
+      )
+    );
+
+    // Changer la couleur des icônes au survol
+    app-ui-icon {
+      // Cette couleur correspond à celle montrée dans l'image au hover
+      color: black;
+    }
+  }
+}
+
+// Exception pour le thème light (comme pour les autres variants)
+:host-context([data-theme='light']) .ui-btn--custom-icon {
+  &:hover {
+    color: #{theme.themed('text-neutral-default', 'light')};
+
+    app-ui-icon {
+      color: #{theme.themed('text-neutral-default', 'light')};
+    }
+  }
+}
