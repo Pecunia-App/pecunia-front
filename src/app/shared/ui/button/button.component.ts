@@ -8,6 +8,8 @@ import {
   signal,
 } from '@angular/core';
 import {
+  ButtonMaxWidth,
+  ButtonMinWidth,
   ButtonRadius,
   ButtonSize,
   ButtonType,
@@ -31,6 +33,8 @@ export class ButtonComponent {
   readonly _size = signal<ButtonSize>('medium');
   readonly _radius = signal<ButtonRadius>('medium');
   readonly _width = signal<ButtonWidth>('auto');
+  readonly _minWidth = signal<ButtonMinWidth>(null);
+  readonly _maxWidth = signal<ButtonMaxWidth>(null);
 
   // Signal pour gérer le focus du bouton
   //usage interne donc pas de @Input
@@ -59,6 +63,12 @@ export class ButtonComponent {
   }
   @Input() set width(value: ButtonWidth) {
     this._width.set(value ?? 'auto');
+  }
+  @Input() set minWidth(value: ButtonMinWidth) {
+    this._minWidth.set(value);
+  }
+  @Input() set maxWidth(value: ButtonMaxWidth) {
+    this._maxWidth.set(value);
   }
 
   // Getters pour récupérer les valeurs des signaux
