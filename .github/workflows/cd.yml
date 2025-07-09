@@ -11,47 +11,47 @@ on:
       - main
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == "success" }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Log in Docker Hub
-      uses: docker/login-actions@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Log in Docker Hub
+        uses: docker/login-actions@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - name: Build and Push Docker Image
-      run: |
-        docker build -t txrigxn/pecunia-front:latest . || exit 1
-        docker push txrigxn/pecunia-front:latest
-    - name: Deploy to server
-      env:
-        SSHKEY: ${{ secrets.SSHKEY }}
-        VPS_USER: ${{ secrets.VPS_USER }}
-        VPS_HOST: ${{ secrets.VPS_HOST }}
-        SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
-      run: |
-        # SSH KEY CONFIG
-        mkdir -p ~/.ssh
-        echo "$SSHKEY" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t txrigxn/pecunia-front:latest . || exit 1
+          docker push txrigxn/pecunia-front:latest
+      - name: Deploy to server
+        env:
+          SSHKEY: ${{ secrets.SSHKEY }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          # SSH KEY CONFIG
+          mkdir -p ~/.ssh
+          echo "$SSHKEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
 
-        echo "Pulling Dockers images..."
-        docker pull txrigxn/pecunia-front:latest || exit 1
+          echo "Pulling Dockers images..."
+          docker pull txrigxn/pecunia-front:latest || exit 1
 
-        echo "Shutting down existing container..."
-        docker stop pecunia-front || true
+          echo "Shutting down existing container..."
+          docker stop pecunia-front || true
 
-        echo "Delete old image..."
-        docker rm pecunia-front || true
+          echo "Delete old image..."
+          docker rm pecunia-front || true
 
-        echo "Starting new container..."
-        docker run -d --name pecunia-front -p 4200:80 txrigxn/pecunia-front:latest || exit 1
+          echo "Starting new container..."
+          docker run -d --name pecunia-front -p 4200:80 txrigxn/pecunia-front:latest || exit 1
 
-    - name: cleanup
-      run: rm -rf ~/.ssh
+      - name: cleanup
+        run: rm -rf ~/.ssh
