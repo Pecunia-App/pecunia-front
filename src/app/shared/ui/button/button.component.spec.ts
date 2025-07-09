@@ -23,7 +23,7 @@ describe('ButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Input properties', () => {
+  describe('Button properties', () => {
     it('should set button type correctly', () => {
       component.type = 'submit';
       fixture.detectChanges();

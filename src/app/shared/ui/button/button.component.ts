@@ -18,7 +18,7 @@ import {
 } from './button.model';
 
 @Component({
-  selector: 'app-button',
+  selector: 'app-ui-button',
   imports: [NgClass],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',

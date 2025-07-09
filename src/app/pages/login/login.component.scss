@@ -1,0 +1,7 @@
+@use '../../../styles/abstracts/layout' as layout;
+
+.input__container {
+  width: 100%;
+  @include layout.flex($dir: column, $justify: center, $align: center);
+  @include layout.margin(space-6, 0);
+}

@@ -1,7 +1,7 @@
 <h1>Hello, {{ title }}</h1>
 <app-theme-switch [maxWidth]="175"/>
 <div class="btn-container">
-  <app-button
+  <app-ui-button
     variant="secondary"
     size="large"
     radius="large"
@@ -12,13 +12,13 @@
     <app-ui-icon name="arrow-left" size="md" [isDecorative]="true" />
     Label Button
     <app-ui-icon name="arrow-right" size="md" [isDecorative]="true" />
-  </app-button>
+  </app-ui-button>
 
-  <app-button variant="primary" width="auto" (buttonClick)="handleButtonClick()"
-    >Label Button</app-button
+  <app-ui-button variant="primary" width="auto" (buttonClick)="handleButtonClick()"
+    >Label Button</app-ui-button
   >
 
-  <app-button
+  <app-ui-button
     variant="secondary-ghost"
     size="square"
     radius="large"
@@ -26,9 +26,9 @@
     (buttonClick)="handleButtonClick()"
   >
     <app-ui-icon name="plus" size="md" ariaLabel="ajouter la transaction" />
-  </app-button>
+  </app-ui-button>
 
-  <app-button
+  <app-ui-button
     variant="primary-ghost"
     size="large"
     width="auto"
@@ -37,9 +37,9 @@
   >
     <app-ui-icon name="chevron-down" size="md" [isDecorative]="true" />
     Ghost
-  </app-button>
+  </app-ui-button>
 
-  <app-button
+  <app-ui-button
     variant="primary"
     size="square"
     radius="medium"
@@ -48,32 +48,32 @@
   >
     ajout transaction
     <app-ui-icon name="plus" size="md" [isDecorative]="true" />
-  </app-button>
+  </app-ui-button>
 
-  <app-button
+  <app-ui-button
     variant="alert"
     radius="large"
     width="auto"
     (buttonClick)="handleButtonClick()"
-    >supprimer compte</app-button
+    >supprimer compte</app-ui-button
   >
 
-  <app-button
+  <app-ui-button
     variant="alert"
     size="square"
     width="auto"
     (buttonClick)="handleButtonClick()"
   >
     <app-ui-icon name="trash-2" size="md" ariaLabel="supprimer" />
-  </app-button>
+  </app-ui-button>
 
-  <app-button
+  <app-ui-button
     variant="success"
     size="square"
     width="auto"
     (buttonClick)="handleButtonClick()"
   >
     <app-ui-icon name="settings" size="md" ariaLabel="réglages" />
-  </app-button>
+  </app-ui-button>
 </div>
 

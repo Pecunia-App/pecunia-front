@@ -1,10 +1,68 @@
 <app-public-layout>
-  <p>login works!</p>
-  <app-button
-    [maxWidth]="175"
-    variant="primary"
-    (click)="navigateToHome()"
-    >retour</app-button
+  <div class="input__container">
+    <app-ui-input
+      label="Email"
+      placeholder="ex: xxx@xxx.com"
+      width="full"
+      [minWidth]="200"
+      [maxWidth]="392"
+      [required]="true"
+      [type]="'email'"
+      [id]="'email-input'"
+      [name]="'email'"
+    >
+      <app-ui-icon name="mail" icon-left />
+    </app-ui-input>
+    <app-ui-input
+      [label]="'Mot de passe'"
+      [placeholder]="'password'"
+      width="full"
+      [minWidth]="200"
+      [maxWidth]="392"
+      [required]="true"
+      [type]="'password'"
+      [id]="'password-input'"
+      [name]="'password'"
+    >
+      <app-ui-icon name="lock" icon-left />
+    </app-ui-input>
+    <app-ui-input
+      [label]="'Prénom'"
+      [placeholder]="'Prénom'"
+      width="full"
+      [minWidth]="200"
+      [maxWidth]="392"
+      [required]="true"
+      [type]="'text'"
+      [id]="'firstname-input'"
+      [name]="'firstname'"
+      [status]="'error'"
+      [helper]="
+        '3 caractères minimum, 1 majuscule, 1 minuscule, pas de chiffres ni de caractères spéciaux'
+      "
+    >
+      <app-ui-icon name="user" icon-left />
+    </app-ui-input>
+    <app-ui-input
+      [label]="'Nom de famille'"
+      [placeholder]="'Nom de famille'"
+      width="full"
+      [minWidth]="200"
+      [maxWidth]="392"
+      [required]="true"
+      [type]="'text'"
+      [id]="'lastname-input'"
+      [status]="statusLastName"
+      [name]="'lastname'"
+    >
+      <app-ui-icon name="user" icon-left />
+      @if (statusLastName === 'success') {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+  </div>
+  <app-ui-button [maxWidth]="175" variant="primary" (click)="navigateToHome()"
+    >retour</app-ui-button
   >
   <app-theme-switch [maxWidth]="175" />
 </app-public-layout>

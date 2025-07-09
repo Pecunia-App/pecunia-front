@@ -1,0 +1,170 @@
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+:host {
+  @include layout.margin(0, auto);
+  width: 100%;
+}
+
+.ui-input__wrapper {
+  @include layout.margin(space-8, auto);
+  @include layout.flex($dir: column, $gap: space-12);
+  font-family: 'open-sans', sans-serif;
+  @include typo.text-style(text-md, regular, mobile);
+
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(text-md, regular, desktop);
+  }
+}
+
+.ui-input__field-group {
+  @include layout.flex($dir: row, $align: center, $gap: space-12);
+  @include layout.radius(md);
+  @include layout.padding(0, space-12);
+
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-secondary',
+      border-color: 'border-neutral-secondary-inverse',
+      color: 'text-neutral-default',
+    )
+  );
+  border: solid 1px;
+  outline: 2px solid transparent;
+
+  input {
+    background-color: transparent;
+    line-height: 24px;
+    flex: 1 1 0%;
+    border: none;
+    outline: none;
+    @include layout.radius(md);
+    @include layout.padding(space-8, 0);
+    @include theme.themed-block(
+      (
+        color: 'text-neutral-default',
+      )
+    );
+  }
+  &:hover:not([disabled]):not([readonly]) {
+    @include theme.themed-block(
+      (
+        border-color: 'border-primary-default',
+        outline-color: 'border-primary-default',
+      )
+    );
+  }
+}
+
+.ui-input__helper {
+  @include typo.text-style(text-sm, regular, mobile);
+  line-height: normal;
+
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(text-sm, regular, desktop);
+    line-height: normal;
+  }
+}
+
+.ui-input--focus {
+  outline: solid 3px;
+  @include theme.themed-block(
+    (
+      outline-color: 'border-primary-focus',
+      border-color: 'border-primary-focus',
+    )
+  );
+}
+
+.ui-input--full {
+  width: 100%;
+}
+.ui-input--auto {
+  width: auto;
+}
+
+.ui-input__field-group.ui-input.ui-input--error {
+  @include theme.themed-block(
+    (
+      border-color: 'border-alert-default-medium',
+      color: 'text-alert-default',
+    )
+  );
+  input {
+    @include theme.themed-block(
+      (
+        color: 'text-alert-default',
+      )
+    );
+  }
+
+  &:hover:not([disabled]):not([readonly]) {
+    @include theme.themed-block(
+      (
+        border-color: 'border-alert-hover-medium',
+        outline-color: 'border-alert-hover-medium',
+      )
+    );
+  }
+}
+
+.ui-input--error + .ui-input__helper {
+  @include theme.themed-block(
+    (
+      color: 'text-alert-default',
+    )
+  );
+}
+
+.ui-input__field-group.ui-input.ui-input--focus.ui-input--error {
+  @include theme.themed-block(
+    (
+      border-color: 'border-alert-focus-medium',
+      outline-color: 'border-alert-focus-medium',
+    )
+  );
+}
+
+.ui-input__field-group.ui-input.ui-input--success {
+  @include theme.themed-block(
+    (
+      border-color: 'border-success-default-medium',
+      color: 'text-success-default',
+    )
+  );
+  input {
+    @include theme.themed-block(
+      (
+        color: 'text-success-default',
+      )
+    );
+  }
+  &:hover:not([disabled]):not([readonly]) {
+    @include theme.themed-block(
+      (
+        border-color: 'border-success-hover-medium',
+        outline-color: 'border-success-hover-medium',
+      )
+    );
+  }
+}
+
+.ui-input--success + .ui-input__helper {
+  @include theme.themed-block(
+    (
+      color: 'text-success-default',
+    )
+  );
+}
+
+.ui-input__field-group.ui-input.ui-input--focus.ui-input--success {
+  @include theme.themed-block(
+    (
+      border-color: 'border-success-focus-medium',
+      outline-color: 'border-success-focus-medium',
+    )
+  );
+}
