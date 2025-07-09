@@ -5,7 +5,7 @@ import { IconComponent } from '../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-poc-bouton',
-  imports: [ButtonComponent, ThemeSwitchComponent, IconComponent],
+  imports: [ThemeSwitchComponent, IconComponent, ButtonComponent],
   templateUrl: './poc-bouton.component.html',
   styleUrl: './poc-bouton.component.scss',
 })
