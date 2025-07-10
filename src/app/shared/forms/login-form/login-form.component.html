@@ -1,0 +1,62 @@
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <app-ui-input
+      label="Email"
+      placeholder="ex: xxx@xxx.com"
+      width="full"
+      [required]="true"
+      [type]="'email'"
+      [id]="'email-input'"
+      [name]="'email'"
+      [formControlName]="'email'"
+      [status]="
+        isFieldInError('email')
+          ? 'error'
+          : loginForm.controls['email'].valid
+            ? 'success'
+            : null
+      "
+      [helper]="isFieldInError('email') ? handleFieldErrors('email') : ''"
+    >
+      <app-ui-icon name="mail" icon-left />
+      @if (
+        loginForm.controls['email'].valid && loginForm.controls['email'].touched
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+    <app-ui-input
+      label="Mot de passe"
+      placeholder="password"
+      width="full"
+      [required]="true"
+      [type]="'password'"
+      [id]="'password-input'"
+      [name]="'password'"
+      [formControlName]="'password'"
+      [status]="
+        isFieldInError('password')
+          ? 'error'
+          : loginForm.controls['password'].valid
+            ? 'success'
+            : null
+      "
+      [helper]="isFieldInError('password') ? handleFieldErrors('password') : ''"
+    >
+      <app-ui-icon name="lock" icon-left />
+      @if (
+        loginForm.controls['password'].valid &&
+        (loginForm.controls['password'].touched ||
+          loginForm.controls['password'].dirty)
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+  </fieldset>
+  <app-ui-button 
+  type="submit" 
+  width="full"
+  variant="primary"
+  overideClass="login-btn-submit"
+  > Connexion </app-ui-button>
+</form>

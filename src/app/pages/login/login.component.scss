@@ -1,7 +1,12 @@
-@use '../../../styles/abstracts/layout' as layout;
+@use '../../../styles/abstracts/layout';
 
-.input__container {
+.login-wrapper,
+.btn-group-wrapper {
   width: 100%;
-  @include layout.flex($dir: column, $justify: center, $align: center);
-  @include layout.margin(space-6, 0);
+  max-width: 392px;
+  @include layout.flex($dir: column, $gap: space-12);
+}
+
+.btn-group-wrapper {
+  margin-top: layout.$space-24;
 }
