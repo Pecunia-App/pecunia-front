@@ -24,3 +24,7 @@ h1 {
     @include typo.text-style(display-h1, regular, desktop);
   }
 }
+
+.login-btn-submit {
+  margin-top: 12px !important;
+}
