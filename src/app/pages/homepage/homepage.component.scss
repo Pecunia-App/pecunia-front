@@ -11,7 +11,7 @@
 
 .btn-group {
   width: 100%;
-  @include layout.flex($dir: column, $justify: center, $gap: space-16);
+  @include layout.flex($dir: column, $justify: center, $gap: space-24);
   @include layout.margin(space-16, 0, space-16);
 }
 

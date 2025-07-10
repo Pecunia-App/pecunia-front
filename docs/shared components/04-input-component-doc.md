@@ -163,3 +163,83 @@ export type inputMaxWidth = number | string | null;
 - **Pour l’accessibilité** : tu pourras enrichir avec des props ARIA à mesure des besoins
 
 ---
+
+## Compatibilité Angular Forms : pourquoi et comment ControlValueAccessor
+
+### Pourquoi ?
+
+Pour que `<app-ui-input>` soit **utilisable avec Angular Reactive Forms** (`formControlName`, etc.)  
+— comme un `<input>` natif — il doit **implémenter l’interface `ControlValueAccessor`**.
+
+Cela permet :
+- de lier le composant à un `FormControl` ou `FormGroup`
+- de synchroniser automatiquement la value, l’état disabled, les changements (input), etc.
+- de faire en sorte qu’Angular puisse contrôler la value, l’état touched, etc.
+
+---
+
+### Comment ?
+
+1. **on déclare que le composant implémente `ControlValueAccessor`**  
+   et on ajoute le provider `NG_VALUE_ACCESSOR` dans le décorateur :
+
+```typescript
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { forwardRef } from '@angular/core';
+
+@Component({
+  // ...
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => InputComponent),
+    multi: true,
+  }]
+})
+export class InputComponent implements ControlValueAccessor {
+  // ...
+}
+```
+- **`forwardRef`** permet à Angular d'utiliser la référence du composant même avant sa déclaration complète.
+- **`multi: true`** permet à plusieurs valeurs d’être ajoutées à la même injection.
+
+---
+
+2. **Implémenter les méthodes de l’interface** dans le composant :
+
+```typescript
+// Pour transmettre les changements à Angular Forms
+private onChange: (value: string | number) => void = () => { /* intentionally empty */ };
+
+// Pour signaler à Angular que le champ a été “touché”
+private onTouched: () => void = () => { /* intentionally empty */ };
+
+// Synchronise la value externe (FormControl → composant)
+writeValue(value: string | number): void {
+  this._value.set(value ?? '');
+}
+
+// Enregistre le callback à appeler quand la value change (composant → FormControl)
+registerOnChange(fn: (value: string | number) => void): void {
+  this.onChange = fn;
+}
+
+// Enregistre le callback à appeler quand le champ est touché (blur, etc.)
+registerOnTouched(fn: () => void): void {
+  this.onTouched = fn;
+}
+
+// Gère l’état disabled transmis par Angular
+setDisabledState(isDisabled: boolean): void {
+  this._disabled.set(isDisabled);
+}
+```
+
+- **`writeValue`** : appelée quand la value du FormControl change (ex : reset, patchValue…)
+- **`registerOnChange`** : Angular injecte ici la fonction à appeler sur changement (input)
+- **`registerOnTouched`** : Angular injecte ici la fonction à appeler quand l’input est “touché” (focus perdu)
+- **`setDisabledState`** : Angular te notifie si le champ doit être désactivé
+
+---
+
+**Grâce à cette interface, le composant est 100% compatible Reactive Forms,  
+et se comporte comme un `<input>` natif dans les formulaires.**

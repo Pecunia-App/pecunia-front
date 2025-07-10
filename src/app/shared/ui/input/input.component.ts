@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   EventEmitter,
+  forwardRef,
   Input,
   Output,
   signal,
@@ -14,14 +15,34 @@ import {
   inputStatus,
   inputWidth,
 } from './input.model';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-ui-input',
-  imports: [NgClass],
+  imports: [NgClass, FormsModule],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputComponent),
+      multi: true,
+    },
+  ],
 })
-export class InputComponent {
+export class InputComponent implements ControlValueAccessor {
+  // ControlValueAccessor implementation
+  private onChange: (value: string | number) => void = () => {
+    /* intentionally empty */
+  };
+  private onTouched: () => void = () => {
+    /* intentionally empty */
+  };
+
   readonly _type = signal<inputType>('text');
   readonly _status = signal<inputStatus>(null);
   readonly _label = signal<string>('');
@@ -111,14 +132,34 @@ export class InputComponent {
       .join(' ')
   );
 
+  // pour passer les valeurs aux formulaires avec ReactiveForms et controlValueAccessor
+  writeValue(value: string): void {
+    this._value.set(value ?? '');
+  }
+
+  registerOnChange(fn: (value: string | number) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this._disabled.set(isDisabled);
+  }
+
+  // Handlers
   handleOnChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     this._value.set(inputElement.value);
     this.InputValueChange.emit(inputElement.value);
+    this.onChange(inputElement.value);
   }
   handleOnBlur(event: Event) {
     this._isFocused.set(false);
     this.inputBlur.emit(event);
+    this.onTouched();
   }
   HandleOnFocus(event: Event) {
     this._isFocused.set(true);

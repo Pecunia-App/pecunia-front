@@ -55,6 +55,9 @@ export class ButtonComponent {
   @Input() set variant(value: VariantType) {
     this._variant.set(value ?? 'primary');
   }
+  @Input() set overideClass(value: string) {
+    this._overideClass.set(value ?? '');
+  }
   @Input() set size(value: ButtonSize) {
     this._size.set(value ?? 'medium');
   }
@@ -82,6 +85,7 @@ export class ButtonComponent {
       `ui-btn--${this._width()}`,
       this._disabled() ? 'ui-btn--disabled' : '',
       this._focused() ? 'ui-btn--focus' : '',
+      this._overideClass(),
     ]
       .filter(Boolean)
       .join(' ')
