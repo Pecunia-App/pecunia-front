@@ -35,6 +35,6 @@
   </div>
 
   @if (_helper()) {
-    <div class="ui-input__helper">{{ _helper() }}</div>
+    <div class="ui-input__helper" [attr.data-test]="'helper-' + _id()">{{ _helper() }}</div>
   }
 </div>
