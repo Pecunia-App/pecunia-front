@@ -1,8 +1,8 @@
-# Composant `<app-button>`
+# Composant `<app-ui-button>`
 
 ## Description
 
-Le composant `<app-button>` centralise tous les usages de bouton de l’application :  
+Le composant `<app-ui-button>` centralise tous les usages de bouton de l’application :  
 - Actions principales ou secondaires  
 - Boutons de formulaire  
 - Boutons “icon only” (accessibles)
@@ -69,77 +69,78 @@ Il applique automatiquement les styles du Design System (tokens, radius, typogra
 
 ### Bouton primaire (par défaut)
 ```html
-<app-button (buttonClick)="onValider()">
+<app-ui-button (buttonClick)="onValider()">
   Valider
-</app-button>
+</app-ui-button>
 ```
 
 ### Bouton secondaire, large, arrondi “pill”
 ```html
-<app-button
+<app-ui-button
   variant="secondary"
   size="large"
   radius="pill"
   (buttonClick)="onRetour()"
 >
   Retour
-</app-button>
+</app-ui-button>
 ```
 
 ### Bouton “alert” désactivé
 ```html
-<app-button
+<app-ui-button
   variant="alert"
   [disabled]="true"
 >
   Supprimer
-</app-button>
+</app-ui-button>
 ```
 
 ### Bouton “icon only” (accessibilité obligatoire)
 ```html
-<app-button
+<app-ui-button
   variant="custom-icon"
   ariaLabel="Fermer la fenêtre"
   (buttonClick)="onClose()"
 >
   <app-ui-icon name="x" size="md" [isDecorative]="false" />
-</app-button>
+</app-ui-button>
 ```
 
 ### Bouton ghost, block (100% largeur)
 ```html
-<app-button
+<app-ui-button
   variant="ghost"
   width="block"
   (buttonClick)="onAction()"
 >
   Action secondaire
-</app-button>
+</app-ui-button>
 ```
+
 ### Bouton avec min/max en pixels
 
 ```html
-<app-button [minWidth]="160" [maxWidth]="320">
+<app-ui-button [minWidth]="160" [maxWidth]="320">
   Confirmer
-</app-button>
+</app-ui-button>
 ```
 
 ### Bouton avec min/max responsive (en rem et %)
 
 ```html
-<app-button minWidth="10rem" maxWidth="80%">
+<app-ui-button minWidth="10rem" maxWidth="80%">
   S'inscrire
-</app-button>
+</app-ui-button>
 ```
 
 ### Bouton full width dans un parent, avec min/max personnalisés
 
 ```html
 <div style="width:400px;">
-  <app-button width="full" minWidth="200" maxWidth="360">
+  <app-ui-button width="full" minWidth="200" maxWidth="360">
     Continuer
-  </app-button>
+  </app-ui-button>
 </div>
 ```
 ---
@@ -149,4 +150,4 @@ Il applique automatiquement les styles du Design System (tokens, radius, typogra
 - **Pas besoin d’`ariaLabel`** si le bouton a un texte visible.
 - **Obligatoire de fournir `ariaLabel`** si bouton “icon only” (ou texte ambigu)
 - Utilise le slot `<ng-content>` pour injecter texte, icônes, loader, etc.
-- Ne jamais mettre de `<button>` à l’intérieur d’un `<app-button>`.
+- Ne jamais mettre de `<button>` à l’intérieur d’un `<app-ui-button>`.

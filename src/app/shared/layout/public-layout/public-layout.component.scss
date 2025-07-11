@@ -73,6 +73,12 @@
 
   @include layout.flex($dir: column, $justify: start, $align: center);
 
+  @include shadows.shadow(lg);
+
+  :host-context([data-theme='dark']) & {
+    @include shadows.shadow(lg, dark);
+  }
+
   @include breakpoints.mq(desktop) {
     max-width: 700px;
     min-height: 700px;
@@ -83,11 +89,6 @@
         border-color: 'border-primary-default',
       )
     );
-  }
-  @include shadows.shadow(lg);
-
-  :host-context([data-theme='dark']) & {
-    @include shadows.shadow(lg, dark);
   }
 }
 

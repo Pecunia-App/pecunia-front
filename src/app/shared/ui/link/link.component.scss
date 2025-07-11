@@ -1,0 +1,98 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/breakpoints' as bp;
+@use '../../../../styles/themes/tokens' as theme;
+
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-link {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  @include layout.padding(space-8, space-4);
+  @include layout.radius(sm);
+  @include typo.text-style(text-md, semibold, mobile);
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:focus::after {
+    background: transparent;
+  }
+
+  &:hover {
+    &::after {
+      transform: scaleX(0);
+    }
+  }
+
+  &:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+
+  @include bp.mq(desktop) {
+    @include typo.text-style(text-md, regular, desktop);
+    line-height: 24px;
+  }
+}
+
+.ui-link--full {
+  width: 100%;
+}
+.ui-link--auto {
+  width: auto;
+  margin: 0 auto;
+}
+
+.ui-link--primary {
+  @include theme.themed-block(
+    (
+      color: 'text-primary-default',
+      outline-color: 'border-primary-default',
+    )
+  );
+}
+
+.ui-link--secondary {
+  @include theme.themed-block(
+    (
+      color: 'text-secondary-default',
+      outline-color: 'border-secondary-default',
+    )
+  );
+}
+.ui-link--alert {
+  @include theme.themed-block(
+    (
+      color: 'text-alert-default',
+      outline-color: 'border-alert-default-medium',
+    )
+  );
+}
+.ui-link--neutral {
+  @include theme.themed-block(
+    (
+      color: 'text-neutral-default',
+      outline-color: 'border-neutral-primary-inverse',
+    )
+  );
+}

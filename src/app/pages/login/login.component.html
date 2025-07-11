@@ -1,10 +1,24 @@
 <app-public-layout>
-  <p>login works!</p>
-  <app-button
-    [maxWidth]="175"
-    variant="primary"
-    (click)="navigateToHome()"
-    >retour</app-button
-  >
-  <app-theme-switch [maxWidth]="175" />
+  <div class="login-wrapper">
+    <app-login-form />
+  </div>
+  <div class="btn-group-wrapper">
+    <app-ui-button
+      width="full"
+      size="large"
+      variant="primary-ghost"
+      (click)="navigateToHome()"
+      >retour</app-ui-button
+    >
+  </div>
+  <div class="link-group-wrapper">
+    <app-ui-link
+      [routerLink]="['/register']"
+      variant="primary"
+      width="auto"
+      ariaLabel="réinitialiser le mot de passe"
+    >
+      Mot de passe oublié ?
+    </app-ui-link>
+  </div>
 </app-public-layout>
