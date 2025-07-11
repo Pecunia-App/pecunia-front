@@ -1,3 +1,15 @@
+## 0.2.2 (2025-07-11)
+
+### Fix
+
+- **cd**: fix dir change
+
+## 0.2.1 (2025-07-11)
+
+### Fix
+
+- **cd**: change directory ; typo in docker login action
+
 ## 0.2.0 (2025-07-11)
 
 ### Feat
