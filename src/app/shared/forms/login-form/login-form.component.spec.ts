@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginFormComponent } from './login-form.component';
 import { provideHttpClient } from '@angular/common/http';
+// import { ActivatedRoute, provideRouter, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
@@ -9,8 +11,13 @@ describe('LoginFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginFormComponent],
-      providers: [provideHttpClient()],
+      imports: [LoginFormComponent, RouterTestingModule],
+      providers: [
+        provideHttpClient(),
+        // provideRouter([]), // Mock router for testing
+        // { provide: ActivatedRoute, useValue: {} }, // Mock simple
+        // { provide: Router, useValue: {} },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginFormComponent);

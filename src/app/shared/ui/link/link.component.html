@@ -1,0 +1,15 @@
+<a
+  [routerLink]="_routerLink()"
+  routerLinkActive="ui-link--active"
+  [attr.aria-label]="_ariaLabel()"
+  [attr.tabindex]="_tabIndex()"
+  [ngClass]="cssClasses()"
+  [attr.aria-disabled]="_disabled()"
+  [style.minWidth]="typeof _minWidth() === 'number' ? _minWidth() + 'px' : _minWidth()"
+  [style.maxWidth]="typeof _maxWidth() === 'number' ? _maxWidth() + 'px' : _maxWidth()"
+  (focus)="handleFocus()"
+  (blur)="handleBlur()"
+  (click)="_disabled() ? $event.preventDefault() : null"
+>
+  <ng-content></ng-content>
+</a>
