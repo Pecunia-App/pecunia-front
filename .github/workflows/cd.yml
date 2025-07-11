@@ -46,7 +46,7 @@ jobs:
           docker pull txrigxn/pecunia-front:latest || exit 1
 
           echo "Change Directory..."
-          cd pecunia || exit 1
+          cd /home/pecunia/pecunia || exit 1
 
           echo "Shutting down existing containers..."
           docker compose down || exit 1
