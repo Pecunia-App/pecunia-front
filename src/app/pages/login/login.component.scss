@@ -1,7 +1,8 @@
 @use '../../../styles/abstracts/layout';
 
 .login-wrapper,
-.btn-group-wrapper {
+.btn-group-wrapper,
+.link-group-wrapper {
   width: 100%;
   max-width: 392px;
   @include layout.flex($dir: column, $gap: space-12);
@@ -9,4 +10,9 @@
 
 .btn-group-wrapper {
   margin-top: layout.$space-24;
+}
+
+.link-group-wrapper {
+  margin-top: layout.$space-12;
+  align-items: center;
 }

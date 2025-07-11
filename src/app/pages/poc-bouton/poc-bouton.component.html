@@ -1,5 +1,5 @@
 <h1>Hello, {{ title }}</h1>
-<app-theme-switch [maxWidth]="175"/>
+<app-theme-switch [maxWidth]="175" />
 <div class="btn-container">
   <app-ui-button
     variant="secondary"
@@ -14,7 +14,10 @@
     <app-ui-icon name="arrow-right" size="md" [isDecorative]="true" />
   </app-ui-button>
 
-  <app-ui-button variant="primary" width="auto" (buttonClick)="handleButtonClick()"
+  <app-ui-button
+    variant="primary"
+    width="auto"
+    (buttonClick)="handleButtonClick()"
     >Label Button</app-ui-button
   >
 
@@ -75,5 +78,36 @@
   >
     <app-ui-icon name="settings" size="md" ariaLabel="réglages" />
   </app-ui-button>
+  <app-ui-link
+    [routerLink]="['/register']"
+    variant="primary"
+    width="auto"
+    ariaLabel="réinitialiser le mot de passe"
+  >
+    Mot de passe oublié ?
+  </app-ui-link>
+  <app-ui-link
+    [routerLink]="['/login']"
+    variant="alert"
+    width="auto"
+    ariaLabel="réinitialiser le mot de passe"
+  >
+    Mot de passe oublié ?
+  </app-ui-link>
+  <app-ui-link
+    [routerLink]="['/']"
+    variant="secondary"
+    width="auto"
+    ariaLabel="réinitialiser le mot de passe"
+  >
+    Mot de passe oublié ?
+  </app-ui-link>
+  <app-ui-link
+    [routerLink]="['/']"
+    variant="neutral"
+    width="auto"
+    ariaLabel="réinitialiser le mot de passe"
+  >
+    Mot de passe oublié ?
+  </app-ui-link>
 </div>
-
