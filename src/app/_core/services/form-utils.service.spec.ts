@@ -100,7 +100,7 @@ describe('FormUtilsService', () => {
       });
       control.markAsTouched();
       expect(service.getStandardErrorMessage(control)).toContain(
-        'Au moins 6 caractères'
+        'Ce champ doit contenir au moins 6 caractères'
       );
     });
 
@@ -111,7 +111,7 @@ describe('FormUtilsService', () => {
       });
       control.markAsTouched();
       expect(service.getStandardErrorMessage(control)).toContain(
-        'Au maximum 5 caractères'
+        'Ce champ doit contenir au maximum 5 caractères'
       );
     });
 
@@ -167,6 +167,64 @@ describe('FormUtilsService', () => {
       });
       control.markAsTouched();
       expect(service.getPasswordError(control)).toContain('8 caractères');
+    });
+  });
+
+  describe('getMinLengthError', () => {
+    it('should return minLength error with custom label', () => {
+      const control = new FormControl('abc', [Validators.minLength(6)]);
+      control.setValue('abc');
+      control.markAsTouched();
+      expect(service.getMinLengthError(control, 'Le champ')).toBe(
+        'Le champ doit contenir au moins 6 caractères'
+      );
+    });
+
+    it('should return default label if not provided', () => {
+      const control = new FormControl('ab', [Validators.minLength(3)]);
+      control.setValue('ab');
+      control.markAsTouched();
+      expect(service.getMinLengthError(control)).toBe(
+        'Ce champ doit contenir au moins 3 caractères'
+      );
+    });
+
+    it('should return empty string for valid value', () => {
+      const control = new FormControl('abcdef', [Validators.minLength(6)]);
+      control.setValue('abcdef');
+      expect(service.getMinLengthError(control, 'Le champ')).toBe('');
+    });
+  });
+
+  describe('getConfirmPasswordError', () => {
+    it('should return required error', () => {
+      const control = new FormControl('', [Validators.required]);
+      control.markAsTouched();
+      expect(service.getConfirmPasswordError(control)).toContain('obligatoire');
+    });
+
+    it('should return empty string for valid value', () => {
+      const control = new FormControl('motdepasse', [Validators.required]);
+      control.setValue('motdepasse');
+      expect(service.getConfirmPasswordError(control)).toBe('');
+    });
+  });
+
+  describe('passwordsMatch', () => {
+    it('should return null if passwords match', () => {
+      const form = new FormGroup({
+        password: new FormControl('abc123'),
+        confirmPassword: new FormControl('abc123'),
+      });
+      expect(FormUtilsService.passwordsMatch(form)).toBeNull();
+    });
+
+    it('should return a mismatch if passwords do not match', () => {
+      const form = new FormGroup({
+        password: new FormControl('abc123'),
+        confirmPassword: new FormControl('different'),
+      });
+      expect(FormUtilsService.passwordsMatch(form)).toEqual({ mismatch: true });
     });
   });
 });

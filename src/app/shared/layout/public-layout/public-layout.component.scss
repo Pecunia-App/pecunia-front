@@ -6,7 +6,6 @@
 
 .main-wrapper {
   min-width: 100vw;
-  min-height: 100vh;
   background: linear-gradient(
     117deg,
     #{theme.themed('background-neutral-primary', 'light')} 50.11%,
@@ -27,7 +26,7 @@
   min-height: 100vh;
 
   @include breakpoints.mq(desktop) {
-    @include layout.flex($dir: column, $justify: center, $align: center);
+    @include layout.flex($dir: column, $justify: start, $align: center);
     width: 60vw;
   }
 
@@ -69,7 +68,7 @@
 .public-card {
   width: 100%;
   min-height: 100vh;
-  @include layout.padding(44px, space-16, space-8);
+  @include layout.padding(space-48, space-16, space-24);
 
   @include layout.flex($dir: column, $justify: start, $align: center);
 
@@ -83,6 +82,8 @@
     max-width: 700px;
     min-height: 700px;
     border: solid 3px;
+    @include layout.margin(layout.px-to-rem(114), 0, 0, 0);
+    @include layout.padding(space-48, space-24);
     @include layout.radius(md);
     @include theme.themed-block(
       (

@@ -1,0 +1,19 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/abstracts/breakpoints' as bp;
+
+:host {
+  width: 100%;
+  max-width: 392px;
+}
+
+.register-form {
+  margin-top: layout.$space-24;
+  @include layout.flex($dir: column, $gap: space-16);
+
+  @include bp.mq(desktop) {
+    margin-top: layout.$space-32;
+  }
+}
+fieldset {
+  @include layout.flex($dir: column, $gap: space-8);
+}

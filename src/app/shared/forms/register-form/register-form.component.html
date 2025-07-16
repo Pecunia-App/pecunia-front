@@ -1,0 +1,115 @@
+<form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <app-ui-input
+      label="Prénom"
+      placeholder="John"
+      width="full"
+      [required]="true"
+      [id]="'firstname-input'"
+      [formControlName]="'firstname'"
+      [status]="getFieldStatus('firstname')"
+      [helper]="
+        isFieldInError('firstname') ? handleFieldErrors('firstname') : ''
+      "
+    >
+      <app-ui-icon name="user" icon-left />
+      @if (
+        registerForm.controls['firstname'].valid &&
+        registerForm.controls['firstname'].touched
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+
+    <app-ui-input
+      label="Nom"
+      placeholder="Doe"
+      width="full"
+      [required]="true"
+      [id]="'lastname-input'"
+      [formControlName]="'lastname'"
+      [status]="getFieldStatus('lastname')"
+      [helper]="isFieldInError('lastname') ? handleFieldErrors('lastname') : ''"
+    >
+      <app-ui-icon name="user" icon-left />
+      @if (
+        registerForm.controls['lastname'].valid &&
+        registerForm.controls['lastname'].touched
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+
+    <app-ui-input
+      label="Email"
+      placeholder="ex: xxx@xxx.com"
+      width="full"
+      [required]="true"
+      [id]="'email-input'"
+      [type]="'email'"
+      [formControlName]="'email'"
+      [status]="getFieldStatus('email')"
+      [helper]="isFieldInError('email') ? handleFieldErrors('email') : ''"
+    >
+      <app-ui-icon name="mail" icon-left />
+      @if (
+        registerForm.controls['email'].valid &&
+        registerForm.controls['email'].touched
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+
+    <app-ui-input
+      label="Mot de passe"
+      placeholder="Mot de passe (12 caractères min.)"
+      width="full"
+      [required]="true"
+      [id]="'password-input'"
+      [type]="'password'"
+      [formControlName]="'password'"
+      [status]="getFieldStatus('password')"
+      [helper]="isFieldInError('password') ? handleFieldErrors('password') : ''"
+    >
+      <app-ui-icon name="lock" icon-left />
+      @if (
+        registerForm.controls['password'].valid &&
+        (registerForm.controls['password'].touched ||
+          registerForm.controls['password'].dirty)
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+
+    <app-ui-input
+      label="Confirmation mot de passe"
+      placeholder="Confirmez le mot de passe"
+      width="full"
+      [required]="true"
+      [id]="'confirm-password-input'"
+      [type]="'password'"
+      [formControlName]="'confirmPassword'"
+      [status]="getConfirmPasswordStatus()"
+      [helper]="getConfirmPasswordHelper()"
+    >
+      <app-ui-icon name="lock" icon-left />
+      @if (
+        registerForm.controls['confirmPassword'].valid &&
+        !registerForm.hasError('mismatch') &&
+        (registerForm.controls['confirmPassword'].touched ||
+          registerForm.controls['confirmPassword'].dirty)
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+  </fieldset>
+
+  <app-ui-button
+    type="submit"
+    width="full"
+    size="large"
+    variant="primary"
+    overideClass="register-btn-submit"
+    >Inscription</app-ui-button
+  >
+</form>
