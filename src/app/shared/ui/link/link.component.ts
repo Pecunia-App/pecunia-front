@@ -23,6 +23,7 @@ export class LinkComponent {
   readonly _ariaLabel = signal<string | null>(null);
   readonly _disabled = signal<boolean>(false);
   readonly _tabIndex = signal<number>(0);
+  readonly _isSubMenu = signal<boolean>(false);
 
   // Focus state pour l'accessibilité/style
   readonly _isFocused = signal(false);
@@ -51,12 +52,16 @@ export class LinkComponent {
   @Input() set tabIndex(value: number) {
     this._tabIndex.set(value ?? 0);
   }
+  @Input() set isSubmenu(value: boolean) {
+    this._isSubMenu.set(value ?? false);
+  }
 
   readonly cssClasses = computed(() =>
     [
       'ui-link',
       `ui-link--${this._variant()}`,
       `ui-link--${this._width()}`,
+      this._isSubMenu() ? 'ui-link--submenu' : '',
       this._disabled() ? 'ui-link--disabled' : '',
     ]
       .filter(Boolean)
