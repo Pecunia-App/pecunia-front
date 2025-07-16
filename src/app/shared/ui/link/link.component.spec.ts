@@ -127,9 +127,7 @@ describe('LinkComponent', () => {
       component.routerLink = ['/register'];
       fixture.detectChanges();
       // Vérifie que l'attribut href est généré (simulé par RouterTestingModule)
-      expect(linkElement.getAttribute('ng-reflect-router-link')).toContain(
-        '/register'
-      );
+      expect(linkElement.getAttribute('href')).toContain('/register');
     });
   });
 });
