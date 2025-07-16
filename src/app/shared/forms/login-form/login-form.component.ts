@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -10,6 +9,7 @@ import { InputComponent } from '../../ui/input/input.component';
 import { IconComponent } from '../../ui/icon/icon.component';
 import { LoginForm } from '../../../_core/models/forms.model';
 import { ButtonComponent } from '../../ui/button/button.component';
+import { FormUtilsService } from '../../../_core/services/form-utils.service';
 
 @Component({
   selector: 'app-login-form',
@@ -24,49 +24,34 @@ import { ButtonComponent } from '../../ui/button/button.component';
 })
 export class LoginFormComponent {
   private formBuilder: FormBuilder = inject(FormBuilder);
-
+  private formUtils = inject(FormUtilsService);
   public isSubmitted = false;
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required, Validators.minLength(12)]],
   });
 
-  //méthodes
   isFieldInError(field: keyof LoginForm): boolean {
-    const control = this.loginForm.controls[field];
-    if (control.invalid && control.dirty) return true;
-    if (control.invalid && control.touched) return true;
-    if (control.invalid && this.isSubmitted) return true;
-    return false;
-  }
-
-  getEmailError(field: AbstractControl): string {
-    if (field.errors?.['required']) return 'Email is required';
-    if (field.errors?.['email']) return 'Invalid email address';
-    return '';
-  }
-
-  getPasswordError(field: AbstractControl): string {
-    if (field.errors?.['required']) return 'Password is required';
-    if (field.errors?.['minlength'])
-      return 'Password must be at least 6 characters long';
-    return '';
+    return this.formUtils.isFieldInError<LoginForm>(
+      this.loginForm,
+      field,
+      this.isSubmitted
+    );
   }
 
   handleFieldErrors(fieldName: keyof LoginForm): string {
     const field = this.loginForm.controls[fieldName];
-    if (this.isFieldInError(fieldName)) {
-      switch (fieldName) {
-        case 'email':
-          return this.getEmailError(field);
-        case 'password':
-          return this.getPasswordError(field);
-        // Ajoutez d'autres champs ici si nécessaire
-        default:
-          return '';
-      }
+    if (!this.isFieldInError(fieldName)) return '';
+
+    switch (fieldName) {
+      case 'email':
+        return this.formUtils.getEmailError(field);
+      case 'password':
+        return this.formUtils.getPasswordError(field);
+      // Ajoutez d'autres champs ici si nécessaire
+      default:
+        return this.formUtils.getStandardErrorMessage(field);
     }
-    return '';
   }
 
   onSubmit() {

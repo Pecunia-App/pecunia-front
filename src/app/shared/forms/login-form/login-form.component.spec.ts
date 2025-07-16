@@ -50,8 +50,10 @@ describe('LoginFormComponent', () => {
       const passwordHelper = fixture.nativeElement.querySelector(
         '[data-test="helper-password-input"]'
       );
-      expect(emailHelper.textContent).toContain('Email is required');
-      expect(passwordHelper.textContent).toContain('Password is required');
+      expect(emailHelper.textContent).toContain("L'email est obligatoire");
+      expect(passwordHelper.textContent).toContain(
+        'Le mot de passe est obligatoire'
+      );
     });
 
     it('should show invalid email error for bad format', () => {
@@ -62,7 +64,9 @@ describe('LoginFormComponent', () => {
       const emailHelper = fixture.nativeElement.querySelector(
         '[data-test="helper-email-input"]'
       );
-      expect(emailHelper.textContent).toContain('Invalid email address');
+      expect(emailHelper.textContent).toContain(
+        "Le format d'email est invalide"
+      );
     });
 
     it('should show minlength error for short password', () => {
@@ -74,13 +78,13 @@ describe('LoginFormComponent', () => {
         '[data-test="helper-password-input"]'
       );
       expect(passwordHelper.textContent).toContain(
-        'Password must be at least 6 characters long'
+        'Le mot de passe doit contenir au moins 12 caractères'
       );
     });
 
     it('should have no error message with valid fields', () => {
       component.loginForm.controls['email'].setValue('john@mail.com');
-      component.loginForm.controls['password'].setValue('123456');
+      component.loginForm.controls['password'].setValue('123456789111');
       component.loginForm.markAllAsTouched();
       fixture.detectChanges();
 
