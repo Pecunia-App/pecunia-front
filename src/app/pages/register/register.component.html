@@ -1,10 +1,14 @@
 <app-public-layout>
-  <p>register works!</p>
-  <app-ui-button
-    [maxWidth]="175"
-    variant="primary"
-    (click)="navigateToHome()"
-    >retour</app-ui-button
-  >
-  <app-theme-switch [maxWidth]="175" />
+  <div class="register-wrapper">
+    <app-register-form />
+  </div>
+    <div class="btn-group-wrapper">
+      <app-ui-button
+      width="full"
+      size="large"
+      variant="primary-ghost"
+      (click)="navigateToHome()"
+        >retour</app-ui-button
+      >
+    </div>
 </app-public-layout>

@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { ButtonComponent } from '../../shared/ui/button/button.component';
-import { ThemeSwitchComponent } from '../../shared/theme-switch/theme-switch.component';
 import { PublicLayoutComponent } from '../../shared/layout/public-layout/public-layout.component';
 import { Router } from '@angular/router';
+import { RegisterFormComponent } from '../../shared/forms/register-form/register-form.component';
 
 @Component({
   selector: 'app-register',
-  imports: [ButtonComponent, ThemeSwitchComponent, PublicLayoutComponent],
+  imports: [ButtonComponent, PublicLayoutComponent, RegisterFormComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
