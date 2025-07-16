@@ -12,12 +12,7 @@ describe('LoginFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LoginFormComponent, RouterTestingModule],
-      providers: [
-        provideHttpClient(),
-        // provideRouter([]), // Mock router for testing
-        // { provide: ActivatedRoute, useValue: {} }, // Mock simple
-        // { provide: Router, useValue: {} },
-      ],
+      providers: [provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginFormComponent);
