@@ -1,15 +1,11 @@
 import { NgClass } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { Component, computed, Input, signal } from '@angular/core';
 import {
-  Component,
-  computed,
-  effect,
-  inject,
-  Input,
-  signal,
-} from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import { IconSize } from './icon.model';
+  AVAILABLE_ICONS,
+  DEFAULT_ICON,
+  IconName,
+  IconSize,
+} from './icon.model';
 
 @Component({
   selector: 'app-ui-icon',
@@ -19,17 +15,23 @@ import { IconSize } from './icon.model';
   styleUrl: './icon.component.scss',
 })
 export class IconComponent {
-  private readonly http = inject(HttpClient);
-
   //déclaration des signaux => mini varialbles observables
-  readonly _name = signal<string>('');
+  readonly _name = signal<IconName>(DEFAULT_ICON);
   readonly _size = signal<IconSize>('md');
   readonly _ariaLabel = signal<string>('');
   readonly _isDecorative = signal<boolean>(false);
 
+  // Validation synchrone des icônes avec un guard TS
+  private isValidIcon(iconName: string): iconName is IconName {
+    return AVAILABLE_ICONS.includes(iconName as IconName);
+  }
+
   //setter pour mettre à jour les inputs avec des signaux
   @Input({ required: true }) set name(value: string) {
-    this._name.set(value);
+    const validIcon = this.isValidIcon(value)
+      ? (value as IconName)
+      : DEFAULT_ICON;
+    this._name.set(validIcon);
   }
   @Input() set size(value: IconSize) {
     this._size.set(value);
@@ -56,26 +58,4 @@ export class IconComponent {
     const classes = ['icon', this.sizeClass()];
     return classes;
   });
-
-  // Méthode pour gérer l'erreur de chargement de l'icône
-  constructor() {
-    effect(() => {
-      const iconName = this._name();
-      this.checkIfIconExists(iconName).then((exists) => {
-        if (!exists) {
-          this._name.set('plus');
-        }
-      });
-    });
-  }
-
-  private async checkIfIconExists(iconName: string): Promise<boolean> {
-    const url = `assets/icons/lucide/${iconName}.svg`;
-    try {
-      await firstValueFrom(this.http.head(url, { observe: 'response' }));
-      return true;
-    } catch {
-      return false;
-    }
-  }
 }

@@ -11,14 +11,14 @@
   @include typo.text-style(text-lg, semibold, mobile);
   line-height: 24px;
 
-  @include breakpoints.mq(desktop) {
-    @include layout.padding(space-24, 0, 0, 0);
-  }
   background: linear-gradient(
     117deg,
     #{theme.themed('background-neutral-primary', 'light')} 0.23%,
     #{theme.themed('common-neutral-low', 'light')} 100%
   );
+  @include breakpoints.mq(desktop) {
+    @include layout.padding(space-24, 0, 0, 0);
+  }
 }
 
 :host-context([data-theme='dark']) .connected-layout {
