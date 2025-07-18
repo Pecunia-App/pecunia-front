@@ -1,3 +1,18 @@
+## 0.3.0 (2025-07-18)
+
+### Feat
+
+- **register-page**: task 190 - create register form and tests
+- **register-page**: task 190 - create forms util service + tests
+- **login-apge**: task 179 - create link ui component with tests and doc
+- **login-page**: task 170 - create tests for login form
+- **login-page**: task 170 - create login form and link input value to form
+- **Login-page**: task 169 - create component input with doc and test
+
+### Fix
+
+- **cd**: create script for deployment ; typo in docker login action
+
 ## 0.2.3 (2025-07-11)
 
 ### Fix
