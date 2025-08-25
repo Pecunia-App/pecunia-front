@@ -7,6 +7,7 @@ import {
   Output,
   signal,
 } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import {
   ButtonMaxWidth,
   ButtonMinWidth,
@@ -19,9 +20,10 @@ import {
 
 @Component({
   selector: 'app-ui-button',
-  imports: [NgClass],
+  imports: [NgClass, NzButtonModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
+  standalone: true,
 })
 export class ButtonComponent {
   // Déclaration des signaux pour les propriétés du bouton
@@ -73,6 +75,8 @@ export class ButtonComponent {
   @Input() set maxWidth(value: ButtonMaxWidth) {
     this._maxWidth.set(value);
   }
+  @Input() nzType: 'primary' | 'default' | 'dashed' | 'text' | 'link' | null =
+    'default';
 
   // Getters pour récupérer les valeurs des signaux
   //computed permet d'écouter les signaux et de les utiliser comme des propriétés

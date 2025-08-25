@@ -1,0 +1,25 @@
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/layout' as layout;
+
+.modal {
+  .ant-modal-content {
+    @include layout.padding(space-32);
+    @include layout.radius(md);
+    background-color: white;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .ant-modal-body {
+    @include layout.flex(column, null, center, center, space-16);
+    text-align: center;
+
+    p {
+      @include typo.text-style(md, bold);
+      color: #333;
+    }
+
+    app-ui-button {
+      min-width: px-to-rem(100);
+    }
+  }
+}
