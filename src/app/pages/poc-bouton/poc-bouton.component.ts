@@ -3,6 +3,7 @@ import { ButtonComponent } from '../../shared/ui/button/button.component';
 import { ThemeSwitchComponent } from '../../shared/theme-switch/theme-switch.component';
 import { IconComponent } from '../../shared/ui/icon/icon.component';
 import { LinkComponent } from '../../shared/ui/link/link.component';
+import { ModalComponent } from '../../shared/ui/modal/modal.component';
 
 @Component({
   selector: 'app-poc-bouton',
@@ -11,6 +12,7 @@ import { LinkComponent } from '../../shared/ui/link/link.component';
     IconComponent,
     ButtonComponent,
     LinkComponent,
+    ModalComponent,
   ],
   templateUrl: './poc-bouton.component.html',
   styleUrl: './poc-bouton.component.scss',
@@ -20,5 +22,13 @@ export class PocBoutonComponent {
 
   handleButtonClick(): void {
     console.log('Button clicked!');
+  }
+
+  onConfirm() {
+    console.log('Confirmation validée');
+  }
+
+  onCancel() {
+    console.log('Action annulée');
   }
 }

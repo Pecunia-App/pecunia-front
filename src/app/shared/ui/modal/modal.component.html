@@ -1,0 +1,44 @@
+<div>
+    <ng-content>
+        <app-ui-button 
+            nz-button
+            (click)="showModal()"
+            select="[modal-trigger]"
+            size="large"
+        >
+        </app-ui-button>
+    </ng-content>
+
+    <nz-modal
+        [(nzVisible)]="isVisible"
+        [nzTitle]=""
+        [nzFooter]="null"
+        (nzOnOk)="handleOk()"
+        (nzOnCancel)="handleCancel()"
+        [nzClassName]="'modal'"
+    >
+        <ng-container *nzModalContent>
+            <p>{{ content }}</p>
+            <app-ui-button 
+                nz-button
+                [nzType]="confirmType"
+                (click)="handleOk()"
+                variant="alert"
+                [minWidth]="200"
+                [maxWidth]="392"
+            >
+                {{ confirmText }}
+            </app-ui-button>
+            <app-ui-button
+                nz-button
+                nzType="default"
+                (click)="handleCancel()"
+                variant="success"
+                [minWidth]="200"
+                [maxWidth]="392"
+            >
+                {{ cancelText }}
+            </app-ui-button>       
+        </ng-container>
+    </nz-modal>
+</div>
