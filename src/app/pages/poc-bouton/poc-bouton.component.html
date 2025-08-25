@@ -110,4 +110,28 @@
   >
     Mot de passe oublié ?
   </app-ui-link>
+
+  <app-ui-modal
+    #deleteModal
+    [title]="''"
+    [content]="'Etes-vous sûr de vouloir supprimer cette transaction ?'"
+    [confirmText]="'Supprimer'"
+    [cancelText]="'Annuler'"
+    confirmType="primary"
+    (confirm)="onConfirm()"
+    (cancel)="onCancel()"
+  >
+    <app-ui-button
+      nz-button
+      [nzType]="'primary'"
+      modal-trigger
+      (click)="deleteModal.showModal()"
+      variant="alert"
+      [minWidth]="200"
+      [maxWidth]="392"
+    >
+      Supprimer
+    </app-ui-button>
+  </app-ui-modal>
+
 </div>
