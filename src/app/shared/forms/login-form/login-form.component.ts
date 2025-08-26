@@ -86,7 +86,6 @@ export class LoginFormComponent {
         next: () => this.router.navigate(['/main']),
         error: (err) => {
           this.isSubmitted = false;
-          console.log(err.error);
           this.apiError =
             typeof err.error === 'string' ? err.error : 'Erreur inconnue';
           // Marque les champs comme touchés pour forcer l'affichage de l'erreur

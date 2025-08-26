@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterFormComponent } from './register-form.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RegisterFormComponent', () => {
@@ -11,7 +11,7 @@ describe('RegisterFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RegisterFormComponent, RouterTestingModule],
-      providers: [provideHttpClient()],
+      providers: [provideHttpClient(withFetch())],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterFormComponent);
