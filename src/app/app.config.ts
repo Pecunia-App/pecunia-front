@@ -4,7 +4,7 @@ import {
   importProvidersFrom,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { fr_FR, provideNzI18n } from 'ng-zorro-antd/i18n';
@@ -23,6 +23,6 @@ export const appConfig: ApplicationConfig = {
     provideNzI18n(fr_FR),
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
   ],
 };

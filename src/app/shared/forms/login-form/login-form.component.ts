@@ -29,23 +29,38 @@ export class LoginFormComponent {
   private formUtils = inject(FormUtilsService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private apiError: string | null = null;
 
   public isSubmitted = false;
+
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(12)]],
   });
 
+  constructor() {
+    // Réinitialise l’erreur API dès qu’un champ change
+    this.loginForm.controls['email'].valueChanges.subscribe(() =>
+      this.resetApiError()
+    );
+    this.loginForm.controls['password'].valueChanges.subscribe(() =>
+      this.resetApiError()
+    );
+  }
+
   isFieldInError(field: keyof LoginForm): boolean {
-    return this.formUtils.isFieldInError<LoginForm>(
-      this.loginForm,
-      field,
-      this.isSubmitted
+    return (
+      this.formUtils.isFieldInError<LoginForm>(
+        this.loginForm,
+        field,
+        this.isSubmitted
+      ) || !!this.apiError
     );
   }
 
   handleFieldErrors(fieldName: keyof LoginForm): string {
     const field = this.loginForm.controls[fieldName];
+    if (this.apiError) return this.apiError!;
     if (!this.isFieldInError(fieldName)) return '';
 
     switch (fieldName) {
@@ -59,13 +74,25 @@ export class LoginFormComponent {
     }
   }
 
+  resetApiError() {
+    this.apiError = null;
+  }
+
   onSubmit() {
     this.isSubmitted = true;
     console.log('password', this.loginForm.value);
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => this.router.navigate(['/main']),
-        error: (err) => console.log(err),
+        error: (err) => {
+          this.isSubmitted = false;
+          console.log(err.error);
+          this.apiError =
+            typeof err.error === 'string' ? err.error : 'Erreur inconnue';
+          // Marque les champs comme touchés pour forcer l'affichage de l'erreur
+          this.loginForm.controls['email'].markAsTouched();
+          this.loginForm.controls['password'].markAsTouched();
+        },
       });
     }
   }
