@@ -1,4 +1,5 @@
 export const environment = {
-  production: true,
-  apiUrl: 'https://api.pecuniapp.com',
+  production: false,
+  apiUrl: 'http://localhost:8080',
+  testPassword: 'Password123!',
 };
