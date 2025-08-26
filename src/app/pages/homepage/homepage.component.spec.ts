@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomepageComponent } from './homepage.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 describe('HomepageComponent', () => {
   let component: HomepageComponent;
@@ -10,7 +10,7 @@ describe('HomepageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HomepageComponent],
-      providers: [provideHttpClient()],
+      providers: [provideHttpClient(withFetch())],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomepageComponent);

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PocBoutonComponent } from './poc-bouton.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
 describe('PocBoutonComponent', () => {
@@ -12,7 +12,7 @@ describe('PocBoutonComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PocBoutonComponent],
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withFetch()),
         { provide: ActivatedRoute, useValue: {} },
       ],
     }).compileComponents();
