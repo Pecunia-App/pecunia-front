@@ -63,9 +63,6 @@ export class IconComponent {
       const iconName = this._name();
       this.checkIfIconExists(iconName).then((exists) => {
         if (!exists) {
-          console.warn(
-            `Icône "${iconName}" introuvable, fallback "plus" appliqué.`
-          );
           this._name.set('plus');
         }
       });
