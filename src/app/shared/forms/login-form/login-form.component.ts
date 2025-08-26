@@ -10,6 +10,8 @@ import { IconComponent } from '../../ui/icon/icon.component';
 import { LoginForm } from '../../../_core/models/forms.model';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { FormUtilsService } from '../../../_core/services/form-utils.service';
+import { AuthService } from '../../../_core/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -25,6 +27,9 @@ import { FormUtilsService } from '../../../_core/services/form-utils.service';
 export class LoginFormComponent {
   private formBuilder: FormBuilder = inject(FormBuilder);
   private formUtils = inject(FormUtilsService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   public isSubmitted = false;
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -56,8 +61,12 @@ export class LoginFormComponent {
 
   onSubmit() {
     this.isSubmitted = true;
+    console.log('password', this.loginForm.value);
     if (this.loginForm.valid) {
-      console.log('form submitted with: ', this.loginForm.value);
+      this.authService.login(this.loginForm.value).subscribe({
+        next: () => this.router.navigate(['/main']),
+        error: (err) => console.log(err),
+      });
     }
   }
 }
