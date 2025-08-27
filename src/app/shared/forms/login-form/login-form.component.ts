@@ -12,6 +12,8 @@ import { ButtonComponent } from '../../ui/button/button.component';
 import { FormUtilsService } from '../../../_core/services/form-utils.service';
 import { AuthService } from '../../../_core/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { NzAlertComponent } from 'ng-zorro-antd/alert';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login-form',
@@ -20,6 +22,8 @@ import { Router } from '@angular/router';
     InputComponent,
     IconComponent,
     ButtonComponent,
+    NzAlertComponent,
+    CommonModule,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
@@ -32,6 +36,7 @@ export class LoginFormComponent {
   private apiError: string | null = null;
 
   public isSubmitted = false;
+  public successMessage: string | null = null;
 
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -46,6 +51,15 @@ export class LoginFormComponent {
     this.loginForm.controls['password'].valueChanges.subscribe(() =>
       this.resetApiError()
     );
+
+    const nav = this.router.getCurrentNavigation();
+    this.successMessage = nav?.extras?.state?.['successMessage'] ?? null;
+
+    if (this.successMessage) {
+      setTimeout(() => {
+        this.successMessage = null;
+      }, 3000); // 3000 ms = 3 secondes
+    }
   }
 
   isFieldInError(field: keyof LoginForm): boolean {
