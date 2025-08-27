@@ -16,7 +16,7 @@ export class AuthService {
   private _token = signal<string | null>(localStorage.getItem('pecunia-token'));
 
   // 2. Signal computed pour savoir si l'utilisateur est connecté
-  readonly isLoggedIn = computed(() => {
+  readonly isLoggedIn = computed<boolean>(() => {
     const value = this._token();
     if (!value) return false;
 
@@ -32,7 +32,7 @@ export class AuthService {
     }
   });
   // 3. Signal computed pour récupérer le rôle
-  readonly userRole = computed(() => {
+  readonly userRole = computed<string | null>(() => {
     const value = this._token();
     if (!value) return null;
 
