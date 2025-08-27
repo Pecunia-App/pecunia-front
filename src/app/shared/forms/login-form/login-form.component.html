@@ -1,3 +1,19 @@
+@if (successMessage) {
+  <div class="flash-container" [class.visible]="successMessage" [class.hidden]="!successMessage">
+    <nz-alert
+      nzType="success"
+      [nzMessage]="successMessage"
+      nzDescription="Vous pouvez maintenant vous connecter."
+      nzShowIcon
+      [hidden]="!successMessage"
+      nzCloseable
+      (nzOnClose)="successMessage = null"
+    >
+    </nz-alert>
+  </div>
+
+}
+
 <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <fieldset>
     <app-ui-input

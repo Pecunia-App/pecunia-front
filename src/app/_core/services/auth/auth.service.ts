@@ -5,6 +5,7 @@ import { Observable, tap } from 'rxjs';
 import { Credentials } from '../../models/forms.model';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { AppJwtPayload } from '../../models/auth.model';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -81,5 +82,10 @@ export class AuthService {
     } catch {
       this.clearToken();
     }
+  }
+
+  // **** registration *****
+  register(user: User) {
+    return this.http.post(`${AuthService.API_URL}/auth/register`, user);
   }
 }
