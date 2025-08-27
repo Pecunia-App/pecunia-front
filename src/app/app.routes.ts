@@ -33,7 +33,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'trasactions',
+    path: 'transactions',
     component: TransactionsComponent,
     canActivate: [authGuard],
   },
