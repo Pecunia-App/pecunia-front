@@ -10,6 +10,9 @@ import { RegisterForm } from '../../../_core/models/forms.model';
 import { InputComponent } from '../../ui/input/input.component';
 import { IconComponent } from '../../ui/icon/icon.component';
 import { ButtonComponent } from '../../ui/button/button.component';
+import { AuthService } from '../../../_core/services/auth/auth.service';
+import { User } from '../../../_core/models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
@@ -25,6 +28,8 @@ import { ButtonComponent } from '../../ui/button/button.component';
 export class RegisterFormComponent {
   private formBuilder = inject(FormBuilder);
   private formUtils = inject(FormUtilsService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
   public isSubmitted = false;
   registerForm: FormGroup = this.formBuilder.group(
     {
@@ -36,6 +41,8 @@ export class RegisterFormComponent {
     },
     { validators: FormUtilsService.passwordsMatch }
   );
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   isFieldInError(field: keyof RegisterForm): boolean {
     return this.formUtils.isFieldInError<RegisterForm>(
@@ -104,8 +111,25 @@ export class RegisterFormComponent {
 
   onSubmit() {
     this.isSubmitted = true;
-    if (this.registerForm.valid) {
-      console.log('form submitted with: ', this.registerForm.value);
-    }
+    const { firstname, lastname, email, password, confirmPassword } =
+      this.registerForm.value;
+    const user = { firstname, lastname, email, password, confirmPassword };
+    this.authService.register(user as User).subscribe({
+      next: (response) => {
+        console.log('User registered successfully:', response);
+        this.registerForm.reset();
+        this.successMessage = '';
+        this.errorMessage = '';
+      },
+      complete: () =>
+        this.router.navigate(['/login'], {
+          state: { successMessage: 'Compte créé avec succès 🎉' },
+        }),
+      error: (error) => {
+        console.error('Error registering user:', error);
+        this.errorMessage =
+          "Une erreur est survenue lors de l'inscription. Veuillez réessayer.";
+      },
+    });
   }
 }
