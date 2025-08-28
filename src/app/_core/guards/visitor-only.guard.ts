@@ -11,14 +11,14 @@ export const visitorOnlyGuard: CanActivateFn = () => {
   if (!authService.isLoggedIn()) {
     return true;
   } else {
-    // Sinon, il est redirigé vers le dashboard ou admin en fonction de son rôle
+    // Sinon, il est redirigé vers transactions ou admin en fonction de son rôle
 
     switch (role) {
       case 'ROLE_ADMIN':
         router.navigate(['/admin']);
         break;
       case 'ROLE_USER':
-        router.navigate(['/dashboard']);
+        router.navigate(['/transactions']);
         break;
       default:
         router.navigate(['/']);
