@@ -1,0 +1,99 @@
+<form class="profile-form" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <app-ui-input
+      label="Prénom"
+      placeholder="John"
+      width="full"
+      [id]="'firstname-input'"
+      [formControlName]="'firstname'"
+      [status]="getFieldStatus('firstname')"
+      [helper]="
+        isFieldInError('firstname') ? handleFieldErrors('firstname') : ''
+      "
+    >
+      <app-ui-icon name="user" icon-left />
+      @if (
+        profileForm.controls['firstname'].valid &&
+        profileForm.controls['firstname'].touched
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+
+    <app-ui-input
+      label="Nom"
+      placeholder="Doe"
+      width="full"
+      [id]="'lastname-input'"
+      [formControlName]="'lastname'"
+      [status]="getFieldStatus('lastname')"
+      [helper]="isFieldInError('lastname') ? handleFieldErrors('lastname') : ''"
+    >
+      <app-ui-icon name="user" icon-left />
+      @if (
+        profileForm.controls['lastname'].valid &&
+        profileForm.controls['lastname'].touched
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+
+    <app-ui-input
+      label="Email"
+      placeholder="ex: xxx@xxx.com"
+      width="full"
+      [id]="'email-input'"
+      [type]="'email'"
+      [formControlName]="'email'"
+      [status]="getFieldStatus('email')"
+      [helper]="isFieldInError('email') ? handleFieldErrors('email') : ''"
+    >
+      <app-ui-icon name="mail" icon-left />
+      @if (
+        profileForm.controls['email'].valid &&
+        profileForm.controls['email'].touched
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+
+    <app-ui-input
+      label="Nouveau mot de passe"
+      placeholder="Nouveau mot de passe (12 caractères min.)"
+      width="full"
+      [id]="'password-input'"
+      [type]="'password'"
+      [formControlName]="'password'"
+      [status]="getFieldStatus('password')"
+      [helper]="isFieldInError('password') ? handleFieldErrors('password') : ''"
+    >
+      <app-ui-icon name="lock" icon-left />
+      @if (
+        profileForm.controls['password'].valid &&
+        profileForm.controls['password'].touched
+      ) {
+        <app-ui-icon name="check" icon-right />
+      }
+    </app-ui-input>
+    <app-ui-input
+      label="Photo de profil"
+      type="file"
+      width="full"
+      [id]="'profile-picture-input'"
+      formControlName="profilePicture"
+      accept="image/*"
+    >
+      <app-ui-icon name="image" icon-left />
+    </app-ui-input>
+  </fieldset>
+
+  <app-ui-button
+    type="submit"
+    width="full"
+    size="large"
+    variant="primary"
+    overideClass="profile-btn-submit"
+  >
+    Enregistrer les modifications
+  </app-ui-button>
+</form>
