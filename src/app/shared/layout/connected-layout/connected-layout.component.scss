@@ -1,0 +1,65 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+.connected-layout {
+  min-width: 100%;
+  min-height: 100%;
+  font-family: 'open-sans', sans-serif;
+  @include typo.text-style(text-lg, semibold, mobile);
+  line-height: 24px;
+
+  @include breakpoints.mq(desktop) {
+    @include layout.padding(space-24, 0, 0, 0);
+  }
+  background: linear-gradient(
+    117deg,
+    #{theme.themed('background-neutral-primary', 'light')} 0.23%,
+    #{theme.themed('common-neutral-low', 'light')} 100%
+  );
+}
+
+:host-context([data-theme='dark']) .connected-layout {
+  background: linear-gradient(
+    117deg,
+    #{theme.themed('background-neutral-primary', 'dark')} 0.23%,
+    #{theme.themed('common-neutral-low', 'dark')} 100%
+  );
+}
+
+.connected-content {
+  height: 2000px;
+  @include breakpoints.mq(desktop) {
+    @include layout.padding(space-48, 0, 0, 0);
+  }
+}
+
+.simulated-menu {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  border: solid 1px transparent;
+  @include layout.padding(space-16, space-24);
+  z-index: 10;
+
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-primary',
+      color: 'text-neutral-secondary',
+    )
+  );
+
+  bottom: 0;
+
+  @include breakpoints.mq(desktop) {
+    top: 0;
+    bottom: auto;
+    @include theme.themed-block(
+      (
+        border-bottom-color: 'common-neutral-low',
+      )
+    );
+  }
+}
