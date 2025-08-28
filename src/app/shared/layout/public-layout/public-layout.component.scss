@@ -5,7 +5,7 @@
 @use '../../../../styles/abstracts/breakpoints' as breakpoints;
 
 .main-wrapper {
-  min-width: 100vw;
+  min-width: 100%;
   background: linear-gradient(
     117deg,
     #{theme.themed('background-neutral-primary', 'light')} 50.11%,
@@ -22,7 +22,7 @@
 }
 
 .content-wrapper {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
 
   @include breakpoints.mq(desktop) {
@@ -82,7 +82,7 @@
     max-width: 700px;
     min-height: 700px;
     border: solid 3px;
-    @include layout.margin(layout.px-to-rem(114), 0, 0, 0);
+    @include layout.margin(layout.px-to-rem(114), 0, space-24, 0);
     @include layout.padding(space-48, space-24);
     @include layout.radius(md);
     @include theme.themed-block(

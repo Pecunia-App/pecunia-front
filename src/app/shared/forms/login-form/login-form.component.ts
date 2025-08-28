@@ -97,7 +97,7 @@ export class LoginFormComponent {
     console.log('password', this.loginForm.value);
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
-        next: () => this.router.navigate(['/main']),
+        next: () => this.router.navigate(['/transactions']),
         error: (err) => {
           this.isSubmitted = false;
           this.apiError =
