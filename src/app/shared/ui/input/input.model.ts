@@ -4,7 +4,8 @@ export type inputType =
   | 'password'
   | 'number'
   | 'tel'
-  | 'url';
+  | 'url'
+  | 'file';
 export type inputStatus = 'error' | 'success' | null;
 
 export type inputWidth = 'full' | 'auto';
