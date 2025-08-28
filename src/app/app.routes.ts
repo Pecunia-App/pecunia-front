@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { authGuard } from './_core/guards/auth.guard';
 import { roleGuard } from './_core/guards/role.guard';
 import { visitorOnlyGuard } from './_core/guards/visitor-only.guard';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ParametersComponent } from './pages/parameters/parameters.component';
 
 export const routes: Routes = [
   {

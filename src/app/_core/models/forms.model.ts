@@ -16,6 +16,12 @@ export interface RegisterForm extends Credentials {
   confirmPassword: string;
 }
 
+// utilisé pour le profile
+export interface ProfileForm
+  extends Partial<Omit<RegisterForm, 'confirmPassword'>> {
+  profilePicture?: File | null;
+}
+
 /**
  * typage générique pour un FormGroup
  *
