@@ -1,3 +1,20 @@
+## 0.4.0 (2025-08-29)
+
+### Feat
+
+- bind the front registration to the backend. Add a ng zorro sucess flash message
+- **autService**: implement interceptor and guards
+- **authService**: handle form error from api
+- **authService**: create authService and login test
+- add modal component with ng zorro
+- **angular-core-and-cli**: upgarde angular and angular cli from 19 to 20
+
+### Fix
+
+- **authService**: fix review comments
+- **authService**: delete test with api call and clean warning messages
+- **angular.json**: increase the budget size application
+
 ## 0.3.0 (2025-07-18)
 
 ### Feat
