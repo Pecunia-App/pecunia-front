@@ -1,3 +1,10 @@
+## 0.5.0 (2025-08-29)
+
+### Feat
+
+- **navigation**: create common layout and simutale menu position
+- **angular-core-and-cli**: upgarde angular and angular cli from 19 to 20
+
 ## 0.4.0 (2025-08-29)
 
 ### Feat
