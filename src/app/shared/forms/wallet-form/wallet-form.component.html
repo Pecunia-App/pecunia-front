@@ -1,0 +1,78 @@
+<form class="wallet-form" (ngSubmit)="walletForm.valid && onSubmit()" #walletForm="ngForm">
+  <fieldset>
+    <app-ui-input
+      name="name"
+      label="Nom de portefeuille"
+      [(ngModel)]="newWallet.name"
+      #name="ngModel"
+      placeholder="Compte courant"
+      width="full"
+      [required]="true"
+      [type]="'text'"
+    >
+    </app-ui-input>
+
+    @if (name.errors && walletForm.submitted) {
+      <div>
+          @if (name.errors['required']) {
+          <span>Le nom est requis</span>
+          }
+          @if (name.errors['maxlength']) {
+          <span>La longueur maximale doit être inférieure à 100</span>
+          }
+      </div>
+    }
+  </fieldset>
+
+  <fieldset>
+    <app-ui-input
+      name="amount-balance"
+      label="Solde initial"
+      [(ngModel)]="newWallet.balance"
+      #amountBalance="ngModel"
+      placeholder="1000"
+      width="full"
+      [required]="true"
+      [type]="'number'"
+    >
+    </app-ui-input>
+  </fieldset>
+
+  @if (amountBalance.errors && walletForm.submitted) {
+    <div>
+        @if (amountBalance.errors['required']) {
+        <span>Le montant est requis</span>
+        }
+    </div>
+  }
+
+  <fieldset>
+    <app-ui-input
+      name="currency"
+      label="Sélectionner une devise"
+      [(ngModel)]="newWallet.currency"
+      #currency="ngModel"
+      placeholder="EUR"
+      width="full"
+      [required]="true"
+      [type]="'text'"
+    >
+    </app-ui-input>
+
+    @if (currency.errors && walletForm.submitted) {
+      <div>
+          @if (currency.errors['required']) {
+          <span>La devise est requise</span>
+          }
+      </div>
+    }
+  </fieldset>
+
+  <app-ui-button 
+    type="submit" 
+    width="full"
+    variant="primary"
+  >
+    Créer un portefeuille
+  </app-ui-button>
+</form>
