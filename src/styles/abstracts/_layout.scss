@@ -64,6 +64,7 @@ $size: (
     if($right != null, size($right), size($top))
   );
 }
+
 @mixin padding($top, $right: null, $bottom: null, $left: null) {
   padding-top: size($top);
   padding-right: if($right != null, size($right), size($top));

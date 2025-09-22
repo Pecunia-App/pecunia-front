@@ -1,0 +1,36 @@
+@use '../../../../styles/abstracts/breakpoints' as bp;
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+
+.wallet-form {
+  @include layout.padding(space-16);
+  @include layout.flex($dir: column, $gap: space-24);
+
+  @include bp.mq(mobile) {
+    margin-top: layout.$space-16;
+    width: 350px;
+    max-width: 400px;
+    height: 26rem;
+  }
+
+  @include bp.mq(desktop) {
+    margin-top: layout.$space-16;
+    width: 500px;
+    max-width: 600px;
+    height: 26rem;
+  }
+
+  @include shadows.shadow(lg);
+
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-primary',
+    )
+  );
+}
+
+fieldset {
+  @include layout.flex($dir: column, $gap: space-12);
+}

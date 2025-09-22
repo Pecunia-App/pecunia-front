@@ -1,0 +1,26 @@
+@use '../../../styles/abstracts/layout' as layout;
+@use '../../../styles/themes/tokens' as theme;
+@use '../../../styles/abstracts/typography' as typo;
+@use '../../../styles/abstracts/shadows' as shadows;
+@use '../../../styles/abstracts/breakpoints' as breakpoints;
+
+h1 {
+  @include typo.text-style(display-h3, regular, mobile);
+  @include typo.text-style(heading-h1, bold, desktop);
+  @include layout.margin(space-12, auto, space-24, auto);
+  @include theme.themed-block(
+    (
+      color: 'text-secondary-default',
+    )
+  );
+}
+
+h2 {
+  @include typo.text-style(heading-h2, regular, desktop);
+  @include layout.margin(null, auto, space-32, auto);
+  @include theme.themed-block(
+    (
+      color: 'text-secondary-default',
+    )
+  );
+}
