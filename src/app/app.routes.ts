@@ -10,6 +10,7 @@ import { TransactionDetailResolver } from './_core/resolver/transaction-detail.r
 import { CategoriesResolver } from './_core/resolver/categories.resolver';
 import { TagsResolver } from './_core/resolver/tags.resolver';
 import { ProvidersResolver } from './_core/resolver/providers.resolver';
+import { FirstLoginComponent } from './pages/first-login/first-login.component';
 
 export const routes: Routes = [
   {
@@ -53,6 +54,11 @@ export const routes: Routes = [
       import('./pages/poc-bouton/poc-bouton.component').then(
         (m) => m.PocBoutonComponent
       ),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'first-login',
+    component: FirstLoginComponent,
     canActivate: [authGuard],
   },
   {

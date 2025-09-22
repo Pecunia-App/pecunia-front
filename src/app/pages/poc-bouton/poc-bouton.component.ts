@@ -4,6 +4,7 @@ import { ThemeSwitchComponent } from '../../shared/theme-switch/theme-switch.com
 import { IconComponent } from '../../shared/ui/icon/icon.component';
 import { LinkComponent } from '../../shared/ui/link/link.component';
 import { ModalComponent } from '../../shared/ui/modal/modal.component';
+import { WalletFormComponent } from '../../shared/forms/wallet-form/wallet-form.component';
 
 @Component({
   selector: 'app-poc-bouton',
@@ -13,6 +14,7 @@ import { ModalComponent } from '../../shared/ui/modal/modal.component';
     ButtonComponent,
     LinkComponent,
     ModalComponent,
+    WalletFormComponent,
   ],
   templateUrl: './poc-bouton.component.html',
   styleUrl: './poc-bouton.component.scss',
