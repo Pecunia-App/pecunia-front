@@ -1,0 +1,39 @@
+<header class="menu-desk-wrapper" role="navigation" aria-label="Menu en entête de page">
+  <div class="menu-logo">
+    <img
+      [src]="
+        isDark()
+          ? '/assets/images/logo-pec-dark.svg'
+          : '/assets/images/logo-pec-light.svg'
+      "
+      aria-label="Accueil Pecunia"
+      alt="Pecunia"
+    />
+  </div>
+  @if (isDesktop()) {
+    <nav class="menu-links">
+      <app-ui-link
+        [routerLink]="['/transactions']"
+        variant="neutral"
+        [isSubmenu]="true"
+      >
+        Transactions
+      </app-ui-link>
+      <app-ui-link
+        [routerLink]="['/dashboard']"
+        variant="neutral"
+        [isSubmenu]="true"
+        routerLinkActive="active"
+      >
+        Aperçu
+      </app-ui-link>
+      <app-ui-link
+        [routerLink]="['/parameters']"
+        variant="neutral"
+        [isSubmenu]="true"
+      >
+        Paramètres de portefeuille
+      </app-ui-link>
+    </nav>
+  }
+</header>

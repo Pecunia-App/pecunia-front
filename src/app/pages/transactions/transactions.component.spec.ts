@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TransactionsComponent } from './transactions.component';
+import { provideRouter } from '@angular/router';
 
 describe('TransactionsComponent', () => {
   let component: TransactionsComponent;
@@ -9,6 +9,7 @@ describe('TransactionsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TransactionsComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionsComponent);

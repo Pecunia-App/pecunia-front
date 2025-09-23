@@ -1,0 +1,36 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+.menu-desk-wrapper {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  border: solid 1px transparent;
+  @include layout.padding(space-10, space-24);
+  z-index: 10;
+
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-primary',
+      color: 'text-neutral-secondary',
+      border-bottom-color: 'common-neutral-low',
+    )
+  );
+  top: 0;
+
+  @include layout.flex(
+    $dir: row,
+    $wrap: null,
+    $justify: space-between,
+    $align: null,
+    $gap: null
+  );
+}
+
+.menu-links {
+  display: flex;
+  gap: 2rem;
+}
