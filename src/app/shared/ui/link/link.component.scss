@@ -4,9 +4,7 @@
 @use '../../../../styles/themes/tokens' as theme;
 
 :host {
-  width: 100%;
   display: flex;
-  flex-direction: column;
 }
 
 .ui-link {
@@ -47,6 +45,10 @@
   &:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
   }
 
   @include bp.mq(desktop) {
@@ -95,4 +97,49 @@
       outline-color: 'border-neutral-primary-inverse',
     )
   );
+}
+
+.ui-link--submenu {
+  @include theme.themed-block(
+    (
+      color: 'text-neutral-secondary',
+      outline-color: 'border-neutral-primary-inverse',
+    )
+  );
+  line-height: 24px;
+
+  &::after {
+    bottom: -10px;
+    transform: scaleX(0);
+  }
+  &:hover {
+    @include theme.themed-block(
+      (
+        color: 'text-primary-default',
+        outline-color: 'border-primary-default',
+      )
+    );
+    &::after {
+      transform: scaleX(1);
+      height: 3px;
+    }
+  }
+
+  @include bp.mq(desktop) {
+    @include typo.text-style(text-md, semibold, desktop);
+    line-height: 24px;
+  }
+
+  &.ui-link--active {
+    @include theme.themed-block(
+      (
+        color: 'text-primary-default',
+        outline-color: 'border-primary-default',
+      )
+    );
+    &::after {
+      transform: scaleX(1);
+      height: 3px;
+    }
+  }
 }
