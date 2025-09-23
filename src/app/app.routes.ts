@@ -9,6 +9,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { roleGuard } from './_core/guards/role.guard';
 import { visitorOnlyGuard } from './_core/guards/visitor-only.guard';
+import { ParametersComponent } from './pages/parameters/parameters.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,11 @@ export const routes: Routes = [
   {
     path: 'transactions',
     component: TransactionsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'parameters',
+    component: ParametersComponent,
     canActivate: [authGuard],
   },
   {
