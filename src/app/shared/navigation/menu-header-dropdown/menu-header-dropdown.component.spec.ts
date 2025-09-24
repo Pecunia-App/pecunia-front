@@ -1,19 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MenuHeaderComponent } from './menu-header.component';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
 
-describe('MenuHeaderComponent', () => {
-  let component: MenuHeaderComponent;
-  let fixture: ComponentFixture<MenuHeaderComponent>;
+import { MenuHeaderDropdownComponent } from './menu-header-dropdown.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+
+describe('MenuHeaderDropdownComponent', () => {
+  let component: MenuHeaderDropdownComponent;
+  let fixture: ComponentFixture<MenuHeaderDropdownComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MenuHeaderComponent],
+      imports: [MenuHeaderDropdownComponent],
       providers: [provideRouter([]), provideHttpClient()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MenuHeaderComponent);
+    fixture = TestBed.createComponent(MenuHeaderDropdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

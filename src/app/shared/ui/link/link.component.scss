@@ -106,6 +106,7 @@
       outline-color: 'border-neutral-primary-inverse',
     )
   );
+  @include typo.text-style(text-lg, semibold, mobile);
   line-height: 24px;
 
   &::after {
@@ -126,7 +127,7 @@
   }
 
   @include bp.mq(desktop) {
-    @include typo.text-style(text-md, semibold, desktop);
+    @include typo.text-style(text-lg, semibold, desktop);
     line-height: 24px;
   }
 

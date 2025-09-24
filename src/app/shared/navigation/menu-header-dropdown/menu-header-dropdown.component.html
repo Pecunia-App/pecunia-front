@@ -1,0 +1,49 @@
+<!-- menu-dropdown.component.html -->
+<div class="dropdown" [class.open]="isOpen()">
+  <button
+    #dropdownBtn
+    id="menu-dropdown"
+    class="dropdown-toggle"
+    (click)="toggle()"
+    aria-haspopup="true"
+    [attr.aria-expanded]="isOpen()"
+    aria-controls="dropdown-menu"
+    (keydown)="onDropdownBtnKeydown($event)"
+  >
+    <img
+      class="avatar"
+      [src]="profileImage()"
+      alt="Photo de profil utilisateur"
+      width="32"
+      height="32"
+    />
+
+    @if (isDesktop()) {
+      <span class="user-name">{{ userName }}</span>
+    }
+
+    <app-ui-icon [name]="isOpen() ? 'chevron-up' : 'chevron-down'" size="md" />
+  </button>
+
+  @if (isOpen()) {
+    <ul
+      id="dropdown-menu"
+      class="dropdown-menu"
+      role="menu"
+      aria-labelledby="menu-dropdown"
+      tabindex="-1"
+      (keydown)="handleKeydown($event)"
+    >
+      <li role="menuitem" tabindex="0"><a routerLink="/profile">Profil</a></li>
+      <li role="menuitem" tabindex="0">
+        <a routerLink="/settings">Paramètres</a>
+      </li>
+      @if (isAdmin()) {
+        <li role="menuitem" tabindex="0"><a routerLink="/admin">Admin</a></li>
+      }
+      <li role="menuitem" tabindex="0">
+        <button (click)="logout()">Fermer session</button>
+      </li>
+    </ul>
+  }
+</div>
