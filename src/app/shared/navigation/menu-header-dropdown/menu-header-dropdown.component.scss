@@ -45,7 +45,7 @@
       text-overflow: ellipsis;
       display: inline-block;
     }
-    &:focus {
+    &:focus-visible {
       outline: solid 3px;
       @include theme.themed-block(
         (
