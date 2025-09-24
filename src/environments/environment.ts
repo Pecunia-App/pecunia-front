@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
+  apiUrl: import.meta.env.NG_APP_API_URL,
   testPassword: 'Password123!',
 };

@@ -1,56 +1,67 @@
 import { Routes } from '@angular/router';
-import { PocBoutonComponent } from './pages/poc-bouton/poc-bouton.component';
-import { HomepageComponent } from './pages/homepage/homepage.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { authGuard } from './_core/guards/auth.guard';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { AdminComponent } from './pages/admin/admin.component';
 import { roleGuard } from './_core/guards/role.guard';
 import { visitorOnlyGuard } from './_core/guards/visitor-only.guard';
-import { ParametersComponent } from './pages/parameters/parameters.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomepageComponent,
+    loadComponent: () =>
+      import('./pages/homepage/homepage.component').then(
+        (m) => m.HomepageComponent
+      ),
     canActivate: [visitorOnlyGuard],
   },
-  { path: 'poc-bouton', component: PocBoutonComponent },
   {
     path: 'login',
-    component: LoginComponent,
+    loadComponent: () =>
+      import('./pages/login/login.component').then((m) => m.LoginComponent),
     canActivate: [visitorOnlyGuard],
   },
   {
     path: 'register',
-    component: RegisterComponent,
+    loadComponent: () =>
+      import('./pages/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
     canActivate: [visitorOnlyGuard],
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    loadComponent: () =>
+      import('./pages/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent
+      ),
     canActivate: [authGuard],
   },
   {
     path: 'transactions',
-    component: TransactionsComponent,
+    loadComponent: () =>
+      import('./pages/transactions/transactions.component').then(
+        (m) => m.TransactionsComponent
+      ),
     canActivate: [authGuard],
   },
   {
     path: 'settings',
-    component: ParametersComponent,
+    loadComponent: () =>
+      import('./pages/parameters/parameters.component').then(
+        (m) => m.ParametersComponent
+      ),
     canActivate: [authGuard],
   },
   {
     path: 'admin',
-    component: AdminComponent,
+    loadComponent: () =>
+      import('./pages/admin/admin.component').then((m) => m.AdminComponent),
     canActivate: [roleGuard('ROLE_ADMIN')],
   },
   {
     path: '**',
-    component: HomepageComponent,
+    loadComponent: () =>
+      import('./pages/homepage/homepage.component').then(
+        (m) => m.HomepageComponent
+      ),
     canActivate: [visitorOnlyGuard],
   },
 ];
