@@ -53,11 +53,22 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'parameters',
+    component: ParametersComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [authGuard],
+  },
+  {
     path: 'admin',
     loadComponent: () =>
       import('./pages/admin/admin.component').then((m) => m.AdminComponent),
     canActivate: [roleGuard('ROLE_ADMIN')],
   },
+
   {
     path: '**',
     loadComponent: () =>

@@ -64,7 +64,12 @@ export class AuthService {
       .post(`${AuthService.API_URL}/auth/login`, credentials, {
         responseType: 'text',
       })
-      .pipe(tap((token) => this.saveToken(token)));
+      .pipe(
+        tap((token) => {
+          console.log('Token JWT reçu :', token); // ✅ Affiche le JWT brut
+          this.saveToken(token);
+        })
+      );
   }
   // 8. Utilisable au démarrage de l'app (pour invalider un token expiré au reload)
   verifyToken(): void {
@@ -87,5 +92,26 @@ export class AuthService {
   // **** registration *****
   register(user: User) {
     return this.http.post(`${AuthService.API_URL}/auth/register`, user);
+  }
+
+  getDecodedToken(): AppJwtPayload | null {
+    const token = this._token();
+    if (!token) return null;
+    try {
+      return jwtDecode<AppJwtPayload>(token);
+    } catch (err) {
+      console.error('Erreur lors du décodage du JWT', err);
+      return null;
+    }
+  }
+
+  getUserId(): number | null {
+    const decoded = this.getDecodedToken();
+    return decoded && typeof decoded.id === 'number' ? decoded.id : null;
+  }
+
+  getUserEmail(): string | null {
+    const decoded = this.getDecodedToken();
+    return decoded?.sub ?? null;
   }
 }

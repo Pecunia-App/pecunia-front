@@ -17,8 +17,8 @@ export interface RegisterForm extends Credentials {
 }
 
 // utilisé pour le profile
-export interface ProfileForm
-  extends Partial<Omit<RegisterForm, 'confirmPassword'>> {
+export interface ProfileForm extends Partial<RegisterForm> {
+  id?: number;
   profilePicture?: File | null;
 }
 
