@@ -39,7 +39,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'parameters',
+    path: 'settings',
     component: ParametersComponent,
     canActivate: [authGuard],
   },

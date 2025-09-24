@@ -1,0 +1,110 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as bp;
+
+.dropdown {
+  position: relative;
+
+  @include typo.text-style(text-lg, semibold, mobile);
+
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-primary',
+      color: 'text-neutral-secondary',
+    )
+  );
+  @include bp.mq(desktop) {
+    @include typo.text-style(text-lg, semibold, desktop);
+    line-height: 24px;
+  }
+
+  &.open .dropdown-menu {
+    display: block;
+  }
+
+  .dropdown-toggle {
+    @include layout.flex($align: center, $gap: 0.5rem);
+    @include layout.radius(md);
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    .avatar {
+      @include layout.radius('pill');
+      object-fit: cover;
+      width: 36px;
+      height: 36px;
+    }
+
+    .user-name {
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+    }
+    &:focus {
+      outline: solid 3px;
+      @include theme.themed-block(
+        (
+          outline-color: 'border-primary-focus',
+          border-color: 'border-primary-focus',
+        )
+      );
+    }
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    right: -5px;
+    top: 54px;
+    width: 100%;
+    min-width: max-content;
+    padding: 0;
+    @include theme.themed-block(
+      (
+        background-color: 'background-neutral-primary',
+        color: 'text-neutral-secondary',
+      )
+    );
+    @include layout.radius('md');
+    @include shadows.shadow(md);
+    list-style: none;
+    z-index: 2000;
+
+    li {
+      @include layout.padding(space-16);
+      &:hover,
+      &:focus-within {
+        @include theme.themed-block(
+          (
+            background-color: 'background-primary-hover-ghost',
+            color: 'text-neutral-default-static',
+          )
+        );
+      }
+
+      a,
+      button {
+        all: unset;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        text-align: left;
+      }
+    }
+
+    li:first-child {
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+    }
+
+    li:last-child {
+      border-bottom-left-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+    }
+  }
+}
