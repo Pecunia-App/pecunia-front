@@ -1,4 +1,8 @@
-<header class="menu-desk-wrapper" role="navigation" aria-label="Menu en entête de page">
+<header
+  class="menu-desk-wrapper"
+  role="navigation"
+  aria-label="Menu en entête de page"
+>
   <div class="menu-logo">
     <img
       [src]="
@@ -28,7 +32,7 @@
         Aperçu
       </app-ui-link>
       <app-ui-link
-        [routerLink]="['/parameters']"
+        [routerLink]="['/settings']"
         variant="neutral"
         [isSubmenu]="true"
       >
@@ -36,4 +40,5 @@
       </app-ui-link>
     </nav>
   }
+  <app-menu-header-dropdown/>
 </header>
