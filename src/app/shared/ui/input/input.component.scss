@@ -48,6 +48,17 @@
         color: 'text-neutral-default',
       )
     );
+
+    &[readonly] {
+      cursor: not-allowed;
+      @include theme.themed-block(
+        (
+          background-color: 'background-secondary-disabled',
+          color: 'text-neutral-disabled',
+          border-color: 'border-neutral-disabled',
+        )
+      );
+    }
   }
   &:hover:not([disabled]):not([readonly]) {
     @include theme.themed-block(

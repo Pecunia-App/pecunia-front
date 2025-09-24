@@ -1,15 +1,15 @@
 <div
   [ngClass]="['ui-input__wrapper', `ui-input--${this._width()}`]"
   [style.minWidth]="
-  typeof _minWidth() === 'number' ? _minWidth() + 'px' : _minWidth()
-"
-[style.maxWidth]="
-  typeof _maxWidth() === 'number' ? _maxWidth() + 'px' : _maxWidth()
-"
+    typeof _minWidth() === 'number' ? _minWidth() + 'px' : _minWidth()
+  "
+  [style.maxWidth]="
+    typeof _maxWidth() === 'number' ? _maxWidth() + 'px' : _maxWidth()
+  "
 >
   @if (_label()) {
     <label class="ui-input__label" [attr.for]="_id()">
-      {{ _label() }} 
+      {{ _label() }}
     </label>
   }
 
@@ -21,7 +21,7 @@
       [name]="_name()"
       [placeholder]="_placeholder()"
       [disabled]="_disabled()"
-      [readonly]="false"
+      [readonly]="_readonly()"
       [attr.aria-label]="_ariaLabel()"
       [attr.aria-describedby]="_ariaDescribedBy()"
       [required]="_required()"
@@ -35,6 +35,8 @@
   </div>
 
   @if (_helper()) {
-    <div class="ui-input__helper" [attr.data-test]="'helper-' + _id()">{{ _helper() }}</div>
+    <div class="ui-input__helper" [attr.data-test]="'helper-' + _id()">
+      {{ _helper() }}
+    </div>
   }
 </div>

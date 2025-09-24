@@ -96,4 +96,12 @@ export class FormUtilsService {
     if (control.hasError('maxlength')) return this.getMaxLengthError(control);
     return this.getStandardErrorMessage(control);
   }
+
+  showSuccess(message: string): void {
+    alert('✅ ' + message);
+  }
+
+  showError(message: string): void {
+    alert('❌ ' + message);
+  }
 }

@@ -17,3 +17,39 @@
 fieldset {
   @include layout.flex($dir: column, $gap: space-8);
 }
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  app-ui-button:last-child {
+    margin-left: auto;
+  }
+}
+
+:host ::ng-deep {
+  // Style pour les inputs désactivés
+  .disabled-input {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+}
+
+.password-fields {
+  margin-top: 1rem;
+
+  .show-password {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

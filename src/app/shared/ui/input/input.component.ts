@@ -59,6 +59,7 @@ export class InputComponent implements ControlValueAccessor {
   readonly _ariaDescribedBy = signal<string | null>(null);
   readonly _required = signal<boolean>(false);
   readonly _disabled = signal<boolean>(false);
+  readonly _readonly = signal<boolean>(false);
   //formulaire
   readonly _name = signal<string | null>(null);
   readonly _id = signal<string | null>(null);
@@ -112,6 +113,9 @@ export class InputComponent implements ControlValueAccessor {
   }
   @Input() set disabled(value: boolean) {
     this._disabled.set(value ?? false);
+  }
+  @Input() set readonly(value: boolean) {
+    this._readonly.set(value ?? false);
   }
   @Input() set name(value: string | null) {
     this._name.set(value ?? null);
