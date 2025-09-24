@@ -16,10 +16,16 @@ export interface RegisterForm extends Credentials {
   confirmPassword: string;
 }
 
+export interface PasswordUpdateForm {
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 // utilisé pour le profile
 export interface ProfileForm extends Partial<RegisterForm> {
   id?: number;
   profilePicture?: File | null;
+  passwordUpdate?: PasswordUpdateForm;
 }
 
 /**

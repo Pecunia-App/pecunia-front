@@ -8,7 +8,11 @@ import {
 } from '@angular/forms';
 import { FormUtilsService } from '../../../_core/services/form-utils.service';
 import { UserService } from '../../../_core/services/user/user.service';
-import { ProfileForm, TypedFormGroup } from '../../../_core/models/forms.model';
+import {
+  PasswordUpdateForm,
+  ProfileForm,
+  TypedFormGroup,
+} from '../../../_core/models/forms.model';
 import { InputComponent } from '../../ui/input/input.component';
 import { IconComponent } from '../../ui/icon/icon.component';
 import { ButtonComponent } from '../../ui/button/button.component';
@@ -91,14 +95,7 @@ export class ProfileFormComponent implements OnInit {
       email: formValue.email,
     };
 
-    // Vérification du mot de passe uniquement si modifié
-    if (
-      formValue.password &&
-      formValue.password === formValue.confirmPassword
-    ) {
-      updates.password = formValue.password;
-    }
-
+    // Mise à jour des infos de profil (firstname, lastname, email)
     this.userService.updateProfile(updates).subscribe({
       next: () => {
         this.formUtils.showSuccess('Profil mis à jour avec succès');
@@ -110,6 +107,30 @@ export class ProfileFormComponent implements OnInit {
         console.error('Erreur :', err);
       },
     });
+
+    // 🔑 Mise à jour du mot de passe (si renseigné et confirmé)
+    if (
+      formValue.password &&
+      formValue.password === formValue.confirmPassword
+    ) {
+      const passwordUpdate: PasswordUpdateForm = {
+        newPassword: formValue.password,
+        confirmNewPassword: formValue.confirmPassword,
+      };
+
+      this.userService.updatePassword(passwordUpdate).subscribe({
+        next: () => {
+          this.formUtils.showSuccess('Mot de passe mis à jour avec succès');
+          this.resetPasswordFields();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.formUtils.showError(
+            'Erreur lors de la mise à jour du mot de passe'
+          );
+          console.error('Erreur mot de passe :', err);
+        },
+      });
+    }
   }
 
   // Nouvelle méthode pour réinitialiser les champs de mot de passe
