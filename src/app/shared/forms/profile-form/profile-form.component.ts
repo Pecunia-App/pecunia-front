@@ -1,75 +1,168 @@
-import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FormUtilsService } from '../../../_core/services/form-utils.service';
+import { UserService } from '../../../_core/services/user/user.service';
+import { ProfileForm, TypedFormGroup } from '../../../_core/models/forms.model';
 import { InputComponent } from '../../ui/input/input.component';
 import { IconComponent } from '../../ui/icon/icon.component';
 import { ButtonComponent } from '../../ui/button/button.component';
-import { FormUtilsService } from '../../../_core/services/form-utils.service';
-import { ProfileForm } from '../../../_core/models/forms.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-form',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     InputComponent,
     IconComponent,
     ButtonComponent,
   ],
   templateUrl: './profile-form.component.html',
-  styleUrl: './profile-form.component.scss',
+  styleUrls: ['./profile-form.component.scss'],
 })
-export class ProfileFormComponent {
-  private formBuilder = inject(FormBuilder);
+export class ProfileFormComponent implements OnInit {
   private formUtils = inject(FormUtilsService);
-  public isSubmitted = false;
+  private userService = inject(UserService);
+  private formBuilder = inject(FormBuilder);
+  showPassword = false;
 
-  profileForm: FormGroup = this.formBuilder.group({
-    firstname: ['', [Validators.required, Validators.minLength(2)]],
-    lastname: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(12)]],
-    profilePicture: [null],
-  });
-
-  isFieldInError(field: keyof ProfileForm): boolean {
-    return this.formUtils.isFieldInError<ProfileForm>(
-      this.profileForm,
-      field,
-      this.isSubmitted
-    );
-  }
-  getFieldStatus(field: keyof ProfileForm): 'error' | 'success' | null {
-    if (this.isFieldInError(field)) return 'error';
-    if (this.profileForm.controls[field].valid) return 'success';
-    return null;
-  }
-  handleFieldErrors(field: keyof ProfileForm): string {
-    const control = this.profileForm.controls[field];
-    if (!this.isFieldInError(field)) return '';
-
-    switch (field) {
-      case 'firstname':
-        return this.formUtils.getNameError(control);
-      case 'lastname':
-        return this.formUtils.getNameError(control);
-      case 'email':
-        return this.formUtils.getEmailError(control);
-      case 'password':
-        return this.formUtils.getPasswordError(control);
-      default:
-        return this.formUtils.getStandardErrorMessage(control);
+  profileForm: TypedFormGroup<ProfileForm> = this.formBuilder.group(
+    {
+      firstname: ['', [Validators.minLength(2)]],
+      lastname: ['', [Validators.minLength(2)]],
+      email: ['', [Validators.email]],
+      password: ['', [Validators.minLength(12)]],
+      confirmPassword: ['', [Validators.minLength(12)]],
+    },
+    {
+      validators: this.passwordMatchValidator.bind(this),
     }
+  ) as TypedFormGroup<ProfileForm>;
+
+  isEditMode = false;
+
+  ngOnInit() {
+    this.loadUserData();
+    // Désactiver tous les champs au chargement
+    Object.keys(this.profileForm.controls).forEach((key) => {
+      const control = this.profileForm.get(key);
+      if (control) {
+        control.disable();
+      }
+    });
   }
 
-  onSubmit() {
-    this.isSubmitted = true;
+  private loadUserData(): void {
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.profileForm.patchValue({
+          firstname: user.firstname,
+          lastname: user.lastname,
+          email: user.email,
+        });
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération du user :', err);
+      },
+    });
+  }
+
+  onSubmit(): void {
     if (this.profileForm.valid) {
-      console.log('Formulaire soumis:', this.profileForm.value);
+      this.handleConfirm();
     }
+  }
+
+  // Amélioration de handleConfirm
+  handleConfirm(): void {
+    if (!this.profileForm.valid) return;
+
+    const formValue = this.profileForm.value;
+    const updates: Partial<ProfileForm> = {
+      firstname: formValue.firstname,
+      lastname: formValue.lastname,
+      email: formValue.email,
+    };
+
+    // Vérification du mot de passe uniquement si modifié
+    if (
+      formValue.password &&
+      formValue.password === formValue.confirmPassword
+    ) {
+      updates.password = formValue.password;
+    }
+
+    this.userService.updateProfile(updates).subscribe({
+      next: () => {
+        this.formUtils.showSuccess('Profil mis à jour avec succès');
+        this.toggleEditMode();
+        this.resetPasswordFields();
+      },
+      error: (err: HttpErrorResponse) => {
+        this.formUtils.showError('Erreur lors de la mise à jour du profil');
+        console.error('Erreur :', err);
+      },
+    });
+  }
+
+  // Nouvelle méthode pour réinitialiser les champs de mot de passe
+  private resetPasswordFields(): void {
+    this.profileForm.patchValue({
+      password: '',
+      confirmPassword: '',
+    });
+  }
+
+  toggleEditMode(): void {
+    this.isEditMode = !this.isEditMode;
+    if (!this.isEditMode) {
+      this.loadUserData();
+    }
+    // Activer/désactiver tous les champs du formulaire
+    Object.keys(this.profileForm.controls).forEach((key) => {
+      const control = this.profileForm.get(key);
+      if (control && !this.isEditMode) {
+        control.disable();
+      } else if (control && this.isEditMode) {
+        control.enable();
+      }
+    });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  // Amélioration du validateur de mot de passe
+  private passwordMatchValidator(
+    form: FormGroup
+  ): null | { passwordMismatch: boolean } {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+
+    if (!password && !confirmPassword) return null;
+
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  }
+
+  // Amélioration de la gestion des erreurs
+  getErrorMessage(controlName: string): string {
+    const control = this.profileForm.get(controlName);
+    if (!control || !control.errors) return '';
+
+    if (control.errors['required']) return 'Ce champ est requis';
+    if (control.errors['minlength']) return 'Minimum 2 caractères requis';
+    if (control.errors['email']) return 'Email invalide';
+    if (control.errors['passwordMismatch'])
+      return 'Les mots de passe ne correspondent pas';
+
+    return '';
   }
 }
