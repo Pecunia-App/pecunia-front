@@ -1,0 +1,93 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  @include typo.text-style(text-md, regular, desktop);
+  @include theme.themed-block(
+    (
+      color: 'text-neutral-default',
+    )
+  );
+}
+
+.radio-group {
+  @include layout.flex($dir: row, $gap: space-48);
+  justify-content: center;
+  align-items: center;
+  @include layout.radius(md);
+  @include layout.padding(space-8, 0, space-4, 0);
+  @include layout.margin(space-6, 0, 0, 0);
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-secondary',
+      border-color: 'border-neutral-secondary-inverse',
+      color: 'text-neutral-default',
+    )
+  );
+  border: solid 1px;
+  outline: 2px solid transparent;
+  background-color: transparent;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  padding-left: 30px;
+  user-select: none;
+  margin-bottom: 8px;
+
+  input[type='radio'] {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  span {
+    position: relative;
+    padding-left: 5px;
+  }
+
+  span::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: white;
+    transition: all 0.2s ease;
+  }
+
+  input[type='radio']:checked ~ span::before {
+    @include theme.themed-block(
+      (
+        outline-color: 'border-primary-focus',
+        border-color: 'border-primary-focus',
+        background-color: 'background-primary-focus',
+      )
+    );
+  }
+
+  input[type='radio']:checked ~ span::after {
+    content: '';
+    position: absolute;
+    left: -21px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: white;
+  }
+}
