@@ -3,4 +3,7 @@
   <main class="connected-content">
     <ng-content></ng-content>
   </main>
+  @if (isMobile()) {
+    <app-menu-footer />
+  }
 </div>

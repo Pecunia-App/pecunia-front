@@ -99,7 +99,8 @@
   );
 }
 
-.ui-link--submenu {
+.ui-link--submenu,
+.ui-link--footer--menu {
   @include theme.themed-block(
     (
       color: 'text-neutral-secondary',
@@ -142,5 +143,17 @@
       transform: scaleX(1);
       height: 3px;
     }
+  }
+}
+.ui-link--footer--menu {
+  @include layout.padding(0);
+  @include typo.text-style(text-md, semibold, mobile);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  &::after {
+    bottom: -5px;
+    transform: scaleX(0);
   }
 }

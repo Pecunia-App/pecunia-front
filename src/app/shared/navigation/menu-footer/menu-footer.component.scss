@@ -1,0 +1,29 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/shadows' as shadows;
+
+.menu-mobile-footer {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  border: solid 1px transparent;
+  min-height: 60px;
+  @include layout.padding(space-4, space-12);
+  z-index: 10;
+
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-primary',
+      color: 'text-neutral-secondary',
+      border-bottom-color: 'common-neutral-low',
+    )
+  );
+  bottom: 0;
+  .menu-items {
+    @include layout.flex($dir: row, $justify: space-between);
+    height: 54px;
+  }
+  app-ui-button {
+    align-self: center;
+  }
+}
