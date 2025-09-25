@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TransactionsComponent } from './transactions.component';
+import { TransactionsCreateComponent } from './transactions-create.component';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 
-describe('TransactionsComponent', () => {
-  let component: TransactionsComponent;
-  let fixture: ComponentFixture<TransactionsComponent>;
+describe('TransactionsCreateComponent', () => {
+  let component: TransactionsCreateComponent;
+  let fixture: ComponentFixture<TransactionsCreateComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TransactionsComponent],
+      imports: [TransactionsCreateComponent],
       providers: [provideRouter([]), provideHttpClient()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TransactionsComponent);
+    fixture = TestBed.createComponent(TransactionsCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

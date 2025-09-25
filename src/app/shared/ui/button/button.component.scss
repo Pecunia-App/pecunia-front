@@ -249,3 +249,11 @@
     }
   }
 }
+
+//override classes
+.menu-footer-btn {
+  @include shadows.shadow(lg);
+  :host-context([data-theme='dark']) & {
+    @include shadows.shadow(lg, dark);
+  }
+}
