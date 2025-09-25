@@ -1,0 +1,18 @@
+<fieldset>
+    @if (legend){
+      <legend>{{ legend }}</legend>
+    }
+  <div class="radio-group">
+      <label *ngFor="let option of options" class="radio-option">
+    <input
+      type="radio"
+      [name]="name"
+      [value]="option.value"
+      [checked]="option.value === value"
+      [disabled]="disabled"
+      (change)="selectValue(option.value)"
+    />
+    <span>{{ option.label }}</span>
+  </label>
+  </div>
+</fieldset>
