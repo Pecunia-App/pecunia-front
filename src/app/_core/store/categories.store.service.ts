@@ -25,9 +25,12 @@ export class CategoriesStoreService {
       personal: this.categoriesService.getUserCategories(userId),
     }).subscribe({
       next: ({ global, personal }) => {
-        this.globalCategories.set(global);
-        this.userCategories.set(personal);
-        this.allCategories.set([...global, ...personal]);
+        const globalList = global ?? [];
+        const personalList = personal ?? [];
+
+        this.globalCategories.set(globalList);
+        this.userCategories.set(personalList);
+        this.allCategories.set([...globalList, ...personalList]);
         this.isLoading.set(false);
         this.loaded = true;
       },
