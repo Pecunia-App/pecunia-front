@@ -11,6 +11,7 @@ import { LoginForm } from '../../../_core/models/forms.model';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { FormUtilsService } from '../../../_core/services/form-utils.service';
 import { AuthService } from '../../../_core/services/auth/auth.service';
+import { UserService } from '../../../_core/services/user/user.service';
 import { Router } from '@angular/router';
 import { NzAlertComponent } from 'ng-zorro-antd/alert';
 import { CommonModule } from '@angular/common';
@@ -32,6 +33,7 @@ export class LoginFormComponent {
   private formBuilder: FormBuilder = inject(FormBuilder);
   private formUtils = inject(FormUtilsService);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private router = inject(Router);
   private apiError: string | null = null;
 
@@ -94,14 +96,38 @@ export class LoginFormComponent {
 
   onSubmit() {
     this.isSubmitted = true;
+
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
-        next: () => this.router.navigate(['/transactions']),
+        next: () => {
+          this.userService.getCurrentUser().subscribe({
+            next: (user) => {
+              if (!user?.id) {
+                console.error(
+                  'Impossible de récupérer le user depuis le backend'
+                );
+                this.router.navigate(['/login']);
+                return;
+              }
+
+              this.userService.getWalletByUserId(user.id).subscribe({
+                next: (wallet) => {
+                  if (wallet) {
+                    this.router.navigate(['/transactions']);
+                  } else {
+                    this.router.navigate(['/first-wallet']);
+                  }
+                },
+                error: () => this.router.navigate(['/first-wallet']),
+              });
+            },
+            error: () => this.router.navigate(['/login']),
+          });
+        },
         error: (err) => {
           this.isSubmitted = false;
           this.apiError =
             typeof err.error === 'string' ? err.error : 'Erreur inconnue';
-          // Marque les champs comme touchés pour forcer l'affichage de l'erreur
           this.loginForm.controls['email'].markAsTouched();
           this.loginForm.controls['password'].markAsTouched();
         },
