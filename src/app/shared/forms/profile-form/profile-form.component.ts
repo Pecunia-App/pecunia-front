@@ -89,25 +89,33 @@ export class ProfileFormComponent implements OnInit {
     if (!this.profileForm.valid) return;
 
     const formValue = this.profileForm.value;
-    const updates: Partial<ProfileForm> = {
-      firstname: formValue.firstname,
-      lastname: formValue.lastname,
-      email: formValue.email,
-    };
+    const updates: Partial<ProfileForm> = {};
 
-    // Mise à jour des infos de profil (firstname, lastname, email)
-    this.userService.updateProfile(updates).subscribe({
-      next: () => {
-        this.formUtils.showSuccess('Profil mis à jour avec succès');
-        this.toggleEditMode();
-        this.resetPasswordFields();
-      },
-      error: (err: HttpErrorResponse) => {
-        this.formUtils.showError('Erreur lors de la mise à jour du profil');
-        console.error('Erreur :', err);
-      },
-    });
+    // ajoute uniquement les champs remplis
+    if (formValue.firstname) {
+      updates.firstname = formValue.firstname;
+    }
+    if (formValue.lastname) {
+      updates.lastname = formValue.lastname;
+    }
+    if (formValue.email) {
+      updates.email = formValue.email;
+    }
 
+    // n'appelle le backend que s'il y a au moins un champ à mettre à jour
+    if (Object.keys(updates).length > 0) {
+      this.userService.updateProfile(updates).subscribe({
+        next: () => {
+          this.formUtils.showSuccess('Profil mis à jour avec succès');
+          this.toggleEditMode();
+          this.resetPasswordFields();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.formUtils.showError('Erreur lors de la mise à jour du profil');
+          console.error('Erreur :', err);
+        },
+      });
+    }
     // 🔑 Mise à jour du mot de passe (si renseigné et confirmé)
     if (
       formValue.password &&
