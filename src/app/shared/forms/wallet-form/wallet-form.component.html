@@ -46,27 +46,12 @@
     </div>
   }
 
-  <fieldset>
-    <app-ui-input
-      name="currency"
-      label="Sélectionner une devise"
-      [(ngModel)]="newWallet.currency"
-      #currency="ngModel"
-      placeholder="EUR"
-      width="full"
-      [required]="true"
-      [type]="'text'"
-    >
-    </app-ui-input>
-
-    @if (currency.errors && walletForm.submitted) {
-      <div>
-          @if (currency.errors['required']) {
-          <span>La devise est requise</span>
-          }
-      </div>
-    }
-  </fieldset>
+  <app-ui-radio-group
+    name="currency"
+    [options]="currencyOptions"
+    [(ngModel)]="newWallet.currency"
+    legend="Sélectionnez la devise"
+  ></app-ui-radio-group>
 
   <app-ui-button 
     type="submit" 
