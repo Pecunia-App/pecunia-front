@@ -4,6 +4,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+# copy .env.production generate by CD workflow
+COPY .env.production .env.production
 RUN npm run build
 
 # Stage 2: Serve the application with Nginx
