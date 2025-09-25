@@ -24,6 +24,7 @@ export class LinkComponent {
   readonly _disabled = signal<boolean>(false);
   readonly _tabIndex = signal<number>(0);
   readonly _isSubMenu = signal<boolean>(false);
+  readonly _isFooterMenu = signal<boolean>(false);
 
   // Focus state pour l'accessibilité/style
   readonly _isFocused = signal(false);
@@ -55,6 +56,9 @@ export class LinkComponent {
   @Input() set isSubmenu(value: boolean) {
     this._isSubMenu.set(value ?? false);
   }
+  @Input() set isFooterMenu(value: boolean) {
+    this._isFooterMenu.set(value ?? false);
+  }
 
   readonly cssClasses = computed(() =>
     [
@@ -62,6 +66,7 @@ export class LinkComponent {
       `ui-link--${this._variant()}`,
       `ui-link--${this._width()}`,
       this._isSubMenu() ? 'ui-link--submenu' : '',
+      this._isFooterMenu() ? 'ui-link--footer--menu' : '',
       this._disabled() ? 'ui-link--disabled' : '',
     ]
       .filter(Boolean)

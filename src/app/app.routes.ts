@@ -35,11 +35,27 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'poc-boutons',
+    loadComponent: () =>
+      import('./pages/poc-bouton/poc-bouton.component').then(
+        (m) => m.PocBoutonComponent
+      ),
+    canActivate: [authGuard],
+  },
+  {
     path: 'transactions',
     loadComponent: () =>
-      import('./pages/transactions/transactions.component').then(
-        (m) => m.TransactionsComponent
-      ),
+      import(
+        './pages/transactions/transactions-list/transactions-list.component'
+      ).then((m) => m.TransactionsListComponent),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'transactions/add',
+    loadComponent: () =>
+      import(
+        './pages/transactions/transactions-create/transactions-create.component'
+      ).then((m) => m.TransactionsCreateComponent),
     canActivate: [authGuard],
   },
   {

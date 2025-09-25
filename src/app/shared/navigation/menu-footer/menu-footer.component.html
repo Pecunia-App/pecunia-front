@@ -1,0 +1,55 @@
+<footer
+  class="menu-mobile-footer"
+  role="navigation"
+  aria-label="Menu mobile principal"
+>
+  <nav class="menu-items">
+    <app-ui-link
+      [routerLink]="['/transactions']"
+      variant="neutral"
+      [isFooterMenu]="true"
+    >
+      <app-ui-icon name="clipboard-list" />
+      Transactions
+    </app-ui-link>
+
+    <app-ui-link
+      [routerLink]="['/dashboard']"
+      variant="neutral"
+      [isFooterMenu]="true"
+    >
+      <app-ui-icon name="chart-column-increasing" />
+      Aperçu
+    </app-ui-link>
+
+    <app-ui-button
+      variant="primary"
+      size="square"
+      radius="large"
+      width="auto"
+      ariaLabel="ajouter la transaction"
+      [overideClass]="'menu-footer-btn'"
+      (buttonClick)="handleButtonClick()"
+    >
+      <app-ui-icon name="plus" size="md" [isDecorative]="false" />
+    </app-ui-button>
+
+    <app-ui-link
+      [routerLink]="['/profile']"
+      variant="neutral"
+      [isFooterMenu]="true"
+    >
+      <app-ui-icon name="user" />
+      Profil
+    </app-ui-link>
+
+    <app-ui-link
+      [routerLink]="['/settings']"
+      variant="neutral"
+      [isFooterMenu]="true"
+    >
+      <app-ui-icon name="settings" />
+      Paramètres
+    </app-ui-link>
+  </nav>
+</footer>
