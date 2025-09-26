@@ -1,3 +1,24 @@
+## 0.6.0 (2025-09-26)
+
+### Feat
+
+- **menu-footer**: create mobile navigation
+- **change-forms-model,-user.service-and-profile-form-component**: possibility to modify password
+- **user.service.ts,-profile-form,-input.component,-auth.service**: show user informations+modify
+- **profile-form-component-and-profile-page-component**: add profile-form and profile components
+- **menu-header**: add focus-visible css
+- **menu-header**: create dropdown user without BDD connection
+- **menu-header**: create menu header without dropdown
+
+### Fix
+
+- **profile-and-profile-form.spec.ts-+profile-form.ts**: add providerHttpClient in spec.ts
+- **icon**: remove httpclient to handle icon path
+
+### Perf
+
+- add dep to manage env variables ; lazy load route ; add env for testing
+
 ## 0.5.0 (2025-08-29)
 
 ### Feat
