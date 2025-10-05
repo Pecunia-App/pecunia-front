@@ -30,6 +30,18 @@
     @include typo.text-style(text-md, semibold, desktop);
     line-height: 24px;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    @include theme.themed-block(
+      (
+        background-color: 'background-secondary-disabled',
+        border-color: 'border-secondary-disabled',
+        color: 'text-secondary-disabled',
+      )
+    );
+  }
 }
 
 :host-context([data-theme='dark']) .ui-btn {
