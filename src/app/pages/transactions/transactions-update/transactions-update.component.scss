@@ -1,0 +1,16 @@
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+h2 {
+  @include theme.themed-block(
+    (
+      color: 'text-neutral-secondary',
+    )
+  );
+}
+input {
+  color: black;
+}

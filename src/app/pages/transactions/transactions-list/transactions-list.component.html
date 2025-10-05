@@ -1,3 +1,52 @@
 <app-connected-layout>
-<p>transactions-list works!</p>
+  <section class="transactions-list">
+    @if (page(); as p) {
+      <div class="transactions-list-pagination">
+        <app-ui-button
+          variant="secondary"
+          (buttonClick)="prevPage()"
+          minWidth="100px"
+          ariaLabel="page précédente"
+          [disabled]="currentPage() === 0"
+        >
+          Précédent
+        </app-ui-button>
+        Page {{ currentPage() + 1 }} / {{ p.totalPages }}
+        <app-ui-button
+          variant="secondary"
+          (buttonClick)="nextPage()"
+          minWidth="100px"
+          ariaLabel="page suivante"
+          [disabled]="currentPage() + 1 >= p.totalPages"
+        >
+          Suivant
+        </app-ui-button>
+      </div>
+    }
+    <div class="transactions-group-wrapper">
+      @for (group of transactionsGroupedByDate(); track group[0]) {
+        <div class="transactions-group">
+          <div class="group-header">
+            <span class="group-date">{{ group[0] }}</span>
+            <span
+              class="group-total"
+              [ngClass]="{
+                credit: totalForDay(group[1]).amount > 0,
+                debit: totalForDay(group[1]).amount < 0,
+              }"
+            >
+              {{ formatAmount(totalForDay(group[1])) }}
+            </span>
+          </div>
+          <ul class="group-list">
+            @for (tx of group[1]; track tx.id) {
+              <li>
+                <app-transaction-card [transaction]="tx"></app-transaction-card>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  </section>
 </app-connected-layout>
