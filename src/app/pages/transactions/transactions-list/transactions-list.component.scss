@@ -1,0 +1,85 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+.transactions-list {
+  @include layout.flex($dir: column, $align: center, $gap: space-24);
+  @include layout.padding(space-24, 0);
+  margin: 0 auto;
+  min-width: 358px;
+  max-width: 90%;
+  @include typo.text-style(text-md, semibold, mobile);
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(text-md, semibold, desktop);
+    line-height: 24px;
+  }
+  @include theme.themed-block(
+    (
+      color: 'text-neutral-default',
+    )
+  );
+
+  .transactions-group-wrapper {
+    width: 100%;
+    @include layout.radius(md);
+    @include theme.themed-block(
+      (
+        background: 'background-neutral-primary',
+        color: 'text-neutral-secondary',
+      )
+    );
+  }
+
+  .transactions-group {
+    position: relative;
+    &:not(:last-child):after {
+      position: absolute;
+      content: '';
+      width: 98%;
+      height: 1px;
+      background: #ddd;
+      transform: translateX(-50%);
+      left: 50%;
+      @include theme.themed-block(
+        (
+          background-color: 'border-neutral-secondary-default',
+        )
+      );
+    }
+  }
+  .group-header {
+    @include layout.padding(space-10, space-16);
+    line-height: 24px;
+    @include layout.flex($justify: space-between);
+
+    @include breakpoints.mq(desktop) {
+      @include layout.padding(space-12, space-16);
+    }
+  }
+
+  .group-date {
+    font-weight: 400;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .transactions-group:last-child li:last-child ::ng-deep .transaction-card {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  @include breakpoints.mq(desktop) {
+    max-width: 808px;
+  }
+}
+
+.transactions-list-pagination {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}

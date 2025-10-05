@@ -1,0 +1,51 @@
+<article
+  class="transaction-card"
+  [class.no-provider]="!hasProvider()"
+  tabindex="0"
+  role="button"
+    (click)="goToTransaction()"
+  (keydown.enter)="goToTransaction()"
+  (keydown.space)="goToTransaction()"
+>
+  <!-- Catégorie -->
+  <div class="category">
+    <app-ui-badge
+      [iconName]="transaction.category.icon"
+      [bgColorClass]="transaction.category.color"
+      ariaLabel="Catégorie Courses"
+    ></app-ui-badge>
+    <span class="category-name">{{ transaction.category.categoryName }}</span>
+  </div>
+  <!-- Fournisseur (optionnel) -->
+  @if (transaction.provider?.providerName) {
+    <div class="provider">
+      {{ transaction.provider?.providerName }}
+    </div>
+  } @else if (isDesktop()) {
+    <span class="desktop-only desktop-dash"></span>
+  }
+
+  <!-- Tags (max 3 + +X) -->
+  @if (transaction.tags && transaction.tags.length > 0) {
+    <div class="tags">
+      @for (tag of transaction.tags.slice(0, 3); track tag.id) {
+        <span class="tag">{{ tag.tagName }}</span>
+      }
+      @if (transaction.tags.length > 3) {
+        <span class="more">+{{ transaction.tags.length - 3 }}</span>
+      }
+    </div>
+  } @else if (isDesktop()) {
+    <span class="desktop-only desktop-dash"></span>
+  }
+  <!-- Montant -->
+  <div class="amount" [ngClass]="{ debit: isDebit(), credit: isCredit() }">
+    @if (isDebit()) {
+      -
+    }
+    @if (isCredit()) {
+      +
+    }
+    {{ formattedAmount() }}
+  </div>
+</article>
