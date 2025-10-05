@@ -1,0 +1,44 @@
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/layout' as layout;
+
+// Liste des backgrounds à générer
+$badge-backgrounds: (
+  'background-badge-blue-low',
+  'background-badge-blue-medium',
+  'background-badge-green-low',
+  'background-badge-green-medium',
+  'background-badge-grey',
+  'background-badge-orange-low',
+  'background-badge-orange-medium',
+  'background-badge-pink-low',
+  'background-badge-pink-medium',
+  'background-badge-red-low',
+  'background-badge-red-medium',
+  'background-badge-violet-low',
+  'background-badge-violet-medium',
+  'background-badge-yellow-low',
+  'background-badge-yellow-medium'
+);
+
+.ui-badge {
+  @include layout.flex-center;
+  @include layout.radius(pill);
+  width: 36px;
+  height: 36px;
+  transition: background 0.2s;
+  @include theme.themed-block(
+    (
+      color: 'icon-text-default-inverse',
+    )
+  );
+
+  @each $bg in $badge-backgrounds {
+    &.#{$bg} {
+      @include theme.themed-block(
+        (
+          background-color: $bg,
+        )
+      );
+    }
+  }
+}

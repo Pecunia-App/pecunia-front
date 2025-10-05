@@ -1,0 +1,11 @@
+<span
+  [ngClass]="cssClasses()"
+  [attr.aria-label]="ariaLabel"
+  role="img"
+>
+  <app-ui-icon
+    [name]="iconName"
+    [size]="iconSize"
+    [isDecorative]="!ariaLabel"
+  />
+</span>

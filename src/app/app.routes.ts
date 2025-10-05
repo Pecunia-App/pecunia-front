@@ -61,6 +61,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'transactions/update/:id',
+    loadComponent: () =>
+      import(
+        './pages/transactions/transactions-update/transactions-update.component'
+      ).then((m) => m.TransactionsUpdateComponent),
+    canActivate: [authGuard],
+  },
+  {
     path: 'settings',
     loadComponent: () =>
       import('./pages/parameters/parameters.component').then(
