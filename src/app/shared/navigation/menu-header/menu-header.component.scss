@@ -4,6 +4,7 @@
 .menu-desk-wrapper {
   position: fixed;
   width: 100%;
+  min-height: 64px;
   text-align: center;
   border: solid 1px transparent;
   @include layout.padding(space-10, space-12);
@@ -19,6 +20,31 @@
   top: 0;
 
   @include layout.flex($dir: row, $justify: space-between);
+
+  @media (min-width: 1440px) {
+    .menu-logo {
+      position: absolute;
+      left: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .menu-links {
+      justify-content: center;
+      align-items: center;
+      flex: 1 1 auto;
+    }
+
+    app-menu-header-dropdown {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }
 
 .menu-links {

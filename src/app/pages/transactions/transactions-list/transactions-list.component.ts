@@ -28,16 +28,26 @@ export class TransactionsListComponent implements OnInit {
   walletId = 6;
 
   ngOnInit(): void {
-    this.transactionService.getTransactions(this.walletId).subscribe((res) => {
-      this.transactions.set(res.content);
-      this.page.set(res.page);
-    });
+    this.loadTransactions(0);
+  }
+
+  /**
+   * Charge une page de transactions depuis le backend
+   */
+  loadTransactions(pageIndex: number): void {
+    this.transactionService
+      .getTransactions(this.walletId, pageIndex)
+      .subscribe((res) => {
+        this.transactions.set(res.content);
+        this.page.set(res.page);
+        this.currentPage.set(pageIndex);
+      });
   }
 
   // Regroupe les transactions par date (formatée)
   readonly transactionsGroupedByDate = computed(() => {
     const groups: Record<string, TransactionDTO[]> = {};
-    for (const t of this.paginatedTransactions()) {
+    for (const t of this.transactions()) {
       const date = this.formatDate(t.createdAt);
       groups[date] ??= [];
       groups[date].push(t);
@@ -74,30 +84,19 @@ export class TransactionsListComponent implements OnInit {
       minimumFractionDigits: 2,
     });
     const sign = amount.amount >= 0 ? '+' : '-';
-    return `${sign} ${formatted} ${amount.currencyCode}`;
-  }
-
-  //simulation pagination
-  paginatedTransactions() {
-    const page = this.page();
-    const all = this.transactions();
-    if (!page) return all;
-
-    const start = this.currentPage() * page.size;
-    const end = start + page.size;
-    return all.slice(start, end);
+    return `${sign} ${formatted} ${amount.currency}`;
   }
 
   prevPage() {
     if (this.currentPage() > 0) {
-      this.currentPage.update((v) => v - 1);
+      this.loadTransactions(this.currentPage() - 1);
     }
   }
 
   nextPage() {
     const p = this.page();
     if (p && this.currentPage() + 1 < p.totalPages) {
-      this.currentPage.update((v) => v + 1);
+      this.loadTransactions(this.currentPage() + 1);
     }
   }
 }
