@@ -1,8 +1,6 @@
-import { CurrencyDTO } from './currency.dto';
-
 export interface MoneyDTO {
   amount: number;
-  currency: CurrencyDTO;
+  currency: string;
   currencySymbol: string;
   currencyCode: string;
 }

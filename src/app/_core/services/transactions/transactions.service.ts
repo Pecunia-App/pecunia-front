@@ -12,19 +12,21 @@ export class TransactionsService implements TransactionsDataSource {
   private impl: TransactionsDataSource;
 
   constructor(mock: TransactionsMockService, api: TransactionsApiService) {
-    // 🔧 Basculer ici selon .env
+    // Basculer ici selon .env
     this.impl = environment.useMocks ? mock : api;
   }
 
-  getTransactions(walletId: number): Observable<TransactionResponse> {
-    return this.impl.getTransactions(walletId);
+  getTransactions(
+    walletId: number,
+    page?: number,
+    size?: number
+  ): Observable<TransactionResponse> {
+    return this.impl.getTransactions(walletId, page, size);
   }
 
   getTransactionById(id: number): Observable<TransactionDTO> {
     return this.impl.getTransactionById(id);
   }
-
-  // Tu ajouteras ici plus tard :
   // create(walletId: number, dto: TransactionDTO)
   // update(id: number, dto: TransactionDTO)
   // delete(id: number)

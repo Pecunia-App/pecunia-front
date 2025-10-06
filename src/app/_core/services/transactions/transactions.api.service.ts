@@ -11,16 +11,26 @@ import { environment } from '../../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class TransactionsApiService implements TransactionsDataSource {
   private static readonly API_URL = `${environment.apiUrl}`;
-  private baseUrl = `${TransactionsApiService.API_URL}/transactions`;
+  private baseUrl = `${TransactionsApiService.API_URL}`;
   private readonly http = inject(HttpClient);
 
   /**
    * Récupère toutes les transactions d'un wallet.
    * GET /wallets/{walletId}/transactions
    */
-  getTransactions(walletId: number): Observable<TransactionResponse> {
+  getTransactions(
+    walletId: number,
+    page = 0,
+    size = 20
+  ): Observable<TransactionResponse> {
+    const params = {
+      page: page.toString(),
+      size: size.toString(),
+      sort: 'createdAt,desc',
+    };
     return this.http.get<TransactionResponse>(
-      `${this.baseUrl}/wallets/${walletId}/transactions`
+      `${this.baseUrl}/wallets/${walletId}/transactions`,
+      { params }
     );
   }
 
