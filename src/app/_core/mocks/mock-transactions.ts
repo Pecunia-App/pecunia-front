@@ -6,14 +6,7 @@ import { MOCK_TAGS } from './mock-tags';
 
 const EUR = (amount: number): MoneyDTO => ({
   amount,
-  currency: {
-    currencyCode: 'EUR',
-    displayName: 'Euro',
-    symbol: '€',
-    defaultFractionDigits: 2,
-    numericCode: 978,
-    numericCodeAsString: '978',
-  },
+  currency: 'EUR',
   currencySymbol: '€',
   currencyCode: 'EUR',
 });

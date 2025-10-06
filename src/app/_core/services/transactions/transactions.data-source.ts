@@ -14,7 +14,11 @@ export interface TransactionResponse {
 }
 
 export interface TransactionsDataSource {
-  getTransactions(walletId: number): Observable<TransactionResponse>;
+  getTransactions(
+    walletId: number,
+    page?: number,
+    size?: number
+  ): Observable<TransactionResponse>;
   getTransactionById(id: number): Observable<TransactionDTO>;
   // + create/update/delete plus tard
 }

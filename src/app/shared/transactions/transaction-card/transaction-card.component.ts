@@ -30,7 +30,7 @@ export class TransactionCardComponent {
     const formatted = absValue.toLocaleString('fr-FR', {
       minimumFractionDigits: 2,
     });
-    return `${formatted} ${this.transaction.amount.currencyCode}`;
+    return `${formatted} ${this.transaction.amount.currency}`;
   }
 
   hasProvider(): boolean {
