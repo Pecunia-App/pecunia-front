@@ -1,3 +1,13 @@
+## 0.7.0 (2025-10-10)
+
+### Feat
+
+- **transactions**: setup mock data, api factory,store, ui to display all transactions
+
+### Fix
+
+- **transactions,layout**: correct pagination handling, mock data, and layout padding
+
 ## 0.6.0 (2025-09-26)
 
 ### Feat
