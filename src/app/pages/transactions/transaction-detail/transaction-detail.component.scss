@@ -1,0 +1,148 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+.transaction-detail {
+  @include layout.flex($dir: column, $align: center, $gap: space-24);
+  @include layout.padding(space-24, 0);
+  margin: 0 auto;
+  min-width: 358px;
+  max-width: 90%;
+  @include typo.text-style(text-md, semibold, mobile);
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(text-md, semibold, desktop);
+    line-height: 24px;
+  }
+}
+
+.transaction-detail-btn {
+  @include layout.flex($align: center, $gap: space-24);
+}
+
+.transaction-card-detail {
+  width: 100%;
+  @include layout.radius(md);
+  // @include layout.padding(space-24, space-12);
+  @include theme.themed-block(
+    (
+      background: 'background-neutral-primary',
+      color: 'text-neutral-secondary',
+    )
+  );
+
+  .header {
+    @include layout.flex-center;
+  }
+
+  .category-info {
+    border-radius: 8px 8px 0 0;
+    height: layout.$space-128;
+    width: 100%;
+    @include layout.flex-center;
+    @include theme.themed-block(
+      (
+        background: 'background-primary-default',
+      )
+    );
+  }
+
+  h2 {
+    @include typo.text-style(heading-h1, semibold, mobile);
+    @include theme.themed-block(
+      (
+        color: 'text-neutral-default-inverse',
+      )
+    );
+  }
+
+  .amount {
+    font-weight: 700;
+    &.debit {
+      @include theme.themed-block(
+        (
+          color: 'text-alert-default',
+        )
+      );
+    }
+    &.credit {
+      @include theme.themed-block(
+        (
+          color: 'text-success-default',
+        )
+      );
+    }
+  }
+
+  .details {
+    @include layout.flex-center;
+    @include layout.padding(space-24, space-12);
+  }
+
+  .field {
+    width: 100%;
+    @include layout.flex(
+      $dir: column,
+      $wrap: null,
+      $justify: null,
+      $align: center,
+      $gap: layout.$space-2
+    );
+    border-top: solid 1px transparent;
+    @include theme.themed-block(
+      (
+        border-top-color: 'common-neutral-low',
+      )
+    );
+  }
+
+  .label {
+    @include theme.themed-block(
+      (
+        color: 'text-primary-default',
+      )
+    );
+  }
+
+  .label,
+  .amount {
+    @include typo.text-style(heading-h2, semibold, mobile);
+  }
+
+  .label,
+  .value {
+    @include layout.padding(space-8, 0);
+  }
+
+  .tags {
+    margin-top: layout.$space-4;
+    @include layout.flex(
+      $wrap: wrap,
+      $justify: null,
+      $align: center,
+      $gap: layout.$space-12
+    );
+  }
+  .tag {
+    @include layout.padding(space-8);
+    @include layout.radius(md);
+    @include theme.themed-block(
+      (
+        background: 'background-badge-grey',
+        color: 'text-neutral-default-inverse',
+      )
+    );
+  }
+
+  @include breakpoints.mq(desktop) {
+    max-width: 808px;
+    h2 {
+      @include typo.text-style(heading-h1, semibold, desktop);
+    }
+    .label,
+    .amount {
+      @include typo.text-style(heading-h2, semibold, desktop);
+    }
+  }
+}
