@@ -1,0 +1,82 @@
+<app-connected-layout>
+  @if (loading()) {
+    <p class="loading">Chargement...</p>
+  } @else if (transaction()) {
+    <section class="transaction-detail">
+      <!-- Boutons d'action -->
+      <div class="transaction-detail-btn">
+        <app-ui-button variant="primary" (click)="navigateBack()">
+          Retour
+        </app-ui-button>
+        <app-ui-button variant="primary" (click)="navigateToUpdate()">
+          Modifier
+        </app-ui-button>
+        <app-ui-button variant="alert" (click)="deleteTransaction()">
+          Supprimer
+        </app-ui-button>
+      </div>
+
+      <!-- Contenu principal -->
+      <article class="transaction-card-detail">
+        <div class="header">
+          <div class="category-info">
+            <h2>{{ transaction()?.category?.categoryName }}</h2>
+          </div>
+          <app-ui-badge
+            [iconName]="transaction()?.category?.icon ?? ''"
+            [bgColorClass]="transaction()?.category?.color"
+            ariaLabel="Catégorie"
+          ></app-ui-badge>
+          <div
+            class="amount"
+            [ngClass]="{ debit: isDebit(), credit: isCredit() }"
+          >
+            @if (isDebit()) {
+              -
+            }
+            @if (isCredit()) {
+              +
+            }
+              {{ formatAmount() }}
+          </div>
+        </div>
+
+        <div class="details">
+          <div class="field">
+            <span class="label">Note</span>
+            <span class="value">{{ transaction()?.note || '—' }}</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Fournisseur</span>
+            <span class="value">{{
+              transaction()?.provider?.providerName || '—'
+            }}</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Date</span>
+            <span class="value">{{
+              formatDate(transaction()?.createdAt ?? '')
+            }}</span>
+          </div>
+
+          <div class="field">
+            <span class="label">Tags</span>
+            <div class="tags">
+              @if (transaction()?.tags?.length) {
+                @for (tag of transaction()?.tags; track tag.id) {
+                  <span class="tag">{{ tag.tagName }}</span>
+                }
+              } @else {
+                <span class="value">—</span>
+              }
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  } @else {
+    <p class="error">Aucune transaction trouvée.</p>
+  }
+</app-connected-layout>

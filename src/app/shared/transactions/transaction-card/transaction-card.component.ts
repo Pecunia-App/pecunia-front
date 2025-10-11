@@ -4,6 +4,7 @@ import { NgClass } from '@angular/common';
 import { BadgeComponent } from '../../ui/badge/badge.component';
 import { BreakpointService } from '../../../_core/services/responsive/breakpoint.service';
 import { Router } from '@angular/router';
+import { formattedAmountTransaction } from '../../../_core/utils/format.utils';
 
 @Component({
   selector: 'app-transaction-card',
@@ -26,11 +27,7 @@ export class TransactionCardComponent {
   }
 
   formattedAmount(): string {
-    const absValue = Math.abs(this.transaction.amount.amount);
-    const formatted = absValue.toLocaleString('fr-FR', {
-      minimumFractionDigits: 2,
-    });
-    return `${formatted} ${this.transaction.amount.currency}`;
+    return formattedAmountTransaction(this.transaction);
   }
 
   hasProvider(): boolean {
@@ -38,6 +35,6 @@ export class TransactionCardComponent {
   }
 
   goToTransaction(): void {
-    this.router.navigate(['/transactions/update', this.transaction.id]);
+    this.router.navigate(['/transactions', this.transaction.id]);
   }
 }

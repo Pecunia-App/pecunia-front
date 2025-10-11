@@ -7,6 +7,7 @@ import { TransactionCardComponent } from '../../../shared/transactions/transacti
 import { MoneyDTO } from '../../../_core/models/transactions/money.dto';
 import { CommonModule } from '@angular/common';
 import { TransactionStore } from '../../../_core/store/transactions.store.service';
+import { formatDateFr, TotalAmountFr } from '../../../_core/utils/format.utils';
 
 @Component({
   selector: 'app-transactions-list',
@@ -70,21 +71,11 @@ export class TransactionsListComponent implements OnInit {
   }
 
   formatDate(dateStr: string): string {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    });
+    return formatDateFr(dateStr);
   }
 
   formatAmount(amount: MoneyDTO): string {
-    const absValue = Math.abs(amount.amount);
-    const formatted = absValue.toLocaleString('fr-FR', {
-      minimumFractionDigits: 2,
-    });
-    const sign = amount.amount >= 0 ? '+' : '-';
-    return `${sign} ${formatted} ${amount.currency}`;
+    return TotalAmountFr(amount);
   }
 
   prevPage() {
