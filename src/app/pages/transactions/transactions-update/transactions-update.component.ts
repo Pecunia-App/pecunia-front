@@ -23,6 +23,8 @@ export class TransactionsUpdateComponent implements OnInit {
     this.transactionsService.getTransactionById(id).subscribe({
       next: (tx) => {
         this.transaction.set(tx ?? null);
+        console.log('transaction', this.transaction());
+
         this.loading.set(false);
       },
       error: () => {
