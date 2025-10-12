@@ -1,3 +1,171 @@
 <app-connected-layout>
-  <p>parameters works!</p>
+  <main class="parameters-container">
+    <!-- Tabs Navigation -->
+    <nav class="tabs-nav">
+      <button
+        class="tab-button"
+        [class.active]="activeTab() === 'categories'"
+        (click)="setActiveTab('categories')"
+      >
+        Catégories
+      </button>
+      <button
+        class="tab-button"
+        [class.active]="activeTab() === 'tags'"
+        (click)="setActiveTab('tags')"
+      >
+        Tags
+      </button>
+      <button
+        class="tab-button"
+        [class.active]="activeTab() === 'providers'"
+        (click)="setActiveTab('providers')"
+      >
+        Fournisseurs
+      </button>
+    </nav>
+
+    <!-- Categories Tab Content -->
+    @if (activeTab() === 'categories') {
+      <div class="tab-content">
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button class="btn btn-primary" (click)="createCategory()">
+            Créer une catégorie
+          </button>
+          @if (hasSelectedCategories()) {
+            <button class="btn btn-danger" (click)="deleteSelectedCategories()">
+              Supprimer des catégories
+            </button>
+          }
+        </div>
+
+        <!-- Income Categories -->
+        <section class="category-section">
+          <h2 class="section-title">Catégories de revenus</h2>
+
+          <div class="category-list">
+            @for (category of incomeCategories(); track category.id) {
+              <div class="category-item">
+                <div class="category-left">
+                  <input
+                    type="checkbox"
+                    [checked]="category.selected"
+                    (change)="toggleCategorySelection(category.id, true)"
+                    class="category-checkbox"
+                  />
+
+                  <div
+                    class="category-icon"
+                    [style.background-color]="category.color"
+                  >
+                    <app-ui-icon
+                      [name]="category.icon"
+                      size="sm"
+                      [isDecorative]="true"
+                    >
+                    </app-ui-icon>
+                  </div>
+
+                  <span class="category-name">{{ category.name }}</span>
+                </div>
+
+                <div class="category-actions">
+                  <button
+                    class="icon-button edit-button"
+                    (click)="editCategory(category.id)"
+                    aria-label="Modifier"
+                  >
+                    <app-ui-icon
+                      name="settings"
+                      size="sm"
+                      ariaLabel="Modifier"
+                    ></app-ui-icon>
+                  </button>
+                  <button
+                    class="icon-button delete-button"
+                    (click)="deleteCategory(category.id)"
+                    aria-label="Supprimer"
+                  >
+                    <app-ui-icon name="trash-2" size="sm" ariaLabel="Supprimer">
+                    </app-ui-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+
+        <!-- Expense Categories -->
+        <section class="category-section">
+          <h2 class="section-title">Catégories de dépenses</h2>
+
+          <div class="category-list">
+            @for (category of expenseCategories(); track category.id) {
+              <div class="category-item">
+                <div class="category-left">
+                  <input
+                    type="checkbox"
+                    [checked]="category.selected"
+                    (change)="toggleCategorySelection(category.id, false)"
+                    class="category-checkbox"
+                  />
+
+                  <div
+                    class="category-icon"
+                    [style.background-color]="category.color"
+                  >
+                    <app-ui-icon
+                      [name]="category.icon"
+                      size="sm"
+                      [isDecorative]="true"
+                    >
+                    </app-ui-icon>
+                  </div>
+
+                  <span class="category-name">{{ category.name }}</span>
+                </div>
+
+                <div class="category-actions">
+                  <button
+                    class="icon-button edit-button"
+                    (click)="editCategory(category.id)"
+                    aria-label="Modifier"
+                  >
+                    <app-ui-icon
+                      name="settings"
+                      size="sm"
+                      ariaLabel="Modifier"
+                    ></app-ui-icon>
+                  </button>
+                  <button
+                    class="icon-button delete-button"
+                    (click)="deleteCategory(category.id)"
+                    aria-label="Supprimer"
+                  >
+                    <app-ui-icon name="trash-2" size="sm" ariaLabel="Supprimer">
+                    </app-ui-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+    }
+
+    <!-- Tags Tab Content (Placeholder) -->
+    @if (activeTab() === 'tags') {
+      <div class="tab-content">
+        <p class="empty-state">Fonctionnalité Tags à venir</p>
+      </div>
+    }
+
+    <!-- Suppliers Tab Content (Placeholder) -->
+    @if (activeTab() === 'providers') {
+      <div class="tab-content">
+        <p class="empty-state">Fonctionnalité Fournisseurs à venir</p>
+      </div>
+    }
+  </main>
 </app-connected-layout>
