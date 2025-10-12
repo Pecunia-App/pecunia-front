@@ -1,0 +1,37 @@
+@use '../../../styles/themes/tokens' as theme;
+@use '../../../styles/abstracts/typography' as typography;
+@use '../../../styles/abstracts/layout' as layout;
+@use '../../../styles/abstracts/shadows' as shadows;
+@use '../../../styles/abstracts/breakpoints' as breakpoints;
+
+.parameters-container {
+  max-width: 900px;
+  margin: 0 auto;
+  @include layout.padding(space-24, space-16);
+
+  @include breakpoints.mq(desktop) {
+    @include layout.padding(space-32, space-24);
+  }
+
+  // Tab Content
+  .tab-content {
+    @include theme.themed-block(
+      (
+        background-color: 'background-neutral-primary',
+      )
+    );
+    @include layout.padding(space-24, space-16);
+    @include layout.radius(md);
+    @include shadows.shadow(xs);
+
+    @include breakpoints.mq(desktop) {
+      @include layout.padding(space-32, space-24);
+    }
+  }
+
+  // Action Buttons
+  .action-buttons {
+    @include layout.flex($gap: space-12, $wrap: wrap, $justify: center);
+    @include layout.margin(null, null, space-32);
+  }
+}

@@ -1,3 +1,119 @@
 <app-connected-layout>
-  <p>parameters works!</p>
+  <main class="parameters-container">
+    <!-- Tabs Navigation -->
+    <app-tabs-navigation
+      [tabs]="tabs"
+      [activeTabId]="activeTab()"
+      (tabChange)="setActiveTab($event)"
+    />
+
+    <!-- ===== CATEGORIES TAB ===== -->
+    @if (activeTab() === 'categories') {
+      <div class="tab-content">
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <app-ui-button
+            variant="primary"
+            size="medium"
+            ariaLabel="Créer une nouvelle catégorie"
+            (buttonClick)="createCategory()"
+          >
+            Créer une catégorie
+          </app-ui-button>
+          @if (hasSelectedCategories()) {
+            <app-ui-button
+              variant="alert"
+              size="medium"
+              [ariaLabel]="'Supprimer ' + selectedCategoriesCount() + ' catégorie(s)'"
+              (buttonClick)="deleteSelectedCategories()"
+            >
+              Supprimer des catégories
+            </app-ui-button>
+          }
+        </div>
+        <!-- Category Sections (Income + Expense) -->
+        @for (section of sections; track section.prefix) {
+          <app-parameter-list
+            [sections]="[section]"
+            [prefix]="section.prefix"
+            [isSelected]="isCategorySelected"
+            [getDisplayInfo]="getCategoryDisplayInfo"
+            (toggleItem)="toggleCategorySelection($event, section.prefix === 'income-category')"
+            (editItem)="editCategory($event)"
+            (deleteItem)="deleteSelectedCategories()"
+          />
+        }
+      </div>
+    }
+
+    <!-- ===== TAGS TAB ===== -->
+    @if (activeTab() === 'tags') {
+      <div class="tab-content">
+        <div class="action-buttons">
+          <app-ui-button
+            variant="primary"
+            size="medium"
+            ariaLabel="Créer un nouveau tag"
+            (buttonClick)="createItem()"
+          >
+            Créer un tag
+          </app-ui-button>
+          @if (hasSelectedTags()) {
+            <app-ui-button
+              variant="alert"
+              size="medium"
+              [ariaLabel]="'Supprimer ' + selectedTagsCount() + ' tag(s)'"
+              (buttonClick)="deleteSelectedTags()"
+            >
+              Supprimer des tags
+            </app-ui-button>
+          }
+        </div>
+        <app-parameter-list
+          [sections]="[{ title: 'Tags', prefix: 'tag', items: tags }]"
+          prefix="tag"
+          [isSelected]="isTagSelected"
+          [getDisplayInfo]="getTagDisplayInfo"
+          (toggleItem)="toggleTagSelection($event)"
+          (editItem)="editTag($event)"
+          (deleteItem)="deleteItem($event)"
+        />
+      </div>
+    }
+
+    <!-- ===== PROVIDERS TAB ===== -->
+    @if (activeTab() === 'providers') {
+      <div class="tab-content">
+        <div class="action-buttons">
+          <app-ui-button
+            variant="primary"
+            size="medium"
+            ariaLabel="Créer un nouveau fournisseur"
+            (buttonClick)="createProvider()"
+          >
+            Créer un fournisseur
+          </app-ui-button>
+          @if (hasSelectedProviders()) {
+            <app-ui-button
+              variant="alert"
+              size="medium"
+              [ariaLabel]="'Supprimer ' + selectedProvidersCount() + ' fournisseur(s)'"
+              (buttonClick)="deleteSelectedProviders()"
+            >
+              Supprimer des fournisseurs
+            </app-ui-button>
+          }
+        </div>
+        <app-parameter-list
+          [sections]="[{ title: 'Fournisseurs', prefix: 'provider', items: providers }]"
+          prefix="'provider'"
+          [isSelected]="isProviderSelected"
+          [getDisplayInfo]="getProviderDisplayInfo"
+          (toggleItem)="toggleProviderSelection($event)"
+          (editItem)="editProvider($event)"
+          (deleteItem)="deleteItem($event)"
+        />
+      </div>
+    }
+  </main>
 </app-connected-layout>

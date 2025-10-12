@@ -1,0 +1,52 @@
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typography;
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+// Tabs Navigation
+.tabs-nav {
+  @include layout.flex($justify: flex-start, $align: stretch);
+  overflow: hidden;
+  @include theme.themed-block(
+    (
+      background-color: 'none',
+      color: 'text-neutral-default',
+    )
+  );
+}
+
+.tab-button {
+  flex: 1;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: transparent;
+  transition: all 0.2s ease;
+  @include theme.themed-block(
+    (
+      color: 'text-neutral-secondary',
+    )
+  );
+
+  @include typography.text-style(text-md, regular, mobile);
+  @include layout.padding(space-12, space-16);
+
+  &.active {
+    @include theme.themed-block(
+      (
+        color: 'text-primary-default',
+      )
+    );
+    @include typography.text-style(text-md, semibold, mobile);
+  }
+
+  @include breakpoints.mq(desktop) {
+    @include layout.padding(space-16, space-24);
+    @include typography.text-style(text-md, semibold, desktop);
+
+    &.active {
+      @include typography.text-style(text-md, semibold, desktop);
+    }
+  }
+}
