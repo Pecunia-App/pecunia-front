@@ -1,0 +1,53 @@
+@for (section of sections(); track section.title) {
+  <section class="parameter-section">
+    <h2 class="section-title">{{ section.title }}</h2>
+    <div class="parameter-list">
+      @for (item of section.items(); track item.id) {
+        @let info = getDisplayInfo(item);
+        <article class="parameter-item">
+          <div class="parameter-left">
+            <app-ui-checkbox
+              [id]="prefix + '-' + item.id"
+              [checked]="isSelected(item.id, prefix)"
+              (change)="toggleItem.emit(item.id)"
+              [attr.aria-label]="'Sélectionner ' + info.name"
+            />
+            @if (info.icon) {
+              <div
+                class="parameter-icon"
+                [style.background-color]="info.color"
+                aria-hidden="true"
+              >
+                <app-ui-icon [name]="info.icon" size="md" [isDecorative]="true" />
+              </div>
+            }
+            <label [for]="prefix + '-' + item.id" class="parameter-name">
+              {{ info.name }}
+            </label>
+          </div>
+
+          <div class="parameter-actions">
+            <app-ui-button
+              variant="primary-ghost"
+              size="square"
+              [ariaLabel]="'Modifier ' + info.name"
+              (buttonClick)="editItem.emit(item.id)"
+            >
+              <app-ui-icon name="settings" size="sm" [isDecorative]="true" />
+            </app-ui-button>
+
+            <app-ui-button
+              variant="alert"
+              size="square"
+              [ariaLabel]="'Supprimer ' + info.name"
+              (buttonClick)="deleteItem.emit(item.id)"
+            >
+              <app-ui-icon name="trash-2" size="sm" [isDecorative]="true" />
+            </app-ui-button>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+}
+

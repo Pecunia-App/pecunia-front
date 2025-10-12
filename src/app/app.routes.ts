@@ -114,6 +114,11 @@ export const routes: Routes = [
         (m) => m.ParametersComponent
       ),
     canActivate: [authGuard],
+    resolve: {
+      categories: CategoriesResolver,
+      tags: TagsResolver,
+      providers: ProvidersResolver,
+    },
   },
   {
     path: 'parameters',

@@ -1,0 +1,92 @@
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typography;
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+.parameter-section {
+  @include layout.margin(null, null, space-32);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-title {
+    @include typography.text-style(heading-h2, extrabold, mobile);
+    @include theme.themed-block(
+      (
+        background-color: 'text-neutral-primary',
+        color: 'text-neutral-default',
+      )
+    );
+    @include layout.margin(null, null, space-16, null);
+
+    @include breakpoints.mq(desktop) {
+      @include typography.text-style(heading-h2, extrabold, desktop);
+    }
+  }
+}
+
+.parameter-list {
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-primary',
+      color: 'text-neutral-default',
+    )
+  );
+  @include layout.flex($gap: space-8, $dir: column, $wrap: wrap);
+
+  .parameter-item {
+    @include layout.flex($justify: space-between, $align: center);
+    @include layout.padding(space-12, space-16);
+    transition: background-color 0.2s ease;
+  }
+
+  .parameter-left {
+    @include layout.flex($align: center, $gap: space-12);
+    flex: 1;
+
+    .parameter-checkbox,
+    .parameter-icon {
+      flex-shrink: 0;
+    }
+
+    .parameter-name {
+      flex: 1;
+      word-break: break-word;
+      white-space: normal;
+    }
+  }
+
+  .parameter-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #047857;
+  }
+
+  .parameter-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: white;
+    @include layout.flex($align: center, $justify: center);
+  }
+
+  .parameter-name {
+    @include typography.text-style(text-md, regular, mobile);
+    @include theme.themed-block(
+      (
+        color: 'text-neutral-secondary',
+      )
+    );
+
+    @include breakpoints.mq(desktop) {
+      @include typography.text-style(text-md, regular, desktop);
+    }
+  }
+
+  .parameter-actions {
+    @include layout.flex($gap: space-8);
+  }
+}

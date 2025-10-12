@@ -1,0 +1,11 @@
+<nav class="tabs-nav" role="tablist" [attr.aria-label]="ariaLabel">
+  @for (tab of tabsList; track tab.tabParams) {
+    <button
+      class="tab-button"
+      [class.active]="activeTabIdSignal() === tab.tabParams"
+      (click)="onTabChange(tab.tabParams)"
+    >
+      {{ tab.label }}
+    </button>
+  }
+</nav>
