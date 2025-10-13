@@ -9,11 +9,11 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsService implements TransactionsDataSource {
-  private impl: TransactionsDataSource;
+  private readonly source: TransactionsDataSource;
 
   constructor(mock: TransactionsMockService, api: TransactionsApiService) {
     // Basculer ici selon .env
-    this.impl = environment.useMocks ? mock : api;
+    this.source = environment.useMocks ? mock : api;
   }
 
   getTransactions(
@@ -21,11 +21,11 @@ export class TransactionsService implements TransactionsDataSource {
     page?: number,
     size?: number
   ): Observable<TransactionResponse> {
-    return this.impl.getTransactions(walletId, page, size);
+    return this.source.getTransactions(walletId, page, size);
   }
 
   getTransactionById(id: number): Observable<TransactionDTO> {
-    return this.impl.getTransactionById(id);
+    return this.source.getTransactionById(id);
   }
   // create(walletId: number, dto: TransactionDTO)
   // update(id: number, dto: TransactionDTO)
