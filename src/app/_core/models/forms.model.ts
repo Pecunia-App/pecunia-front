@@ -24,7 +24,7 @@ export interface PasswordUpdateForm {
 // utilisé pour le profile
 export interface ProfileForm extends Partial<RegisterForm> {
   id?: number;
-  profilePicture?: File | null;
+  profilePicture?: File | string | null;
   passwordUpdate?: PasswordUpdateForm;
 }
 

@@ -12,6 +12,7 @@ export class TransactionStore {
   readonly selectedTransaction = signal<TransactionDTO | null>(null);
   private readonly transactionService = inject(TransactionsService);
   private readonly router = inject(Router);
+  readonly currentPage = signal(0);
 
   /**
    * Charge toutes les transactions d'un wallet
@@ -53,5 +54,15 @@ export class TransactionStore {
    */
   getTransactionByIdFromStore(): TransactionDTO | null {
     return this.selectedTransaction();
+  }
+
+  setCurrentPage(page: number) {
+    this.currentPage.set(page);
+  }
+
+  reset(): void {
+    this.transactions.set([]);
+    this.page.set(null);
+    this.currentPage.set(0);
   }
 }

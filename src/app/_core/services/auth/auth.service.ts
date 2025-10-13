@@ -4,8 +4,10 @@ import { environment } from '../../../../environments/environment';
 import { Observable, tap } from 'rxjs';
 import { Credentials } from '../../models/forms.model';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { AppJwtPayload } from '../../models/auth.model';
-import { User } from '../../models/user.model';
+import { AppJwtPayload } from '../../models/users/auth.model';
+import { User } from '../../models/users/user.model';
+import { UserStoreService } from '../../store/user.store.service';
+import { TransactionStore } from '../../store/transactions.store.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +15,8 @@ import { User } from '../../models/user.model';
 export class AuthService {
   private static readonly API_URL = `${environment.apiUrl}`;
   private readonly http = inject(HttpClient);
+  private readonly userStore = inject(UserStoreService);
+  private readonly transactionStore = inject(TransactionStore);
   // 1. Signal qui stocke le token
   private _token = signal<string | null>(localStorage.getItem('pecunia-token'));
 
@@ -53,6 +57,8 @@ export class AuthService {
   clearToken(): void {
     localStorage.removeItem('pecunia-token');
     this._token.set(null);
+    this.userStore.clear();
+    this.transactionStore.reset();
   }
   // 6. Pour l'interceptor
   getToken(): string | null {
@@ -66,8 +72,8 @@ export class AuthService {
       })
       .pipe(
         tap((token) => {
-          console.log('Token JWT reçu :', token); // ✅ Affiche le JWT brut
           this.saveToken(token);
+          this.userStore.loadUser();
         })
       );
   }
