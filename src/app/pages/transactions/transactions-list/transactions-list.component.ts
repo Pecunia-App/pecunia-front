@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { ConnectedLayoutComponent } from '../../../shared/layout/connected-layout/connected-layout.component';
 import { TransactionsService } from '../../../_core/services/transactions/transactions.service';
 import { TransactionDTO } from '../../../_core/models/transactions/transaction.dto';
@@ -8,6 +8,7 @@ import { MoneyDTO } from '../../../_core/models/transactions/money.dto';
 import { CommonModule } from '@angular/common';
 import { TransactionStore } from '../../../_core/store/transactions.store.service';
 import { formatDateFr, TotalAmountFr } from '../../../_core/utils/format.utils';
+import { UserStoreService } from '../../../_core/store/user.store.service';
 
 @Component({
   selector: 'app-transactions-list',
@@ -20,28 +21,35 @@ import { formatDateFr, TotalAmountFr } from '../../../_core/utils/format.utils';
   templateUrl: './transactions-list.component.html',
   styleUrl: './transactions-list.component.scss',
 })
-export class TransactionsListComponent implements OnInit {
+export class TransactionsListComponent {
   private readonly transactionService = inject(TransactionsService);
   private readonly transactionStore = inject(TransactionStore);
+  private readonly userStore = inject(UserStoreService);
   readonly transactions = this.transactionStore.transactions;
   readonly page = this.transactionStore.page;
-  readonly currentPage = signal(0);
-  walletId = 6;
+  readonly currentPage = this.transactionStore.currentPage;
+  // readonly currentPage = signal(0);
 
-  ngOnInit(): void {
-    this.loadTransactions(0);
+  constructor() {
+    effect(() => {
+      const wallet = this.userStore.wallet();
+      const pageIndex = this.currentPage();
+      if (wallet) {
+        this.loadTransactions(wallet.id, pageIndex);
+      }
+    });
   }
 
   /**
    * Charge une page de transactions depuis le backend
    */
-  loadTransactions(pageIndex: number): void {
+  loadTransactions(walletId: number, pageIndex: number): void {
     this.transactionService
-      .getTransactions(this.walletId, pageIndex)
+      .getTransactions(walletId, pageIndex)
       .subscribe((res) => {
         this.transactions.set(res.content);
         this.page.set(res.page);
-        this.currentPage.set(pageIndex);
+        this.transactionStore.setCurrentPage(pageIndex);
       });
   }
 
@@ -79,15 +87,17 @@ export class TransactionsListComponent implements OnInit {
   }
 
   prevPage() {
-    if (this.currentPage() > 0) {
-      this.loadTransactions(this.currentPage() - 1);
+    const wallet = this.userStore.wallet();
+    if (wallet && this.currentPage() > 0) {
+      this.loadTransactions(wallet?.id, this.currentPage() - 1);
     }
   }
 
   nextPage() {
+    const wallet = this.userStore.wallet();
     const p = this.page();
-    if (p && this.currentPage() + 1 < p.totalPages) {
-      this.loadTransactions(this.currentPage() + 1);
+    if (wallet && p && this.currentPage() + 1 < p.totalPages) {
+      this.loadTransactions(wallet.id, this.currentPage() + 1);
     }
   }
 }

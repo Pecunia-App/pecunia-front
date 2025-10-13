@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { PasswordUpdateForm, ProfileForm } from '../../models/forms.model';
+import { WalletDTO } from '../../models/transactions/wallet.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,12 @@ export class UserService {
     return this.http.put<void>(
       `${UserService.API_URL}/users/${this.currentUserId}/password`,
       passwords
+    );
+  }
+
+  getWalletByUserId(userId: number): Observable<WalletDTO> {
+    return this.http.get<WalletDTO>(
+      `${UserService.API_URL}/wallets/users/${userId}`
     );
   }
 }

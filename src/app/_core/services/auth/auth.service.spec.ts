@@ -32,6 +32,8 @@ describe('AuthService', () => {
   });
 
   afterEach(() => {
+    // Intercepte et flush toutes les requêtes ouvertes avant de vérifier
+    httpMock.match(() => true).forEach((req) => req.flush({}));
     httpMock.verify();
     localStorage.clear();
   });

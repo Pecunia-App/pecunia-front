@@ -11,6 +11,7 @@ import { BreakpointService } from '../../../_core/services/responsive/breakpoint
 import { AuthService } from '../../../_core/services/auth/auth.service';
 import { IconComponent } from '../../ui/icon/icon.component';
 import { Router, RouterLink } from '@angular/router';
+import { UserStoreService } from '../../../_core/store/user.store.service';
 
 @Component({
   selector: 'app-menu-header-dropdown',
@@ -21,19 +22,26 @@ import { Router, RouterLink } from '@angular/router';
 export class MenuHeaderDropdownComponent {
   private breakpointService = inject(BreakpointService);
   private authService = inject(AuthService);
+  private userStore = inject(UserStoreService);
   private router = inject(Router);
+  readonly user = this.userStore.user;
+  readonly wallet = this.userStore.wallet;
 
   readonly isOpen = signal(false);
   readonly isDesktop = computed(() => this.breakpointService.isDesktop);
-
-  readonly userName = 'Emmett Brown'; // à remplacer plus tard
   readonly avatarUrl: string | null = null;
 
+  //gestion focus
   @ViewChild('dropdownBtn', { static: true })
   dropdownBtn!: ElementRef<HTMLButtonElement>;
 
   profileImage(): string {
-    return this.avatarUrl || 'assets/images/default-user.svg';
+    // return this.avatarUrl || 'assets/images/default-user.svg';
+    if (this.user()?.profilePicture) {
+      // On ajoute le préfixe pour l'image base64
+      return `data:image/png;base64,${this.user()?.profilePicture}`;
+    }
+    return 'assets/images/default-user.svg';
   }
 
   toggle() {
