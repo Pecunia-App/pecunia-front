@@ -11,7 +11,7 @@ import { InputComponent } from '../../ui/input/input.component';
 import { IconComponent } from '../../ui/icon/icon.component';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { AuthService } from '../../../_core/services/auth/auth.service';
-import { User } from '../../../_core/models/user.model';
+import { User } from '../../../_core/models/users/user.model';
 import { Router } from '@angular/router';
 
 @Component({
