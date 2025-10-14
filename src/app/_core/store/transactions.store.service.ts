@@ -13,17 +13,24 @@ export class TransactionStore {
   private readonly transactionService = inject(TransactionsService);
   private readonly router = inject(Router);
   readonly currentPage = signal(0);
+  private loaded = false;
 
   /**
    * Charge toutes les transactions d'un wallet
+   * @param forceRefresh permet de recharger même si déjà chargé
    */
-  loadTransactions(walletId: number, page = 0): void {
+  loadTransactions(walletId: number, page = 0, forceRefresh = false): void {
+    if (this.loaded && this.currentPage() === page && !forceRefresh) {
+      return;
+    }
     this.isLoading.set(true);
     this.transactionService.getTransactions(walletId, page).subscribe({
       next: (res) => {
         this.transactions.set(res.content);
         this.page.set(res.page);
+        this.currentPage.set(page);
         this.isLoading.set(false);
+        this.loaded = true;
       },
       error: () => {
         this.isLoading.set(false);
@@ -60,9 +67,20 @@ export class TransactionStore {
     this.currentPage.set(page);
   }
 
+  /**
+   * Navigation dans la pagination → le store gère tout
+   */
+  goToPage(walletId: number, page: number): void {
+    this.loaded = false;
+    this.loadTransactions(walletId, page);
+  }
+
   reset(): void {
     this.transactions.set([]);
     this.page.set(null);
     this.currentPage.set(0);
+    this.selectedTransaction.set(null);
+    this.isLoading.set(false);
+    this.loaded = false;
   }
 }
