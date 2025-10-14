@@ -17,9 +17,9 @@ export class TransactionStore {
   /**
    * Charge toutes les transactions d'un wallet
    */
-  loadTransactions(walletId: number): void {
+  loadTransactions(walletId: number, page = 0): void {
     this.isLoading.set(true);
-    this.transactionService.getTransactions(walletId).subscribe({
+    this.transactionService.getTransactions(walletId, page).subscribe({
       next: (res) => {
         this.transactions.set(res.content);
         this.page.set(res.page);

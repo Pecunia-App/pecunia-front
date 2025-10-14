@@ -6,6 +6,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ParametersComponent } from './pages/parameters/parameters.component';
 import { UserResolver } from './_core/resolver/user.resolver';
 import { WalletResolver } from './_core/resolver/wallet.resolver';
+import { TransactionListResolver } from './_core/resolver/transaction-list.resolver';
 
 export const routes: Routes = [
   {
@@ -54,7 +55,11 @@ export const routes: Routes = [
         './pages/transactions/transactions-list/transactions-list.component'
       ).then((m) => m.TransactionsListComponent),
     canActivate: [authGuard],
-    resolve: { user: UserResolver, wallet: WalletResolver },
+    resolve: {
+      user: UserResolver,
+      wallet: WalletResolver,
+      preload: TransactionListResolver,
+    },
   },
   {
     path: 'transactions/add',
