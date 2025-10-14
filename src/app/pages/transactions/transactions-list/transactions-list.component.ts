@@ -65,7 +65,7 @@ export class TransactionsListComponent {
     if (wallet && this.currentPage() > 0) {
       const newPage = this.currentPage() - 1;
       this.transactionStore.setCurrentPage(newPage);
-      this.transactionStore.loadTransactions(wallet.id, newPage);
+      this.transactionStore.goToPage(wallet.id, newPage);
     }
   }
 
@@ -75,7 +75,7 @@ export class TransactionsListComponent {
     if (wallet && p && this.currentPage() + 1 < p.totalPages) {
       const newPage = this.currentPage() + 1;
       this.transactionStore.setCurrentPage(newPage);
-      this.transactionStore.loadTransactions(wallet.id, newPage);
+      this.transactionStore.goToPage(wallet.id, newPage);
     }
   }
 }
