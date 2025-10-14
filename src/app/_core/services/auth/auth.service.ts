@@ -73,7 +73,7 @@ export class AuthService {
       .pipe(
         tap((token) => {
           this.saveToken(token);
-          this.userStore.loadUser();
+          // this.userStore.loadUser();
         })
       );
   }
