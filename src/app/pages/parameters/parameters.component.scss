@@ -2,14 +2,14 @@
 @use '../../../styles/abstracts/breakpoints' as breakpoints;
 @use '../../../styles/abstracts/shadows' as shadows;
 @use '../../../styles/abstracts/layout' as layout;
+@use '../../../styles/abstracts/typography' as typography;
 
 .parameters-container {
   max-width: 900px;
   margin: 0 auto;
   @include layout.padding(space-12, space-12);
-  min-height: 100vh;
 
-  @include breakpoints.mq(tablet) {
+  @include breakpoints.mq(mobile) {
     @include layout.padding(space-24, space-24);
   }
 }
@@ -17,37 +17,37 @@
 // Tabs Navigation
 .tabs-nav {
   @include layout.flex($justify: flex-start, $align: stretch);
-  @include layout.radius(md);
   @include shadows.shadow(sm);
-  background: linear-gradient(
-    117deg,
-    #{theme.themed('background-neutral-primary', 'light')} 0.23%,
-    #{theme.themed('common-neutral-low', 'light')} 100%
-  );
   overflow: hidden;
 }
 
 .tab-button {
   flex: 1;
-  padding: 16px 24px;
-  background: white;
+  @include layout.padding(space-16, space-24);
   border: none;
-  border-bottom: 3px solid transparent;
-  font-size: 16px;
-  font-weight: 500;
-  color: #6b7280;
+  font-size: 1rem;
+  @include typography.text-style(text-md, regular, mobile);
+
+  @include breakpoints.mq(desktop) {
+    @include typography.text-style(text-md, regular, desktop);
+    line-height: 24px;
+  }
+
+  color: theme.themed('text-neutral-tertiary', 'light');
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: #f9fafb;
-    color: #111827;
+    background: none;
   }
 
   &.active {
     color: #047857;
-    border-bottom-color: #047857;
-    background-color: white;
+    @include typography.text-style(text-md, semibold, mobile);
+
+    @include breakpoints.mq(desktop) {
+      @include typography.text-style(text-md, semibold, desktop);
+    }
   }
 }
 
@@ -156,10 +156,6 @@
   align-items: center;
   justify-content: center;
   color: white;
-
-  .material-icons {
-    font-size: 20px;
-  }
 }
 
 .category-name {
@@ -185,10 +181,6 @@
   cursor: pointer;
   transition: all 0.2s ease;
 
-  .material-icons {
-    font-size: 20px;
-  }
-
   &.edit-button {
     background-color: #d1fae5;
     color: #047857;
@@ -205,24 +197,5 @@
     &:hover {
       background-color: #fecaca;
     }
-  }
-}
-
-// Empty State
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: #6b7280;
-  font-size: 16px;
-}
-
-// Responsive Design
-@media (max-width: 768px) {
-  .parameters-container {
-    padding: 12px;
-  }
-
-  .tabs-nav {
-    border-radius: 6px 6px 0 0;
   }
 }
