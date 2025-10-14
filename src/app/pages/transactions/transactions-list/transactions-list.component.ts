@@ -1,6 +1,5 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ConnectedLayoutComponent } from '../../../shared/layout/connected-layout/connected-layout.component';
-import { TransactionsService } from '../../../_core/services/transactions/transactions.service';
 import { TransactionDTO } from '../../../_core/models/transactions/transaction.dto';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { TransactionCardComponent } from '../../../shared/transactions/transaction-card/transaction-card.component';
@@ -22,36 +21,11 @@ import { UserStoreService } from '../../../_core/store/user.store.service';
   styleUrl: './transactions-list.component.scss',
 })
 export class TransactionsListComponent {
-  private readonly transactionService = inject(TransactionsService);
   private readonly transactionStore = inject(TransactionStore);
   private readonly userStore = inject(UserStoreService);
   readonly transactions = this.transactionStore.transactions;
   readonly page = this.transactionStore.page;
   readonly currentPage = this.transactionStore.currentPage;
-  // readonly currentPage = signal(0);
-
-  constructor() {
-    effect(() => {
-      const wallet = this.userStore.wallet();
-      const pageIndex = this.currentPage();
-      if (wallet) {
-        this.loadTransactions(wallet.id, pageIndex);
-      }
-    });
-  }
-
-  /**
-   * Charge une page de transactions depuis le backend
-   */
-  loadTransactions(walletId: number, pageIndex: number): void {
-    this.transactionService
-      .getTransactions(walletId, pageIndex)
-      .subscribe((res) => {
-        this.transactions.set(res.content);
-        this.page.set(res.page);
-        this.transactionStore.setCurrentPage(pageIndex);
-      });
-  }
 
   // Regroupe les transactions par date (formatée)
   readonly transactionsGroupedByDate = computed(() => {
@@ -89,7 +63,9 @@ export class TransactionsListComponent {
   prevPage() {
     const wallet = this.userStore.wallet();
     if (wallet && this.currentPage() > 0) {
-      this.loadTransactions(wallet?.id, this.currentPage() - 1);
+      const newPage = this.currentPage() - 1;
+      this.transactionStore.setCurrentPage(newPage);
+      this.transactionStore.loadTransactions(wallet.id, newPage);
     }
   }
 
@@ -97,7 +73,9 @@ export class TransactionsListComponent {
     const wallet = this.userStore.wallet();
     const p = this.page();
     if (wallet && p && this.currentPage() + 1 < p.totalPages) {
-      this.loadTransactions(wallet.id, this.currentPage() + 1);
+      const newPage = this.currentPage() + 1;
+      this.transactionStore.setCurrentPage(newPage);
+      this.transactionStore.loadTransactions(wallet.id, newPage);
     }
   }
 }
