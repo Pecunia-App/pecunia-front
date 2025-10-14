@@ -1,6 +1,6 @@
-import { Component, computed, effect, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ConnectedLayoutComponent } from '../../../shared/layout/connected-layout/connected-layout.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TransactionStore } from '../../../_core/store/transactions.store.service';
 import { BadgeComponent } from '../../../shared/ui/badge/badge.component';
 import { CommonModule } from '@angular/common';
@@ -21,36 +21,13 @@ import {
   templateUrl: './transaction-detail.component.html',
   styleUrl: './transaction-detail.component.scss',
 })
-export class TransactionDetailComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
+export class TransactionDetailComponent {
+  // private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly transactionStore = inject(TransactionStore);
 
   readonly loading = this.transactionStore.isLoading;
-  readonly transaction = computed(() =>
-    this.transactionStore.selectedTransaction()
-  );
-
-  // Déclaration de l’effet dans le contexte de la classe
-  private readonly logTransactionEffect = effect(() => {
-    const currentTransaction = this.transaction();
-    if (currentTransaction) {
-      console.log('Transaction chargée ✅', currentTransaction);
-    }
-  });
-
-  ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    const transactionId = Number(idParam);
-
-    if (Number.isNaN(transactionId)) {
-      console.warn('ID de transaction invalide dans l’URL:', idParam);
-      this.router.navigate(['/transactions']);
-      return;
-    }
-    this.transactionStore.selectedTransaction.set(null);
-    this.transactionStore.loadTransactionById(transactionId);
-  }
+  readonly transaction = this.transactionStore.selectedTransaction;
 
   navigateBack(): void {
     this.router.navigate(['/transactions']);
