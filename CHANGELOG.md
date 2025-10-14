@@ -1,3 +1,11 @@
+## 0.8.0 (2025-10-14)
+
+### Feat
+
+- **user**: create user store, integrate wallet and update transactions
+- **category**: implement dto, mock, services and store for get methods
+- **transaction**: create transaction detail page and handle routing
+
 ## 0.7.0 (2025-10-10)
 
 ### Feat
