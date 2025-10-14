@@ -7,6 +7,7 @@ import { ParametersComponent } from './pages/parameters/parameters.component';
 import { UserResolver } from './_core/resolver/user.resolver';
 import { WalletResolver } from './_core/resolver/wallet.resolver';
 import { TransactionListResolver } from './_core/resolver/transaction-list.resolver';
+import { TransactionDetailResolver } from './_core/resolver/transaction-detail.resolver';
 
 export const routes: Routes = [
   {
@@ -76,6 +77,9 @@ export const routes: Routes = [
         './pages/transactions/transaction-detail/transaction-detail.component'
       ).then((m) => m.TransactionDetailComponent),
     canActivate: [authGuard],
+    resolve: {
+      transaction: TransactionDetailResolver,
+    },
   },
   {
     path: 'transactions/:id/update',
@@ -84,6 +88,9 @@ export const routes: Routes = [
         './pages/transactions/transactions-update/transactions-update.component'
       ).then((m) => m.TransactionsUpdateComponent),
     canActivate: [authGuard],
+    resolve: {
+      transaction: TransactionDetailResolver,
+    },
   },
   {
     path: 'settings',
