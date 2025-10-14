@@ -18,7 +18,8 @@ export const TransactionListResolver: ResolveFn<boolean> = () => {
       const wallet = userStore.wallet();
       if (wallet) {
         clearInterval(walletInterval);
-        transactionStore.loadTransactions(wallet.id);
+        const currentPage = transactionStore.currentPage();
+        transactionStore.loadTransactions(wallet.id, currentPage);
 
         // On attend la fin du chargement des transactions
         const txInterval = setInterval(() => {
