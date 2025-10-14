@@ -4,6 +4,8 @@ import { roleGuard } from './_core/guards/role.guard';
 import { visitorOnlyGuard } from './_core/guards/visitor-only.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ParametersComponent } from './pages/parameters/parameters.component';
+import { UserResolver } from './_core/resolver/user.resolver';
+import { WalletResolver } from './_core/resolver/wallet.resolver';
 
 export const routes: Routes = [
   {
@@ -35,6 +37,7 @@ export const routes: Routes = [
         (m) => m.DashboardComponent
       ),
     canActivate: [authGuard],
+    resolve: { user: UserResolver, wallet: WalletResolver },
   },
   {
     path: 'poc-boutons',
@@ -51,6 +54,7 @@ export const routes: Routes = [
         './pages/transactions/transactions-list/transactions-list.component'
       ).then((m) => m.TransactionsListComponent),
     canActivate: [authGuard],
+    resolve: { user: UserResolver, wallet: WalletResolver },
   },
   {
     path: 'transactions/add',
