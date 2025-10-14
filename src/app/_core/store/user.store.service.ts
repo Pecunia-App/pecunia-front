@@ -11,19 +11,15 @@ export class UserStoreService {
   private readonly userService = inject(UserService);
   readonly user = signal<UserDTO | null>(null);
   readonly wallet = signal<WalletDTO | null>(null);
+  readonly isLoadingUser = signal(false);
+  readonly isLoadingWallet = signal(false);
 
-  // async fileToBase64(file: File): Promise<string> {
-  //   return new Promise<string>((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       resolve(reader.result as string);
-  //     };
-  //     reader.onerror = (error) => reject(error);
-  //     reader.readAsDataURL(file);
-  //   });
-  // }
+  private hasLoadedUser = false;
+  private hasLoadedWallet = false;
 
   loadUser(): void {
+    if (this.hasLoadedUser || this.isLoadingUser()) return;
+    this.isLoadingUser.set(true);
     this.userService.getCurrentUser().subscribe({
       next: (profileForm: ProfileForm) => {
         if (profileForm.profilePicture instanceof File) return;
@@ -35,32 +31,51 @@ export class UserStoreService {
           profilePicture: profileForm.profilePicture ?? '',
         };
         this.user.set(userData);
-        console.log('user stocké', this.user());
-        this.loadWallet(userData.id);
+        this.hasLoadedUser = true;
+        this.loadWallet();
       },
       error: () => {
         this.user.set(null);
-        this.wallet.set(null);
+        this.hasLoadedUser = false;
       },
+      complete: () => this.isLoadingUser.set(false),
     });
   }
 
-  loadWallet(userId: number): void {
-    if (typeof userId !== 'number' || userId === 0) {
-      this.wallet.set(null);
-      return;
-    }
-    this.userService.getWalletByUserId(userId).subscribe({
+  refreshUser(): void {
+    this.hasLoadedUser = false;
+    this.loadUser();
+  }
+
+  loadWallet(): void {
+    if (this.hasLoadedWallet || this.isLoadingWallet()) return;
+    const user = this.user();
+    if (!user?.id) return;
+    this.isLoadingWallet.set(true);
+    this.userService.getWalletByUserId(user.id).subscribe({
       next: (walletData: WalletDTO) => {
         this.wallet.set(walletData);
-        console.log('wallet stocké', this.wallet());
+        this.hasLoadedWallet = true;
       },
-      error: () => this.wallet.set(null),
+      error: () => {
+        this.wallet.set(null);
+        this.hasLoadedWallet = false;
+      },
+      complete: () => this.isLoadingWallet.set(false),
     });
+  }
+
+  refreshWallet(): void {
+    this.hasLoadedWallet = false;
+    this.loadWallet();
   }
 
   clear(): void {
     this.user.set(null);
     this.wallet.set(null);
+    this.hasLoadedUser = false;
+    this.hasLoadedWallet = false;
+    this.isLoadingUser.set(false);
+    this.isLoadingWallet.set(false);
   }
 }
