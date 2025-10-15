@@ -8,6 +8,7 @@ import { UserResolver } from './_core/resolver/user.resolver';
 import { WalletResolver } from './_core/resolver/wallet.resolver';
 import { TransactionListResolver } from './_core/resolver/transaction-list.resolver';
 import { TransactionDetailResolver } from './_core/resolver/transaction-detail.resolver';
+import { CategoriesResolver } from './_core/resolver/categories.resolver';
 
 export const routes: Routes = [
   {
@@ -39,7 +40,11 @@ export const routes: Routes = [
         (m) => m.DashboardComponent
       ),
     canActivate: [authGuard],
-    resolve: { user: UserResolver, wallet: WalletResolver },
+    resolve: {
+      user: UserResolver,
+      wallet: WalletResolver,
+      transactions: TransactionListResolver,
+    },
   },
   {
     path: 'poc-boutons',
@@ -59,7 +64,8 @@ export const routes: Routes = [
     resolve: {
       user: UserResolver,
       wallet: WalletResolver,
-      preload: TransactionListResolver,
+      transactions: TransactionListResolver,
+      categories: CategoriesResolver,
     },
   },
   {
