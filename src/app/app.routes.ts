@@ -10,6 +10,7 @@ import { TransactionListResolver } from './_core/resolver/transaction-list.resol
 import { TransactionDetailResolver } from './_core/resolver/transaction-detail.resolver';
 import { CategoriesResolver } from './_core/resolver/categories.resolver';
 import { TagsResolver } from './_core/resolver/tags.resolver';
+import { ProvidersResolver } from './_core/resolver/providers.resolver';
 
 export const routes: Routes = [
   {
@@ -68,6 +69,7 @@ export const routes: Routes = [
       transactions: TransactionListResolver,
       categories: CategoriesResolver,
       tags: TagsResolver,
+      providers: ProvidersResolver,
     },
   },
   {
