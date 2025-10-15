@@ -10,6 +10,7 @@ import { UserStoreService } from '../../store/user.store.service';
 import { TransactionStore } from '../../store/transactions.store.service';
 import { CategoriesStoreService } from '../../store/categories.store.service';
 import { TagStoreService } from '../../store/tag.store.service';
+import { ProvidersStoreService } from '../../store/providers.store.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,7 @@ export class AuthService {
   private readonly transactionStore = inject(TransactionStore);
   private readonly categoriesStore = inject(CategoriesStoreService);
   private readonly tagsStore = inject(TagStoreService);
+  private readonly providersStore = inject(ProvidersStoreService);
   // 1. Signal qui stocke le token
   private _token = signal<string | null>(localStorage.getItem('pecunia-token'));
 
@@ -65,6 +67,7 @@ export class AuthService {
     this.transactionStore.reset();
     this.categoriesStore.reset();
     this.tagsStore.reset();
+    this.providersStore.reset();
   }
   // 6. Pour l'interceptor
   getToken(): string | null {
