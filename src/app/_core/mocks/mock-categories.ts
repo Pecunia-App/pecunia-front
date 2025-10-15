@@ -7,7 +7,7 @@ export const MOCK_CATEGORIES: CategoryDTO[] = [
     icon: 'shopping-cart',
     color: 'background-badge-green-low',
     type: 'DEBIT',
-    userId: 1,
+    userId: 19,
     global: true,
   },
   {
@@ -16,7 +16,7 @@ export const MOCK_CATEGORIES: CategoryDTO[] = [
     icon: 'house',
     color: 'background-badge-blue-low',
     type: 'DEBIT',
-    userId: 1,
+    userId: 19,
     global: true,
   },
   {
@@ -25,7 +25,7 @@ export const MOCK_CATEGORIES: CategoryDTO[] = [
     icon: 'banknote',
     color: 'background-badge-yellow-low',
     type: 'CREDIT',
-    userId: 1,
+    userId: 19,
     global: true,
   },
   {
@@ -34,7 +34,7 @@ export const MOCK_CATEGORIES: CategoryDTO[] = [
     icon: 'gamepad-2',
     color: 'background-badge-pink-low',
     type: 'DEBIT',
-    userId: 1,
+    userId: 19,
     global: true,
   },
   {
@@ -43,7 +43,7 @@ export const MOCK_CATEGORIES: CategoryDTO[] = [
     icon: 'bus',
     color: 'background-badge-red-low',
     type: 'DEBIT',
-    userId: 1,
+    userId: 19,
     global: true,
   },
 ];

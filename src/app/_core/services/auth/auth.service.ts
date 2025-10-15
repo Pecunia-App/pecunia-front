@@ -8,6 +8,7 @@ import { AppJwtPayload } from '../../models/users/auth.model';
 import { User } from '../../models/users/user.model';
 import { UserStoreService } from '../../store/user.store.service';
 import { TransactionStore } from '../../store/transactions.store.service';
+import { CategoriesStoreService } from '../../store/categories.store.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly userStore = inject(UserStoreService);
   private readonly transactionStore = inject(TransactionStore);
+  private readonly categoriesStore = inject(CategoriesStoreService);
   // 1. Signal qui stocke le token
   private _token = signal<string | null>(localStorage.getItem('pecunia-token'));
 
@@ -59,6 +61,7 @@ export class AuthService {
     this._token.set(null);
     this.userStore.clear();
     this.transactionStore.reset();
+    this.categoriesStore.reset();
   }
   // 6. Pour l'interceptor
   getToken(): string | null {
