@@ -1,6 +1,6 @@
 <app-connected-layout>
   <p>transactions-create works!</p>
-    <p>Catégories</p>
+  <p>Catégories</p>
   <select>
     @for (category of categories(); track category.id) {
       <option [value]="category.id">
@@ -9,10 +9,18 @@
     }
   </select>
   <p>Tags</p>
-    <select>
+  <select>
     @for (tag of tags(); track tag.id) {
       <option [value]="tag.id">
         {{ tag.tagName }}
+      </option>
+    }
+  </select>
+  <p>Fournisseurs</p>
+  <select>
+    @for (provider of providers(); track provider.id) {
+      <option [value]="provider.id">
+        {{ provider.providerName }}
       </option>
     }
   </select>
