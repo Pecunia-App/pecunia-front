@@ -9,6 +9,7 @@ import { WalletResolver } from './_core/resolver/wallet.resolver';
 import { TransactionListResolver } from './_core/resolver/transaction-list.resolver';
 import { TransactionDetailResolver } from './_core/resolver/transaction-detail.resolver';
 import { CategoriesResolver } from './_core/resolver/categories.resolver';
+import { TagsResolver } from './_core/resolver/tags.resolver';
 
 export const routes: Routes = [
   {
@@ -66,6 +67,7 @@ export const routes: Routes = [
       wallet: WalletResolver,
       transactions: TransactionListResolver,
       categories: CategoriesResolver,
+      tags: TagsResolver,
     },
   },
   {
