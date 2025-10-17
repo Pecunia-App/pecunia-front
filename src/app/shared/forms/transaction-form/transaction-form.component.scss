@@ -13,3 +13,7 @@ app-ui-button {
   width: 100%;
   @include layout.margin(space-24, 0, 0, 0);
 }
+
+.fieldset {
+  @include layout.flex($dir: column, $gap: space-16);
+}

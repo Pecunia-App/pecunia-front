@@ -12,7 +12,8 @@
   html[data-theme='#{$theme}'] body {
     background-color: #{theme.themed('background-neutral-primary', $theme)};
     color: #{theme.themed('text-neutral-default', $theme)};
-    .category-modal {
+    .category-modal,
+    .provider-modal {
       .ant-modal-content,
       .ant-modal-header,
       .ant-modal-title,
@@ -33,7 +34,8 @@
         @include typo.text-style(heading-h2, bold, desktop);
       }
     }
-    .category-modal {
+    .category-modal,
+    .provider-modal {
       background-color: #{theme.themed('background-neutral-primary', $theme)};
       @include shadows.shadow(inner, $theme);
       color: #{theme.themed('text-neutral-default', $theme)};

@@ -14,3 +14,15 @@ export interface TransactionDTO {
   createdAt: string; // ISO date
   updatedAt: string; // ISO date
 }
+
+export interface TransactionCreateDTO {
+  amount: {
+    amount: number;
+    currency: string; // exemple: "EUR"
+  };
+  note?: string;
+  walletId: number;
+  tagsIds?: number[];
+  categoryId: number;
+  providerId?: number;
+}
