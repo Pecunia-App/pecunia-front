@@ -8,6 +8,9 @@ import { CommonModule } from '@angular/common';
 import { TransactionStore } from '../../../_core/store/transactions.store.service';
 import { formatDateFr, TotalAmountFr } from '../../../_core/utils/format.utils';
 import { UserStoreService } from '../../../_core/store/user.store.service';
+import { BreakpointService } from '../../../_core/services/responsive/breakpoint.service';
+import { BadgeComponent } from '../../../shared/ui/badge/badge.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transactions-list',
@@ -16,11 +19,14 @@ import { UserStoreService } from '../../../_core/store/user.store.service';
     ButtonComponent,
     TransactionCardComponent,
     CommonModule,
+    BadgeComponent,
   ],
   templateUrl: './transactions-list.component.html',
   styleUrl: './transactions-list.component.scss',
 })
 export class TransactionsListComponent {
+  readonly breakpoint = inject(BreakpointService);
+  private readonly router = inject(Router);
   private readonly transactionStore = inject(TransactionStore);
   private readonly userStore = inject(UserStoreService);
   readonly transactions = this.transactionStore.transactions;
@@ -77,5 +83,8 @@ export class TransactionsListComponent {
       this.transactionStore.setCurrentPage(newPage);
       this.transactionStore.goToPage(wallet.id, newPage);
     }
+  }
+  navigateToCreateTransaction(): void {
+    this.router.navigate(['/transactions/add']);
   }
 }

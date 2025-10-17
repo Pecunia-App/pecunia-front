@@ -65,6 +65,8 @@ export class InputComponent implements ControlValueAccessor {
   readonly _id = signal<string | null>(null);
   //gestion focus
   readonly _isFocused = signal<boolean>(false);
+  //gestion readonly mais cliquable
+  readonly _openable = signal<boolean>(false);
 
   @Output() InputValueChange = new EventEmitter<string>();
   @Output() inputBlur = new EventEmitter<Event>();
@@ -122,6 +124,9 @@ export class InputComponent implements ControlValueAccessor {
   }
   @Input() set id(value: string | null) {
     this._id.set(value ?? null);
+  }
+  @Input() set openable(value: boolean) {
+    this._openable.set(value ?? false);
   }
 
   // Getters

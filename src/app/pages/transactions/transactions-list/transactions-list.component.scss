@@ -83,3 +83,42 @@
   align-items: center;
   gap: 2rem;
 }
+
+.transaction-filter {
+  @include layout.margin(space-24, 0, 0, 0);
+}
+
+::ng-deep app-ui-button .btn-create-transaction {
+  .ui-badge {
+    width: 24px;
+    height: 24px;
+    @include theme.themed-block(
+      (
+        background-color: 'background-neutral-secondary',
+      )
+    );
+    span {
+      @include theme.themed-block(
+        (
+          background-color: 'background-primary-default',
+        )
+      );
+    }
+  }
+  &:hover {
+    .ui-badge {
+      @include theme.themed-block(
+        (
+          background-color: 'background-neutral-secondary-static-inverse',
+        )
+      );
+      span {
+        @include theme.themed-block(
+          (
+            background-color: 'background-primary-hover',
+          )
+        );
+      }
+    }
+  }
+}
