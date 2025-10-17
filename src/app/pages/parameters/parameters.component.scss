@@ -1,0 +1,201 @@
+@use '../../../styles/themes/tokens' as theme;
+@use '../../../styles/abstracts/breakpoints' as breakpoints;
+@use '../../../styles/abstracts/shadows' as shadows;
+@use '../../../styles/abstracts/layout' as layout;
+@use '../../../styles/abstracts/typography' as typography;
+
+.parameters-container {
+  max-width: 900px;
+  margin: 0 auto;
+  @include layout.padding(space-12, space-12);
+
+  @include breakpoints.mq(mobile) {
+    @include layout.padding(space-24, space-24);
+  }
+}
+
+// Tabs Navigation
+.tabs-nav {
+  @include layout.flex($justify: flex-start, $align: stretch);
+  @include shadows.shadow(sm);
+  overflow: hidden;
+}
+
+.tab-button {
+  flex: 1;
+  @include layout.padding(space-16, space-24);
+  border: none;
+  font-size: 1rem;
+  @include typography.text-style(text-md, regular, mobile);
+
+  @include breakpoints.mq(desktop) {
+    @include typography.text-style(text-md, regular, desktop);
+    line-height: 24px;
+  }
+
+  color: theme.themed('text-neutral-tertiary', 'light');
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: none;
+  }
+
+  &.active {
+    color: #047857;
+    @include typography.text-style(text-md, semibold, mobile);
+
+    @include breakpoints.mq(desktop) {
+      @include typography.text-style(text-md, semibold, desktop);
+    }
+  }
+}
+
+// Tab Content
+.tab-content {
+  background-color: white;
+  padding: 24px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+// Action Buttons
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.btn-primary {
+    background-color: #047857;
+    color: white;
+
+    &:hover {
+      background-color: #065f46;
+    }
+  }
+
+  &.btn-danger {
+    background-color: #fee2e2;
+    color: #dc2626;
+
+    &:hover {
+      background-color: #fecaca;
+    }
+  }
+}
+
+// Category Sections
+.category-section {
+  margin-bottom: 40px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 16px 0;
+}
+
+// Category List
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background-color: #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background-color: white;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f9fafb;
+  }
+}
+
+.category-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.category-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #047857;
+}
+
+.category-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.category-name {
+  font-size: 15px;
+  color: #111827;
+  font-weight: 400;
+}
+
+// Category Actions
+.category-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.edit-button {
+    background-color: #d1fae5;
+    color: #047857;
+
+    &:hover {
+      background-color: #a7f3d0;
+    }
+  }
+
+  &.delete-button {
+    background-color: #fee2e2;
+    color: #dc2626;
+
+    &:hover {
+      background-color: #fecaca;
+    }
+  }
+}
