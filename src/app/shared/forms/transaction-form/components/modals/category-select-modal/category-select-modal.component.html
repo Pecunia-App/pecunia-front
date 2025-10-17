@@ -1,0 +1,63 @@
+<div class="tabs">
+  <div
+    class="tab-button"
+    role="button"
+    tabindex="0"
+    [class.active]="activeTab() === 'debit'"
+    (click)="setActiveTab('debit')"
+    (keyup.enter)="setActiveTab('debit')"
+  >
+    Dépenses
+  </div>
+  <div
+    class="tab-button"
+    role="button"
+    tabindex="0"
+    [class.active]="activeTab() === 'credit'"
+    (click)="setActiveTab('credit')"
+    (keyup.enter)="setActiveTab('credit')"
+  >
+    Revenus
+  </div>
+</div>
+
+<ul class="category-list">
+  @if (activeTab() === 'debit') {
+    @for (cat of debitCategories(); track cat.id) {
+      <li
+        class="category-item"
+        role="button"
+        tabindex="0"
+        (click)="selectCategory(cat)"
+        (keydown.enter)="selectCategory(cat)"
+        (keyup.space)="selectCategory(cat)"
+      >
+        <app-ui-badge
+          [iconName]="cat.icon"
+          [bgColorClass]="cat.color"
+          [ariaLabel]="cat.categoryName"
+        ></app-ui-badge>
+        <span>{{ cat.categoryName }}</span>
+      </li>
+    }
+  }
+  @if (activeTab() === 'credit') {
+    @for (cat of creditCategories(); track cat.id) {
+      <li
+        class="category-item"
+        role="button"
+        tabindex="0"
+        (click)="selectCategory(cat)"
+        (keydown.enter)="selectCategory(cat)"
+        (keyup.space)="selectCategory(cat)"
+      >
+        <app-ui-badge
+          [iconName]="cat.icon"
+          [bgColorClass]="cat.color"
+          [ariaLabel]="cat.categoryName"
+        ></app-ui-badge>
+        <span>{{ cat.categoryName }}</span>
+      </li>
+    }
+  }
+</ul>

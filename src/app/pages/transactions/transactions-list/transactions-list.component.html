@@ -1,4 +1,18 @@
 <app-connected-layout>
+  <section class="transaction-filter">
+    @if (breakpoint.isDesktop) {
+      <app-ui-button
+        id="btn-create-transaction"
+        variant="primary"
+        size="medium"
+        overideClass="btn-create-transaction"
+        (buttonClick)="navigateToCreateTransaction()"
+      >
+        Ajout transaction
+        <app-ui-badge [iconName]="'plus'" ariaLabel="plus"></app-ui-badge>
+      </app-ui-button>
+    }
+  </section>
   <section class="transactions-list">
     @if (page(); as p) {
       <div class="transactions-list-pagination">

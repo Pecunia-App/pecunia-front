@@ -1,0 +1,15 @@
+<form [formGroup]="transactionsForm" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <app-category-select
+      [formControlName]="'category'"
+    ></app-category-select>
+  </fieldset>
+    <app-ui-button
+    type="submit"
+    width="full"
+    size="medium"
+    variant="primary"
+    overideClass="btn-submit"
+    >Ajouter</app-ui-button
+  >
+</form>

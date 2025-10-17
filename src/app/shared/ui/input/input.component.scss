@@ -59,7 +59,18 @@
         )
       );
     }
+    &[readonly][data-openable] {
+      cursor: pointer;
+      @include theme.themed-block(
+        (
+          background-color: 'background-neutral-secondary',
+          border-color: 'border-neutral-secondary-inverse',
+          color: 'text-neutral-default',
+        )
+      );
+    }
   }
+
   &:hover:not([disabled]):not([readonly]) {
     @include theme.themed-block(
       (
