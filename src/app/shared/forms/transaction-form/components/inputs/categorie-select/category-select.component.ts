@@ -34,11 +34,11 @@ export class CategorySelectComponent implements ControlValueAccessor {
   selectedCategory: CategoryDTO | null = null;
 
   writeValue(id: number | null): void {
-    if (id !== null) {
-      this.selectedCategory = this.categoriesStore.getCategoryById(id) ?? null;
-    } else {
+    if (id === null || !id || Number.isNaN(Number(id))) {
       this.selectedCategory = null;
+      return;
     }
+    this.selectedCategory = this.categoriesStore.getCategoryById(id) ?? null;
   }
 
   registerOnChange(fn: (value: string | number) => void): void {
@@ -65,7 +65,7 @@ export class CategorySelectComponent implements ControlValueAccessor {
         // propagate value to the form control (use the category id)
         this.onChange(category.id);
         this.onTouched();
-        console.log('categorie choisie', category.categoryName);
+        console.log('categorie choisie', category.categoryName, category.id);
       }
     });
   }

@@ -1,0 +1,18 @@
+<ul class="provider-list">
+@if(!providers.length) {
+  <li class="no-provider">Aucun fournisseur disponible.</li>
+} @else {
+     @for (provider of providers; track provider.id) {
+    <li
+      class="provider-item"
+      role="button"
+      tabindex="0"
+      (click)="selectProvider(provider)"
+      (keydown.enter)="selectProvider(provider)"
+      (keyup.space)="selectProvider(provider)"
+    >
+      <span>{{ provider.providerName }}</span>
+    </li>
+  }
+}
+</ul>

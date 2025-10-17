@@ -10,13 +10,21 @@ import {
 } from '@angular/forms';
 import { CategorySelectComponent } from './components/inputs/categorie-select/category-select.component';
 import { ButtonComponent } from '../../ui/button/button.component';
+import { ProviderSelectComponent } from './components/inputs/provider-select/provider-select.component';
+import { TransactionCreateDTO } from '../../../_core/models/transactions/transaction.dto';
+import { TagDTO } from '../../../_core/models/transactions/tag.dto';
 
 @Component({
   selector: 'app-transaction-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CategorySelectComponent, ButtonComponent],
+  imports: [
+    ReactiveFormsModule,
+    CategorySelectComponent,
+    ButtonComponent,
+    ProviderSelectComponent,
+  ],
   templateUrl: './transaction-form.component.html',
-  styleUrl: './transaction-form.component.scss',
+  styleUrls: ['./transaction-form.component.scss'],
 })
 export class TransactionFormComponent {
   private readonly categoryStore = inject(CategoriesStoreService);
@@ -32,7 +40,11 @@ export class TransactionFormComponent {
   @Input() mode: 'create' | 'edit' = 'create';
 
   readonly transactionsForm: FormGroup = this.formBuilder.group({
+    amount: [null],
     category: ['', [Validators.required]],
+    provider: [null],
+    tags: [[]],
+    note: [''],
   });
 
   onSubmit(): void {
@@ -42,9 +54,21 @@ export class TransactionFormComponent {
       this.transactionsForm.markAllAsTouched();
       return;
     }
-    const { category } = this.transactionsForm.value;
-    const response = { category };
-    console.log('response', response);
+    const { category, provider, tags, note } = this.transactionsForm.value;
+    const payload: TransactionCreateDTO = {
+      amount: {
+        amount: 100, // Number(amount),
+        currency: 'EUR', // à rendre dynamique si besoin plus tard
+      },
+      walletId: 6, //à remplacer par la vraie valeur du store utilisateur
+      categoryId: category,
+      ...(provider ? { providerId: provider } : {}),
+      ...(tags && tags.length
+        ? { tagsIds: tags.map((t: TagDTO) => t.id) }
+        : {}),
+      ...(note ? { note } : {}),
+    };
+    console.log('response', payload);
     this.isSubmitted = false;
   }
 }

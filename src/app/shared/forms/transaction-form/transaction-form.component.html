@@ -1,8 +1,11 @@
 <form [formGroup]="transactionsForm" (ngSubmit)="onSubmit()">
-  <fieldset>
+  <fieldset class="fieldset">
     <app-category-select
       [formControlName]="'category'"
     ></app-category-select>
+    <app-provider-select
+      [formControlName]="'provider'"
+    ></app-provider-select>
   </fieldset>
     <app-ui-button
     type="submit"
