@@ -1,0 +1,44 @@
+@use '../../../../../../../styles/themes/tokens' as theme;
+@use '../../../../../../../styles/abstracts/typography' as typo;
+@use '../../../../../../../styles/abstracts/layout' as layout;
+@use '../../../../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../../../../styles/abstracts/breakpoints' as breakpoints;
+
+.provider-list {
+  @include layout.flex($dir: column, $wrap: nowrap, $gap: space-12);
+  @include layout.padding(space-8);
+  max-height: 500px;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #{theme.themed('background-primary-default', light)}
+    #{theme.themed('background-neutral-tertiary', light)};
+}
+
+:host-context([data-theme='dark']) .provider-list {
+  scrollbar-color: #{theme.themed('background-primary-default', dark)}
+    #{theme.themed('background-neutral-tertiary', dark)};
+}
+
+.provider-item {
+  @include layout.flex(
+    $dir: null,
+    $wrap: null,
+    $justify: null,
+    $align: center,
+    $gap: space-8
+  );
+  @include layout.padding(space-8, space-4);
+  border-radius: 0.5rem;
+  @include layout.radius(md);
+  cursor: pointer;
+
+  &:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-primary-hover-ghost',
+        color: 'text-neutral-default-static',
+      )
+    );
+  }
+}

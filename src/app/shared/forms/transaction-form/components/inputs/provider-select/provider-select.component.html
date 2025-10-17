@@ -1,0 +1,17 @@
+<app-ui-input
+  label="Sélectionner un fournisseur"
+  placeholder="Sélectionner un fournisseur"
+  role="combobox"
+  aria-haspopup="dialog"
+  width="full"
+  [readonly]="true"
+  [openable]="true"
+  [required]="true"
+  [id]="'provider-input'"
+  (click)="openModal()"
+  (keyup.enter)="openModal()"
+  (keyup.space)="openModal()"
+  [value]="selectedProvider?.providerName || ''"
+>
+  <app-ui-icon name="chevron-down" icon-right />
+</app-ui-input>
