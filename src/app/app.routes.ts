@@ -79,6 +79,11 @@ export const routes: Routes = [
         './pages/transactions/transactions-create/transactions-create.component'
       ).then((m) => m.TransactionsCreateComponent),
     canActivate: [authGuard],
+    resolve: {
+      categories: CategoriesResolver,
+      tags: TagsResolver,
+      providers: ProvidersResolver,
+    },
   },
   {
     path: 'transactions/:id',

@@ -12,19 +12,59 @@
   html[data-theme='#{$theme}'] body {
     background-color: #{theme.themed('background-neutral-primary', $theme)};
     color: #{theme.themed('text-neutral-default', $theme)};
+    .category-modal {
+      .ant-modal-content,
+      .ant-modal-header,
+      .ant-modal-title,
+      .ant-modal-close {
+        background-color: transparent;
+        color: #{theme.themed('text-neutral-default', $theme)};
+      }
+    }
+    .ant-modal-header {
+      border-bottom: 0;
+    }
+    .ant-modal-title {
+      @include typo.text-style(heading-h2, bold, mobile);
+      text-align: center;
+      line-height: 24px;
+      @include layout.padding(space-24, 0, 0, 0);
+      @include breakpoints.mq(desktop) {
+        @include typo.text-style(heading-h2, bold, desktop);
+      }
+    }
+    .category-modal {
+      background-color: #{theme.themed('background-neutral-primary', $theme)};
+      @include shadows.shadow(inner, $theme);
+      color: #{theme.themed('text-neutral-default', $theme)};
+      @include layout.radius(md);
+    }
+    .ant-modal-close {
+      border: solid 3px transparent;
+      font-size: large;
+      @include layout.radius(md);
+      &:focus-visible {
+        border: solid
+          3px
+          #{theme.themed('border-neutral-primary-inverse', $theme)};
+      }
+      &:hover {
+        background-color: #{theme.themed(
+            'background-primary-hover-ghost',
+            $theme
+          )};
+        color: #{theme.themed('text-neutral-default-static', $theme)};
+      }
+    }
+    .ant-modal-mask {
+      background-color: #{theme.themed('text-neutral-default', $theme)};
+      opacity: if($theme == dark, 0.1, 0.2);
+    }
+    .ant-modal {
+      transition: background-color 0.2s ease-in-out;
+    }
+    .ant-modal-body {
+      @include layout.padding(0, space-24, space-24, space-24);
+    }
   }
-}
-
-h1 {
-  color: red;
-  @include typo.text-style(display-h1, regular, mobile);
-
-  @include breakpoints.mq(desktop) {
-    color: blue;
-    @include typo.text-style(display-h1, regular, desktop);
-  }
-}
-
-.login-btn-submit {
-  margin-top: 12px !important;
 }

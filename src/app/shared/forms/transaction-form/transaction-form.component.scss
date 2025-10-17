@@ -1,0 +1,15 @@
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+:host {
+  width: 100%;
+  max-width: 808px;
+}
+
+app-ui-button {
+  width: 100%;
+  @include layout.margin(space-24, 0, 0, 0);
+}

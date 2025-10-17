@@ -1,0 +1,17 @@
+<app-ui-input
+  label="Sélectionner une catégorie"
+  placeholder="Sélectionner une catégorie"
+  role="combobox"
+  aria-haspopup="dialog"
+  width="full"
+  [readonly]="true"
+  [openable]="true"
+  [required]="true"
+  [id]="'category-input'"
+  (click)="openModal()"
+  (keyup.enter)="openModal()"
+  (keyup.space)="openModal()"
+  [value]="selectedCategory?.categoryName || ''"
+>
+  <app-ui-icon name="chevron-down" icon-right />
+</app-ui-input>
