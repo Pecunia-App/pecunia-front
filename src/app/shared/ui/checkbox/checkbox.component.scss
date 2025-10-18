@@ -1,0 +1,121 @@
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/typography' as typo;
+@use '../../../../styles/abstracts/layout' as layout;
+@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+
+:host {
+  display: inline-block;
+  font-family: 'open-sans', sans-serif;
+}
+
+.ui-checkbox__wrapper {
+  @include layout.flex($dir: row, $align: center, $gap: space-8);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+
+  @include typo.text-style(text-md, regular, mobile);
+
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(text-md, regular, desktop);
+  }
+
+  &.ui-checkbox--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+/* INPUT invisible mais accessible */
+.ui-checkbox__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* BOX par défaut */
+.ui-checkbox__box {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid;
+  @include layout.radius(md);
+  @include layout.flex($dir: row, $align: center, $justify: center);
+  transition: all 0.15s ease-in-out;
+
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-secondary',
+      border-color: 'border-neutral-primary-inverse',
+    )
+  );
+
+  &:hover {
+    @include theme.themed-block(
+      (
+        border-color: 'border-primary-default',
+        background-color: 'background-primary-hover-ghost',
+      )
+    );
+  }
+}
+
+/* Focus clavier uniquement */
+.ui-checkbox__input:focus-visible + .ui-checkbox__box {
+  outline: solid 3px;
+  @include theme.themed-block(
+    (
+      outline-color: 'border-primary-focus',
+      border-color: 'border-primary-focus',
+    )
+  );
+}
+
+/* Checked */
+.ui-checkbox__input:checked + .ui-checkbox__box {
+  @include theme.themed-block(
+    (
+      background-color: 'background-primary-default',
+      border-color: 'border-primary-default',
+    )
+  );
+
+  &::after {
+    content: '\2714';
+    font-size: 0.75rem;
+    line-height: 1;
+    @include theme.themed-block(
+      (
+        color: 'border-neutral-primary',
+      )
+    );
+  }
+  &:hover:hover {
+    @include theme.themed-block(
+      (
+        background-color: 'background-primary-hover-ghost',
+        border-color: 'border-primary-default',
+      )
+    );
+  }
+}
+.ui-checkbox__input:checked + .ui-checkbox__box:hover::after {
+  color: black !important;
+}
+/* Disabled */
+.ui-checkbox__wrapper.ui-checkbox--disabled .ui-checkbox__box {
+  @include theme.themed-block(
+    (
+      background-color: 'background-secondary-disabled',
+      border-color: 'border-neutral-disabled',
+    )
+  );
+}
+
+/* Label */
+.ui-checkbox__label {
+  @include theme.themed-block(
+    (
+      color: 'text-neutral-default',
+    )
+  );
+}

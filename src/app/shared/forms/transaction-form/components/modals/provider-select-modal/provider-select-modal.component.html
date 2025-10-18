@@ -8,7 +8,7 @@
       role="button"
       tabindex="0"
       (click)="selectProvider(provider)"
-      (keydown.enter)="selectProvider(provider)"
+      (keyup.enter)="selectProvider(provider)"
       (keyup.space)="selectProvider(provider)"
     >
       <span>{{ provider.providerName }}</span>
