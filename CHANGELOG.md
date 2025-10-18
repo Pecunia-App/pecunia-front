@@ -1,3 +1,10 @@
+## 0.10.0 (2025-10-18)
+
+### Feat
+
+- **transactions**: create input and modal to select a provider
+- **transactions**: create imput and modal to select categories
+
 ## 0.9.0 (2025-10-15)
 
 ### Feat
