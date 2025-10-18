@@ -13,21 +13,5 @@
         >retour</app-ui-button
       >
     </div>
-    <p>Tags</p>
-    <select>
-      @for (tag of tags(); track tag.id) {
-        <option [value]="tag.id">
-          {{ tag.tagName }}
-        </option>
-      }
-    </select>
-    <p>Fournisseurs</p>
-    <select>
-      @for (provider of providers(); track provider.id) {
-        <option [value]="provider.id">
-          {{ provider.providerName }}
-        </option>
-      }
-    </select>
   </section>
 </app-connected-layout>

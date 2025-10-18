@@ -8,7 +8,7 @@
 
 .login-form {
   margin-top: layout.$space-24;
-  @include layout.flex($dir: column, $gap: space-12);
+  @include layout.flex($dir: column, $gap: space-24);
 
   @include bp.mq(desktop) {
     margin-top: layout.$space-32;

@@ -1,0 +1,37 @@
+<div class="tag-list">
+  @if (!tags.length) {
+    <p class="empty">Aucun tag disponible.</p>
+  } @else {
+    <div class="tag-list">
+      @for (tag of tags; track tag.id) {
+        <div class="tag-item">
+          <app-ui-checkbox
+            [label]="tag.tagName"
+            [checked]="selectedIds.has(tag.id)"
+            (changed)="toggleTag(tag.id, $event)"
+          ></app-ui-checkbox>
+        </div>
+      }
+    </div>
+  }
+</div>
+<div class="modal-actions">
+  <app-ui-button
+    width="auto"
+    [minWidth]="'100px'"
+    size="medium"
+    variant="primary-ghost"
+    (click)="cancel()"
+    (keyup.enter)="cancel()"
+    >Annuler</app-ui-button
+  >
+  <app-ui-button
+    width="auto"
+    [minWidth]="'100px'"
+    size="medium"
+    variant="primary"
+    (click)="confirm()"
+    (keyup.enter)="confirm()"
+    >Valider</app-ui-button
+  >
+</div>

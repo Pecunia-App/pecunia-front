@@ -13,7 +13,8 @@
     background-color: #{theme.themed('background-neutral-primary', $theme)};
     color: #{theme.themed('text-neutral-default', $theme)};
     .category-modal,
-    .provider-modal {
+    .provider-modal,
+    .tags-modal {
       .ant-modal-content,
       .ant-modal-header,
       .ant-modal-title,
@@ -35,7 +36,8 @@
       }
     }
     .category-modal,
-    .provider-modal {
+    .provider-modal,
+    .tags-modal {
       background-color: #{theme.themed('background-neutral-primary', $theme)};
       @include shadows.shadow(inner, $theme);
       color: #{theme.themed('text-neutral-default', $theme)};
