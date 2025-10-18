@@ -12,7 +12,8 @@ import { CategorySelectComponent } from './components/inputs/categorie-select/ca
 import { ButtonComponent } from '../../ui/button/button.component';
 import { ProviderSelectComponent } from './components/inputs/provider-select/provider-select.component';
 import { TransactionCreateDTO } from '../../../_core/models/transactions/transaction.dto';
-import { TagDTO } from '../../../_core/models/transactions/tag.dto';
+import { TagSelectComponent } from './components/inputs/tag-select/tag-select.component';
+import { UserStoreService } from '../../../_core/store/user.store.service';
 
 @Component({
   selector: 'app-transaction-form',
@@ -22,6 +23,7 @@ import { TagDTO } from '../../../_core/models/transactions/tag.dto';
     CategorySelectComponent,
     ButtonComponent,
     ProviderSelectComponent,
+    TagSelectComponent,
   ],
   templateUrl: './transaction-form.component.html',
   styleUrls: ['./transaction-form.component.scss'],
@@ -30,9 +32,11 @@ export class TransactionFormComponent {
   private readonly categoryStore = inject(CategoriesStoreService);
   private readonly tagStore = inject(TagStoreService);
   private readonly providerStore = inject(ProvidersStoreService);
+  private readonly userStore = inject(UserStoreService);
   readonly categories = this.categoryStore.allCategories;
   readonly tags = this.tagStore.userTags;
   readonly providers = this.providerStore.userProviders;
+  readonly walletId = this.userStore.wallet()?.id;
 
   private formBuilder = inject(FormBuilder);
   public isSubmitted = false;
@@ -48,6 +52,8 @@ export class TransactionFormComponent {
   });
 
   onSubmit(): void {
+    console.log('fonction submit appelé');
+
     this.isSubmitted = true;
     if (this.transactionsForm.invalid) {
       this.isSubmitted = false;
@@ -55,17 +61,17 @@ export class TransactionFormComponent {
       return;
     }
     const { category, provider, tags, note } = this.transactionsForm.value;
+    console.log('tags avant réponse', tags);
+
     const payload: TransactionCreateDTO = {
       amount: {
         amount: 100, // Number(amount),
         currency: 'EUR', // à rendre dynamique si besoin plus tard
       },
-      walletId: 6, //à remplacer par la vraie valeur du store utilisateur
+      walletId: this.walletId as number,
       categoryId: category,
       ...(provider ? { providerId: provider } : {}),
-      ...(tags && tags.length
-        ? { tagsIds: tags.map((t: TagDTO) => t.id) }
-        : {}),
+      ...(tags && tags.length ? { tagsIds: tags } : {}),
       ...(note ? { note } : {}),
     };
     console.log('response', payload);

@@ -6,6 +6,7 @@ import { ProvidersStoreService } from '../../../_core/store/providers.store.serv
 import { TransactionFormComponent } from '../../../shared/forms/transaction-form/transaction-form.component';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions-create',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
     ConnectedLayoutComponent,
     TransactionFormComponent,
     ButtonComponent,
+    FormsModule,
   ],
   templateUrl: './transactions-create.component.html',
   styleUrl: './transactions-create.component.scss',
@@ -26,6 +28,8 @@ export class TransactionsCreateComponent {
   readonly providers = this.providerStore.userProviders;
 
   readonly router = inject(Router);
+
+  testValue = false;
 
   navigateToTranstactions(): void {
     this.router.navigate(['/transactions']);
