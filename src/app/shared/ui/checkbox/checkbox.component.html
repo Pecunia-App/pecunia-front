@@ -1,0 +1,23 @@
+<label
+  class="ui-checkbox__wrapper"
+  [ngClass]="classes"
+  [class.ui-checkbox--disabled]="disabled"
+>
+  <input
+    class="ui-checkbox__input"
+    type="checkbox"
+    [checked]="checked"
+    [disabled]="disabled"
+   (change)="toggle()"
+    (keyup.enter)="toggle()"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+
+    
+  />
+  <span class="ui-checkbox__box"></span>
+
+  @if (label) {
+    <span class="ui-checkbox__label">{{ label }}</span>
+  }
+</label>

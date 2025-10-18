@@ -1,0 +1,17 @@
+<app-ui-input
+  label="Sélectionner des tags"
+  placeholder="Sélectionner un ou plusieurs tags"
+  role="combobox"
+  aria-haspopup="dialog"
+  width="full"
+  [readonly]="true"
+  [openable]="true"
+  [required]="true"
+  [id]="'tag-input'"
+  (click)="openModal()"
+  (keyup.enter)="openModal()"
+  (keyup.space)="openModal()"
+  [value]="displayValue"
+>
+  <app-ui-icon name="chevron-down" icon-right />
+</app-ui-input>
