@@ -1,4 +1,4 @@
-import { Component, forwardRef, inject } from '@angular/core';
+import { Component, forwardRef, inject, Input } from '@angular/core';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { IconComponent } from '../../../../../ui/icon/icon.component';
 import { InputComponent } from '../../../../../ui/input/input.component';
@@ -23,6 +23,8 @@ import { TagSelectModalComponent } from '../../modals/tag-select-modal/tag-selec
 export class TagSelectComponent implements ControlValueAccessor {
   private readonly modal = inject(NzModalService);
   private readonly tagsStore = inject(TagStoreService);
+  @Input() status: 'error' | 'success' | null = null;
+  @Input() helper?: string;
   selectedTags: TagDTO[] = [];
   selectedIds = new Set<number>();
 

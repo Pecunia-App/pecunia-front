@@ -158,9 +158,35 @@ export class InputComponent implements ControlValueAccessor {
     this._disabled.set(isDisabled);
   }
 
+  sanitizeNumericInput(event: Event): string {
+    const inputElement = event.target as HTMLInputElement;
+    let value = inputElement.value ?? '';
+
+    // Remplace la virgule par un point
+    value = value.replace(',', '.');
+
+    // Autoriser uniquement les chiffres positifs et un seul point
+    value = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+
+    // Interdire de commencer par un point
+    if (value.startsWith('.')) {
+      value = '';
+    }
+
+    // Limiter à 2 décimales max
+    const match = value.match(/^\d+(\.\d{0,2})?/);
+    value = match ? match[0] : '';
+
+    // Réinjecte la valeur nettoyée
+    return (inputElement.value = value);
+  }
+
   // Handlers
   handleOnChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
+    if (this._type() === 'number') {
+      this.sanitizeNumericInput(event);
+    }
     this._value.set(inputElement.value);
     this.InputValueChange.emit(inputElement.value);
     this.onChange(inputElement.value);

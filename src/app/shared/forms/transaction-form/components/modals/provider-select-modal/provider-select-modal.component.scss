@@ -9,10 +9,14 @@
   @include layout.padding(space-8);
   max-height: 500px;
   overflow-y: auto;
+  @include typo.text-style(text-md, regular, mobile);
 
   scrollbar-width: thin;
   scrollbar-color: #{theme.themed('background-primary-default', light)}
     #{theme.themed('background-neutral-tertiary', light)};
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(text-md, regular, desktop);
+  }
 }
 
 :host-context([data-theme='dark']) .provider-list {
@@ -30,6 +34,7 @@
   );
   @include layout.padding(space-8, space-4);
   border-radius: 0.5rem;
+  line-height: 24px;
   @include layout.radius(md);
   cursor: pointer;
 
