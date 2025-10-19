@@ -1,4 +1,4 @@
-import { Component, forwardRef, inject } from '@angular/core';
+import { Component, forwardRef, inject, Input } from '@angular/core';
 import { InputComponent } from '../../../../../ui/input/input.component';
 import { IconComponent } from '../../../../../ui/icon/icon.component';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
@@ -23,6 +23,8 @@ import { ProviderSelectModalComponent } from '../../modals/provider-select-modal
 export class ProviderSelectComponent implements ControlValueAccessor {
   private readonly modal = inject(NzModalService);
   private readonly providerStore = inject(ProvidersStoreService);
+  @Input() status: 'error' | 'success' | null = null;
+  @Input() helper?: string;
   // ControlValueAccessor implementation
   private onChange: (value: string | number) => void = () => {
     /* intentionally empty */

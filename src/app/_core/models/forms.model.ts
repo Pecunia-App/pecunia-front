@@ -28,6 +28,13 @@ export interface ProfileForm extends Partial<RegisterForm> {
   passwordUpdate?: PasswordUpdateForm;
 }
 
+export interface TransactionForm {
+  amount: number;
+  category: number;
+  note: string;
+  provider?: number;
+  tags?: number[];
+}
 /**
  * typage générique pour un FormGroup
  *
