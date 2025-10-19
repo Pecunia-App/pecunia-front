@@ -67,7 +67,6 @@ export class ProviderSelectComponent implements ControlValueAccessor {
         // propagate value to the form control (use the provider id)
         this.onChange(provider.id);
         this.onTouched();
-        console.log('fournisseur choisi', provider.providerName, provider.id);
       }
     });
   }
