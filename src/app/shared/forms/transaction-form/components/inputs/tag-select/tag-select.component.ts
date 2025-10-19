@@ -42,7 +42,6 @@ export class TagSelectComponent implements ControlValueAccessor {
       this.tagsStore.userTags().filter((tag) => tag.id === id)
     );
     this.selectedTags = tags.flat();
-    console.log('selected tags', this.selectedTags);
   }
 
   registerOnChange(fn: (val: number[]) => void): void {
@@ -71,7 +70,6 @@ export class TagSelectComponent implements ControlValueAccessor {
         // propagate value to the form control (use the provider id)
         this.onChange(arrayId);
         this.onTouched();
-        console.log('tags choisi', arrayId);
       }
     });
   }

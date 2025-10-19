@@ -94,7 +94,6 @@ export class LoginFormComponent {
 
   onSubmit() {
     this.isSubmitted = true;
-    console.log('password', this.loginForm.value);
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => this.router.navigate(['/transactions']),

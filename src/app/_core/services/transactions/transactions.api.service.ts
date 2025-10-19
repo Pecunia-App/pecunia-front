@@ -52,6 +52,9 @@ export class TransactionsApiService implements TransactionsDataSource {
   createTransaction(
     transaction: TransactionCreateDTO
   ): Observable<TransactionDTO> {
-    return this.http.post<TransactionDTO>(this.baseUrl, transaction);
+    return this.http.post<TransactionDTO>(
+      `${this.baseUrl}/transactions`,
+      transaction
+    );
   }
 }

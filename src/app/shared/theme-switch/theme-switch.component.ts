@@ -16,7 +16,6 @@ export class ThemeSwitchComponent {
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
-    console.log(`Theme switched to: ${this.themeService.theme()}`);
   }
 
   isDark(): boolean {

@@ -67,7 +67,6 @@ export class CategorySelectComponent implements ControlValueAccessor {
         // propagate value to the form control (use the category id)
         this.onChange(category.id);
         this.onTouched();
-        console.log('categorie choisie', category.categoryName, category.id);
       }
     });
   }
