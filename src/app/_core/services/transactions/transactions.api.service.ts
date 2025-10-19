@@ -5,7 +5,10 @@ import {
   TransactionsDataSource,
   TransactionResponse,
 } from './transactions.data-source';
-import { TransactionDTO } from '../../models/transactions/transaction.dto';
+import {
+  TransactionCreateDTO,
+  TransactionDTO,
+} from '../../models/transactions/transaction.dto';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -40,5 +43,15 @@ export class TransactionsApiService implements TransactionsDataSource {
    */
   getTransactionById(id: number): Observable<TransactionDTO> {
     return this.http.get<TransactionDTO>(`${this.baseUrl}/transactions/${id}`);
+  }
+
+  /**
+   * Récupère une transaction par son ID global.
+   * POST /transactions
+   */
+  createTransaction(
+    transaction: TransactionCreateDTO
+  ): Observable<TransactionDTO> {
+    return this.http.post<TransactionDTO>(this.baseUrl, transaction);
   }
 }

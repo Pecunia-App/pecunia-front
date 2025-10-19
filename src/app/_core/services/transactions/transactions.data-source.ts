@@ -1,5 +1,8 @@
 import { Observable } from 'rxjs';
-import { TransactionDTO } from '../../models/transactions/transaction.dto';
+import {
+  TransactionCreateDTO,
+  TransactionDTO,
+} from '../../models/transactions/transaction.dto';
 
 export interface PageDTO {
   size: number;
@@ -20,5 +23,9 @@ export interface TransactionsDataSource {
     size?: number
   ): Observable<TransactionResponse>;
   getTransactionById(id: number): Observable<TransactionDTO>;
+
+  createTransaction(
+    transaction: TransactionCreateDTO
+  ): Observable<TransactionDTO>;
   // + create/update/delete plus tard
 }
