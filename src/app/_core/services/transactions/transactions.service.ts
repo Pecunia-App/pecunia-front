@@ -4,7 +4,10 @@ import { TransactionsMockService } from './transactions.mock.service';
 import { TransactionsApiService } from './transactions.api.service';
 import { Observable } from 'rxjs';
 import { TransactionResponse } from './transactions.data-source';
-import { TransactionDTO } from '../../models/transactions/transaction.dto';
+import {
+  TransactionCreateDTO,
+  TransactionDTO,
+} from '../../models/transactions/transaction.dto';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -26,6 +29,11 @@ export class TransactionsService implements TransactionsDataSource {
 
   getTransactionById(id: number): Observable<TransactionDTO> {
     return this.source.getTransactionById(id);
+  }
+  createTransaction(
+    transaction: TransactionCreateDTO
+  ): Observable<TransactionDTO> {
+    return this.source.createTransaction(transaction);
   }
   // create(walletId: number, dto: TransactionDTO)
   // update(id: number, dto: TransactionDTO)
