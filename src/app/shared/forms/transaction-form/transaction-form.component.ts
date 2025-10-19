@@ -119,13 +119,6 @@ export class TransactionFormComponent {
     }
     const { category, provider, tags, note, amount } =
       this.transactionsForm.value;
-    console.log('tags avant réponse', {
-      tags,
-      category,
-      provider,
-      amount,
-      note,
-    });
 
     const payload: TransactionCreateDTO = {
       amount: {
@@ -139,11 +132,8 @@ export class TransactionFormComponent {
       ...(note ? { note } : {}),
     };
 
-    console.log('response', payload);
-
     this.transactionsService.createTransaction(payload).subscribe({
-      next: (created) => {
-        console.log('Transaction mockée créée :', created);
+      next: () => {
         this.isSubmitted = false;
         this.transactionStore.loadTransactions(this.walletId!, 0);
         this.router.navigate(['/transactions']);
@@ -151,7 +141,6 @@ export class TransactionFormComponent {
       error: (err) => {
         this.apiError =
           typeof err.error === 'string' ? err.error : 'Erreur inconnue';
-        console.log('Erreur création mock:', err);
         // Marque les champs comme touchés pour forcer l'affichage de l'erreur
         this.transactionsForm.controls['category'].markAsTouched();
         this.transactionsForm.controls['provider'].markAsTouched();

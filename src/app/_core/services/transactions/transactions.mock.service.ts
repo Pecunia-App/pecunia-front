@@ -62,13 +62,11 @@ export class TransactionsMockService implements TransactionsDataSource {
 
     const merged = getMockTransactionsResponse().content;
     const nextId = Math.max(...merged.map((t) => t.id)) + 1;
-    console.log('transaction du create', transaction);
 
     // Retrouver les objets complets par ID
     const category = this.categoriesStore.getCategoryById(
       transaction.categoryId
     );
-    console.log('category du create', category);
 
     const providerObj = MOCK_PROVIDERS.find(
       (p) => p.id === transaction.providerId
