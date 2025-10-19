@@ -14,6 +14,10 @@ import { ProviderSelectComponent } from './components/inputs/provider-select/pro
 import { TransactionCreateDTO } from '../../../_core/models/transactions/transaction.dto';
 import { TagSelectComponent } from './components/inputs/tag-select/tag-select.component';
 import { UserStoreService } from '../../../_core/store/user.store.service';
+import { InputComponent } from '../../ui/input/input.component';
+import { IconComponent } from '../../ui/icon/icon.component';
+import { FormUtilsService } from '../../../_core/services/form-utils.service';
+import { TransactionForm } from '../../../_core/models/forms.model';
 
 @Component({
   selector: 'app-transaction-form',
@@ -24,6 +28,8 @@ import { UserStoreService } from '../../../_core/store/user.store.service';
     ButtonComponent,
     ProviderSelectComponent,
     TagSelectComponent,
+    InputComponent,
+    IconComponent,
   ],
   templateUrl: './transaction-form.component.html',
   styleUrls: ['./transaction-form.component.scss'],
@@ -33,10 +39,12 @@ export class TransactionFormComponent {
   private readonly tagStore = inject(TagStoreService);
   private readonly providerStore = inject(ProvidersStoreService);
   private readonly userStore = inject(UserStoreService);
+  private readonly formUtils = inject(FormUtilsService);
   readonly categories = this.categoryStore.allCategories;
   readonly tags = this.tagStore.userTags;
   readonly providers = this.providerStore.userProviders;
   readonly walletId = this.userStore.wallet()?.id;
+  readonly walletCurrency = this.userStore.wallet()?.amount?.currency;
 
   private formBuilder = inject(FormBuilder);
   public isSubmitted = false;
@@ -44,29 +52,75 @@ export class TransactionFormComponent {
   @Input() mode: 'create' | 'edit' = 'create';
 
   readonly transactionsForm: FormGroup = this.formBuilder.group({
-    amount: [null],
     category: ['', [Validators.required]],
     provider: [null],
     tags: [[]],
-    note: [''],
+    amount: [
+      null,
+      [Validators.required, Validators.min(0), Validators.max(999999)],
+    ],
+    note: ['', [Validators.minLength(3), Validators.maxLength(20)]],
   });
 
-  onSubmit(): void {
-    console.log('fonction submit appelé');
+  isFieldInError(field: keyof TransactionForm): boolean {
+    return this.formUtils.isFieldInError<TransactionForm>(
+      this.transactionsForm,
+      field,
+      this.isSubmitted
+    );
+  }
 
+  getFieldStatus(field: keyof TransactionForm): 'error' | 'success' | null {
+    if (this.isFieldInError(field)) return 'error';
+    if (
+      this.transactionsForm.controls[field].valid &&
+      this.transactionsForm.controls[field].touched
+    )
+      return 'success';
+    return null;
+  }
+
+  handleFieldErrors(field: keyof TransactionForm): string {
+    const control = this.transactionsForm.controls[field];
+    if (!this.isFieldInError(field)) return '';
+
+    switch (field) {
+      case 'category':
+        return this.formUtils.getNameError(control);
+      case 'amount':
+        return this.formUtils.getAmountError(control);
+      case 'provider':
+        return this.formUtils.getNameError(control);
+      case 'note':
+        return this.formUtils.getNameError(control);
+      case 'tags':
+        return this.formUtils.getNameError(control);
+      default:
+        return this.formUtils.getStandardErrorMessage(control);
+    }
+  }
+
+  onSubmit(): void {
     this.isSubmitted = true;
     if (this.transactionsForm.invalid) {
       this.isSubmitted = false;
       this.transactionsForm.markAllAsTouched();
       return;
     }
-    const { category, provider, tags, note } = this.transactionsForm.value;
-    console.log('tags avant réponse', tags);
+    const { category, provider, tags, note, amount } =
+      this.transactionsForm.value;
+    console.log('tags avant réponse', {
+      tags,
+      category,
+      provider,
+      amount,
+      note,
+    });
 
     const payload: TransactionCreateDTO = {
       amount: {
-        amount: 100, // Number(amount),
-        currency: 'EUR', // à rendre dynamique si besoin plus tard
+        amount: Number(amount), // Number(amount),
+        currency: this.walletCurrency as string, // à rendre dynamique si besoin plus tard
       },
       walletId: this.walletId as number,
       categoryId: category,

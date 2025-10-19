@@ -1,4 +1,4 @@
-import { Component, forwardRef, inject } from '@angular/core';
+import { Component, forwardRef, inject, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputComponent } from '../../../../../ui/input/input.component';
 import { IconComponent } from '../../../../../ui/icon/icon.component';
@@ -23,6 +23,8 @@ import { CategorySelectModalComponent } from '../../modals/category-select-modal
 export class CategorySelectComponent implements ControlValueAccessor {
   private readonly modal = inject(NzModalService);
   private readonly categoriesStore = inject(CategoriesStoreService);
+  @Input() status: 'error' | 'success' | null = null;
+  @Input() helper?: string;
   // ControlValueAccessor implementation
   private onChange: (value: string | number) => void = () => {
     /* intentionally empty */

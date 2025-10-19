@@ -2,20 +2,53 @@
   <fieldset class="fieldset">
     <app-category-select
       [formControlName]="'category'"
+      [status]="getFieldStatus('category')"
+      [helper]="isFieldInError('category') ? handleFieldErrors('category') : ''"
     ></app-category-select>
     <app-provider-select
       [formControlName]="'provider'"
+      [status]="getFieldStatus('provider')"
+      [helper]="isFieldInError('provider') ? handleFieldErrors('provider') : ''"
     ></app-provider-select>
     <app-tag-select
       [formControlName]="'tags'"
+      [status]="getFieldStatus('tags')"
+      [helper]="isFieldInError('tags') ? handleFieldErrors('tags') : ''"
     ></app-tag-select>
+    <app-ui-input
+      label="Montant"
+      type="number"
+      placeholder="0,00"
+      min="0.01"
+      step="0.01"
+      [id]="'transaction-amout'"
+      [name]="'amount'"
+      [formControlName]="'amount'"
+      [status]="getFieldStatus('amount')"
+      [helper]="isFieldInError('amount') ? handleFieldErrors('amount') : ''"
+    >
+      <app-ui-icon name="badge-euro" icon-right
+    /></app-ui-input>
+    <app-ui-input
+      label="Libellé"
+      type="text"
+      placeholder="Ex: Courses du samedi"
+      [id]="'transaction-note'"
+      [name]="'note'"
+      [formControlName]="'note'"
+      [status]="getFieldStatus('note')"
+      [helper]="isFieldInError('note') ? handleFieldErrors('note') : ''"
+    >
+      <app-ui-icon name="file-text" icon-right />
+    </app-ui-input>
   </fieldset>
-    <app-ui-button
+  <app-ui-button
     type="submit"
     width="full"
     size="medium"
     variant="primary"
     overideClass="btn-submit"
+    [disabled]="transactionsForm.invalid && transactionsForm.touched"
     >Ajouter</app-ui-button
   >
 </form>

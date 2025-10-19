@@ -104,4 +104,26 @@ export class FormUtilsService {
   showError(message: string): void {
     alert('❌ ' + message);
   }
+
+  getMinNumberError(control: AbstractControl, label = 'Ce champ'): string {
+    if (control.hasError('min')) {
+      const min = control.getError('min').min;
+      return `${label} doit être supérieur à ${min}`;
+    }
+    return '';
+  }
+  getMaxNumberError(control: AbstractControl, label = 'Ce champ'): string {
+    if (control.hasError('max')) {
+      const min = control.getError('max')?.max;
+      return `${label} doit être inférieur à ${min}`;
+    }
+    return '';
+  }
+
+  getAmountError(control: AbstractControl): string {
+    if (control.hasError('required')) return 'Le champ est obligatoire';
+    if (control.hasError('min')) return this.getMinNumberError(control);
+    if (control.hasError('max')) return this.getMaxNumberError(control);
+    return this.getStandardErrorMessage(control);
+  }
 }
