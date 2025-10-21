@@ -18,7 +18,10 @@
                 [style.background-color]="info.color"
                 aria-hidden="true"
               >
-                <app-ui-icon [name]="info.icon" size="md" [isDecorative]="true" />
+              <app-ui-badge
+                [iconName]="info.icon"
+                [bgColorClass]="info.color"
+              />
               </div>
             }
             <label [for]="prefix + '-' + item.id" class="parameter-name">

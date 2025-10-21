@@ -10,6 +10,7 @@ import {
 import { IconComponent } from '../../../shared/ui/icon/icon.component';
 import { CheckboxComponent } from '../../../shared/ui/checkbox/checkbox.component';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { BadgeComponent } from '../../../shared/ui/badge/badge.component';
 
 export interface Displayable {
   id: number;
@@ -29,7 +30,13 @@ export interface ParameterSection<T extends Displayable> {
 
 @Component({
   selector: 'app-parameter-list',
-  imports: [CommonModule, IconComponent, CheckboxComponent, ButtonComponent],
+  imports: [
+    CommonModule,
+    IconComponent,
+    CheckboxComponent,
+    ButtonComponent,
+    BadgeComponent,
+  ],
   templateUrl: './parameter-list.component.html',
   styleUrl: './parameter-list.component.scss',
 })
