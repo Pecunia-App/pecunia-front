@@ -1,16 +1,58 @@
+@use '../../../../styles/abstracts/layout' as layout;
 @use '../../../../styles/themes/tokens' as theme;
 @use '../../../../styles/abstracts/typography' as typo;
-@use '../../../../styles/abstracts/layout' as layout;
 @use '../../../../styles/abstracts/shadows' as shadows;
 @use '../../../../styles/abstracts/breakpoints' as breakpoints;
 
-h2 {
+.transactions-update-wrapper {
+  @include layout.flex($dir: column, $align: center, $gap: space-24);
+  @include layout.padding(space-48, 0);
+  margin: 0 auto;
+  width: 95%;
+  max-width: 365px;
+  @include typo.text-style(text-md, semibold, mobile);
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(text-md, semibold, desktop);
+    line-height: 24px;
+  }
   @include theme.themed-block(
     (
-      color: 'text-neutral-secondary',
+      color: 'text-neutral-default',
     )
   );
+
+  @include breakpoints.mq(tablet) {
+    @include layout.margin(space-48, auto);
+    max-width: 808px;
+    @include layout.radius(md);
+    @include theme.themed-block(
+      (
+        background: 'background-neutral-primary',
+        color: 'text-neutral-secondary',
+      )
+    );
+    .form-wrapper,
+    .btn-group-wrapper {
+      min-width: 400px;
+    }
+  }
 }
-input {
-  color: black;
+
+h1 {
+  text-align: center;
+  @include theme.themed-block(
+    (
+      color: 'text-neutral-default',
+    )
+  );
+  @include typo.text-style(heading-h1, semibold, mobile);
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(heading-h1, semibold, desktop);
+  }
+}
+
+.form-wrapper,
+.btn-group-wrapper {
+  min-width: 100%;
+  max-width: 400px;
 }
