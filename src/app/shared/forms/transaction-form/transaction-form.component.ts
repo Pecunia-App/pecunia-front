@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnChanges } from '@angular/core';
 import { CategoriesStoreService } from '../../../_core/store/categories.store.service';
 import { TagStoreService } from '../../../_core/store/tag.store.service';
 import { ProvidersStoreService } from '../../../_core/store/providers.store.service';
@@ -11,7 +11,10 @@ import {
 import { CategorySelectComponent } from './components/inputs/categorie-select/category-select.component';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { ProviderSelectComponent } from './components/inputs/provider-select/provider-select.component';
-import { TransactionCreateDTO } from '../../../_core/models/transactions/transaction.dto';
+import {
+  TransactionCreateDTO,
+  TransactionDTO,
+} from '../../../_core/models/transactions/transaction.dto';
 import { TagSelectComponent } from './components/inputs/tag-select/tag-select.component';
 import { UserStoreService } from '../../../_core/store/user.store.service';
 import { InputComponent } from '../../ui/input/input.component';
@@ -37,7 +40,7 @@ import { Router } from '@angular/router';
   templateUrl: './transaction-form.component.html',
   styleUrls: ['./transaction-form.component.scss'],
 })
-export class TransactionFormComponent {
+export class TransactionFormComponent implements OnChanges {
   private readonly categoryStore = inject(CategoriesStoreService);
   private readonly transactionsService = inject(TransactionsService);
   private readonly tagStore = inject(TagStoreService);
@@ -57,6 +60,24 @@ export class TransactionFormComponent {
   public isSubmitted = false;
 
   @Input() mode: 'create' | 'edit' = 'create';
+  @Input() transactionToEdit?: TransactionDTO;
+
+  ngOnChanges(): void {
+    if (this.mode === 'edit') {
+      console.log(this.transactionToEdit);
+      setTimeout(() => {
+        if (this.transactionToEdit) {
+          this.transactionsForm.patchValue({
+            category: this.transactionToEdit.category.id,
+            provider: this.transactionToEdit.provider?.id ?? null,
+            tags: this.transactionToEdit.tags?.map((t) => t.id) ?? [],
+            amount: this.transactionToEdit.amount.amount,
+            note: this.transactionToEdit.note,
+          });
+        }
+      });
+    }
+  }
 
   readonly transactionsForm: FormGroup = this.formBuilder.group({
     category: ['', [Validators.required]],

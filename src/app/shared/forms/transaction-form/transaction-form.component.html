@@ -49,6 +49,6 @@
     variant="primary"
     overideClass="btn-submit"
     [disabled]="transactionsForm.invalid && transactionsForm.touched"
-    >Ajouter</app-ui-button
+    >{{mode === 'edit' ? 'Modifier' : 'Ajouter'}}</app-ui-button
   >
 </form>
