@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ProvidersDataSource } from './providers.data-source';
-import { ProviderDTO } from '../../models/transactions/provider.dto';
+import {
+  ProviderCreateDTO,
+  ProviderDTO,
+} from '../../models/transactions/provider.dto';
 import { Observable, of } from 'rxjs';
 import { MOCK_PROVIDERS } from '../../mocks/mock-providers';
 
@@ -15,5 +18,17 @@ export class ProvidersMockService implements ProvidersDataSource {
   getProviderById(id: number): Observable<ProviderDTO> {
     const provider = MOCK_PROVIDERS.find((provider) => provider.id === id);
     return of(provider!);
+  }
+
+  createProvider(dto: ProviderCreateDTO): Observable<ProviderDTO> {
+    const newId = MOCK_PROVIDERS.length
+      ? Math.max(...MOCK_PROVIDERS.map((p) => p.id)) + 1
+      : 1;
+    const newProvider: ProviderDTO = {
+      id: newId,
+      providerName: dto.providerName,
+    };
+    MOCK_PROVIDERS.push(newProvider);
+    return of(newProvider);
   }
 }

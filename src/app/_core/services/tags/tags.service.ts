@@ -4,7 +4,7 @@ import { TagsMockService } from './tags.mock.service';
 import { TagsApiService } from './tags.api.service';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
-import { TagDTO } from '../../models/transactions/tag.dto';
+import { TagDTO, TagRequestDto } from '../../models/transactions/tag.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -21,5 +21,8 @@ export class TagsService implements TagsDataSource {
   }
   getTagById(id: number): Observable<TagDTO> {
     return this.source.getTagById(id);
+  }
+  createTag(dto: TagRequestDto): Observable<TagDTO> {
+    return this.source.createTag(dto);
   }
 }

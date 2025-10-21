@@ -44,7 +44,6 @@ export class ProvidersStoreService {
   getByIdFromStore(id: number): ProviderDTO | undefined {
     return this.userProviders().find((provider) => provider.id === id);
   }
-
   reset(): void {
     this.userProviders.set([]);
     this.selectedProvider.set(null);

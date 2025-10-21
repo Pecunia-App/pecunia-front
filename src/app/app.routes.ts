@@ -3,7 +3,6 @@ import { authGuard } from './_core/guards/auth.guard';
 import { roleGuard } from './_core/guards/role.guard';
 import { visitorOnlyGuard } from './_core/guards/visitor-only.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { ParametersComponent } from './pages/parameters/parameters.component';
 import { UserResolver } from './_core/resolver/user.resolver';
 import { WalletResolver } from './_core/resolver/wallet.resolver';
 import { TransactionListResolver } from './_core/resolver/transaction-list.resolver';
@@ -119,11 +118,6 @@ export const routes: Routes = [
       tags: TagsResolver,
       providers: ProvidersResolver,
     },
-  },
-  {
-    path: 'parameters',
-    component: ParametersComponent,
-    canActivate: [authGuard],
   },
   {
     path: 'profile',
