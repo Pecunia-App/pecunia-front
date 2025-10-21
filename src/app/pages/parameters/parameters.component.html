@@ -9,9 +9,9 @@
 
     <!-- ===== CATEGORIES TAB ===== -->
     @if (activeTab() === 'categories') {
-      <div class="tab-content">
+      <section class="tab-content">
         <!-- Action Buttons -->
-        <div class="action-buttons">
+        <article class="action-buttons">
           <app-ui-button
             variant="primary"
             size="medium"
@@ -30,7 +30,7 @@
               Supprimer des catégories
             </app-ui-button>
           }
-        </div>
+        </article>
         <!-- Category Sections (Income + Expense) -->
         @for (section of sections; track section.prefix) {
           <app-parameter-list
@@ -40,21 +40,20 @@
             [getDisplayInfo]="getCategoryDisplayInfo"
             (toggleItem)="toggleCategorySelection($event, section.prefix === 'income-category')"
             (editItem)="editCategory($event)"
-            (deleteItem)="deleteSelectedCategories()"
           />
         }
-      </div>
+      </section>
     }
 
     <!-- ===== TAGS TAB ===== -->
     @if (activeTab() === 'tags') {
-      <div class="tab-content">
-        <div class="action-buttons">
+      <section class="tab-content">
+        <article class="action-buttons">
           <app-ui-button
             variant="primary"
             size="medium"
             ariaLabel="Créer un nouveau tag"
-            (buttonClick)="createItem()"
+            (buttonClick)="openCreateTagModal()"
           >
             Créer un tag
           </app-ui-button>
@@ -63,12 +62,11 @@
               variant="alert"
               size="medium"
               [ariaLabel]="'Supprimer ' + selectedTagsCount() + ' tag(s)'"
-              (buttonClick)="deleteSelectedTags()"
             >
               Supprimer des tags
             </app-ui-button>
           }
-        </div>
+        </article>
         <app-parameter-list
           [sections]="[{ title: 'Tags', prefix: 'tag', items: tags }]"
           prefix="tag"
@@ -76,20 +74,20 @@
           [getDisplayInfo]="getTagDisplayInfo"
           (toggleItem)="toggleTagSelection($event)"
           (editItem)="editTag($event)"
-          (deleteItem)="deleteItem($event)"
         />
-      </div>
+      </section>
     }
 
     <!-- ===== PROVIDERS TAB ===== -->
     @if (activeTab() === 'providers') {
-      <div class="tab-content">
-        <div class="action-buttons">
+      <section class="tab-content">
+        <article class="action-buttons">
           <app-ui-button
             variant="primary"
             size="medium"
             ariaLabel="Créer un nouveau fournisseur"
-            (buttonClick)="createProvider()"
+            [disabled]="!currentUserId"
+            (buttonClick)="openCreateProviderModal()"
           >
             Créer un fournisseur
           </app-ui-button>
@@ -103,7 +101,7 @@
               Supprimer des fournisseurs
             </app-ui-button>
           }
-        </div>
+        </article>
         <app-parameter-list
           [sections]="[{ title: 'Fournisseurs', prefix: 'provider', items: providers }]"
           prefix="'provider'"
@@ -111,9 +109,34 @@
           [getDisplayInfo]="getProviderDisplayInfo"
           (toggleItem)="toggleProviderSelection($event)"
           (editItem)="editProvider($event)"
-          (deleteItem)="deleteItem($event)"
         />
-      </div>
+      </section>
+      <!-- ====== CREATE PROVIDER MODAL ====== -->
+      <app-create-entity-modal
+        [isOpen]="modalOpenProvider()"
+        title="Créer un fournisseur"
+        fieldLabel="Nom du fournisseur"
+        placeholder="Ex : Carrefour, EDF..."
+        fieldName="providerName"
+        [minLength]="1"
+        [maxLength]="20"
+        errorMessage="Le nom du fournisseur est obligatoire."
+        (create)="handleCreateProvider($event)"
+        (closeModal)="modalOpenProvider.set(false)"
+      />
     }
+      <!-- ====== CREATE TAG MODAL ====== -->
+      <app-create-entity-modal
+        [isOpen]="modalOpenTag()"
+        title="Créer une étiquette"
+        fieldLabel="Nom de l'étiquette"
+        placeholder="Ex : Vacances, Anniversaire de..."
+        fieldName="tagName"
+        [minLength]="1"
+        [maxLength]="20"
+        errorMessage="Le nom de l'étiquette est obligatoire."
+        (create)="handleCreateTag($event)"
+        (closeModal)="modalOpenTag.set(false)"
+      />
   </main>
 </app-connected-layout>
