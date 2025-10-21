@@ -1,34 +1,28 @@
 <app-connected-layout>
-<section class="transaction-update">
-  @if (transaction() !== undefined) {
-    <h2>Modifier la transaction #{{ transaction()?.id }}</h2>
-    <form>
-      <!-- Exemple d’affichage, à remplacer par ton formulaire -->
-      <div>
-        <label for="category">Catégorie :</label>
-        <input
-          id="category"
-          type="text"
-          [value]="transaction()?.category?.categoryName"
-          name="category"
-          readonly
-        />
-      </div>
-      <div>
-        <label for="amount">Montant :</label>
-        <input
-          id="amount"
-          type="number"
-          [value]="transaction()?.amount?.amount"
-          name="amount"
-        />
-        <span>{{ transaction()?.amount?.currencyCode }}</span>
-      </div>
-      <!-- Ajoute ici tes champs de formulaire -->
-    </form>
-  }
-  @else {
-    <p>Chargement...</p>
-  }
-</section>
+  <div class="transaction-update">
+    @if (transaction() !== undefined) {
+      <!--fomulaire start--->
+      <section class="transactions-update-wrapper">
+        <h1>transaction du {{ formatDate(transaction()?.createdAt ?? '') }}</h1>
+        <div class="form-wrapper">
+          <app-transaction-form
+            [mode]="'edit'"
+            [transactionToEdit]="transaction() ?? undefined"
+          ></app-transaction-form>
+        </div>
+        <div class="btn-group-wrapper">
+      <app-ui-button
+        width="full"
+        size="medium"
+        variant="primary-ghost"
+        (click)="navigateToTranstaction()"
+        >retour</app-ui-button
+      >
+    </div>
+      </section>
+      <!--fomulaire end--->
+    } @else {
+      <p>Chargement...</p>
+    }
+  </div>
 </app-connected-layout>

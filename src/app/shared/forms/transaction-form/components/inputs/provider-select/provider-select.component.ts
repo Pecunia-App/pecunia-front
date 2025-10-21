@@ -40,8 +40,13 @@ export class ProviderSelectComponent implements ControlValueAccessor {
       this.selectedProvider = null;
       return;
     }
-
-    this.selectedProvider = this.providerStore.getProviderById(id) ?? null;
+    const provider = this.providerStore.getByIdFromStore(id);
+    if (provider) {
+      this.selectedProvider = provider;
+    } else {
+      this.selectedProvider = null;
+    }
+    return;
   }
 
   registerOnChange(fn: (value: string | number) => void): void {
