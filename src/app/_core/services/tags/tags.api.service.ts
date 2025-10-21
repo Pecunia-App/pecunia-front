@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { TagsDataSource } from './tags.data-source';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { TagDTO } from '../../models/transactions/tag.dto';
+import { TagDTO, TagRequestDto } from '../../models/transactions/tag.dto';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,5 +18,8 @@ export class TagsApiService implements TagsDataSource {
   }
   getTagById(id: number): Observable<TagDTO> {
     return this.http.get<TagDTO>(`${this.baseUrl}/tags/${id}`);
+  }
+  createTag(dto: TagRequestDto): Observable<TagDTO> {
+    return this.http.post<TagDTO>(`${this.baseUrl}/tags`, dto);
   }
 }

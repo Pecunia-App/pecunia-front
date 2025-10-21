@@ -22,4 +22,10 @@ export class ProvidersService implements ProvidersDataSource {
   getProviderById(id: number): Observable<ProviderDTO> {
     return this.source.getProviderById(id);
   }
+  createProvider(provider: {
+    providerName: string;
+    userId: number;
+  }): Observable<ProviderDTO> {
+    return this.source.createProvider(provider);
+  }
 }

@@ -17,6 +17,10 @@ export class UserStoreService {
   private hasLoadedUser = false;
   private hasLoadedWallet = false;
 
+  get userId(): number | null {
+    return this.user()?.id ?? null;
+  }
+
   loadUser(): void {
     if (this.hasLoadedUser || this.isLoadingUser()) return;
     this.isLoadingUser.set(true);

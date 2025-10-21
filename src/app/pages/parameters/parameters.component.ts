@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ConnectedLayoutComponent } from '../../shared/layout/connected-layout/connected-layout.component';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../shared/ui/button/button.component';
@@ -14,11 +14,18 @@ import {
 import { ProvidersStoreService } from '../../_core/store/providers.store.service';
 import { CategoriesStoreService } from '../../_core/store/categories.store.service';
 import { TagStoreService } from '../../_core/store/tag.store.service';
-import { UserStoreService } from '../../_core/store/user.store.service';
 import { CategoryDTO } from '../../_core/models/transactions/category.dto';
 import { TagDTO } from '../../_core/models/transactions/tag.dto';
 import { ProviderDTO } from '../../_core/models/transactions/provider.dto';
-
+import { ProvidersService } from '../../_core/services/providers/providers.service';
+import { CategoriesService } from '../../_core/services/categories/categories.service';
+import { TagsService } from '../../_core/services/tags/tags.service';
+import { UserStoreService } from '../../_core/store/user.store.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import {
+  CreateEntityEvent,
+  CreateEntityModalComponent,
+} from './create-entity-modal/create-entity-modal.component';
 export type ParametersTabs = 'categories' | 'tags' | 'providers';
 
 @Component({
@@ -29,19 +36,55 @@ export type ParametersTabs = 'categories' | 'tags' | 'providers';
     ButtonComponent,
     TabsNavigationComponent,
     ParameterListComponent,
+    CreateEntityModalComponent,
   ],
   templateUrl: './parameters.component.html',
   styleUrl: './parameters.component.scss',
 })
-export class ParametersComponent {
+export class ParametersComponent implements OnInit {
   private readonly providerStore = inject(ProvidersStoreService);
   private readonly categoryStore = inject(CategoriesStoreService);
   private readonly tagStore = inject(TagStoreService);
-  private userStore = inject(UserStoreService);
+  private readonly providerService = inject(ProvidersService);
+  private readonly categoryService = inject(CategoriesService);
+  private readonly tagService = inject(TagsService);
+  private readonly userStore = inject(UserStoreService);
+  private readonly notification = inject(NzNotificationService);
 
+  // === Signals ===
+  modalOpenProvider = signal(false);
+  modalOpenTag = signal(false);
+  activeTab = signal<ParametersTabs>('categories');
+  selectedIncomeCategoryIds = signal<Set<number>>(new Set());
+  selectedExpenseCategoryIds = signal<Set<number>>(new Set());
+  selectedTagIds = signal<Set<number>>(new Set());
+  selectedProviderIds = signal<Set<number>>(new Set());
+
+  openCreateProviderModal() {
+    this.modalOpenProvider.set(true);
+  }
+  openCreateTagModal() {
+    this.modalOpenTag.set(true);
+  }
+
+  // === Data ===
   readonly providers = this.providerStore.userProviders;
   readonly categories = this.categoryStore.userCategories;
   readonly tags = this.tagStore.userTags;
+
+  tabs: Tab[] = [
+    { tabParams: 'categories', label: 'Catégories' },
+    { tabParams: 'tags', label: 'Tags' },
+    { tabParams: 'providers', label: 'Fournisseurs' },
+  ];
+
+  ngOnInit() {
+    this.userStore.loadUser();
+  }
+
+  get currentUserId(): number | null {
+    return this.userStore.user()?.id ?? null;
+  }
 
   get incomeCategories(): CategoryDTO[] {
     return this.categories().filter((c) => c.type === 'CREDIT');
@@ -70,18 +113,6 @@ export class ParametersComponent {
       },
     ];
   }
-
-  activeTab = signal<ParametersTabs>('categories');
-  tabs: Tab[] = [
-    { tabParams: 'categories', label: 'Catégories' },
-    { tabParams: 'tags', label: 'Tags' },
-    { tabParams: 'providers', label: 'Fournisseurs' },
-  ];
-
-  selectedIncomeCategoryIds = signal<Set<number>>(new Set());
-  selectedExpenseCategoryIds = signal<Set<number>>(new Set());
-  selectedTagIds = signal<Set<number>>(new Set());
-  selectedProviderIds = signal<Set<number>>(new Set());
 
   selectedCategoriesCount = computed(
     () =>
@@ -208,29 +239,64 @@ export class ParametersComponent {
     console.log('Edit tag:', tagId);
   }
 
-  createProvider(): void {
-    console.log('Create provider');
+  handleCreateTag(event: CreateEntityEvent): void {
+    if (!event.name.trim()) return;
+    const userId = this.userStore.userId;
+    if (!userId) return;
+
+    this.tagStore.isLoading.set(true);
+    this.tagService.createTag({ tagName: event.name, userId }).subscribe({
+      next: (tag) => {
+        this.tagStore.userTags.update((list) => [...list, tag]);
+        this.tagStore.loadAllTags(userId, true);
+        this.tagStore.isLoading.set(false);
+        this.notification.success(
+          'Étiquette créée',
+          `L'étiquette "${tag.tagName}" a été ajouté avec succès !`,
+          { nzDuration: 3000 }
+        );
+      },
+      error: () => {
+        this.tagStore.isLoading.set(false);
+        this.notification.error(
+          'Erreur',
+          `Impossible de créer l'étiquette. Veuillez réessayer.`
+        );
+      },
+    });
   }
 
+  handleCreateProvider(event: CreateEntityEvent): void {
+    if (!event.name.trim()) return;
+    const userId = this.userStore.userId;
+    if (!userId) return;
+
+    this.providerStore.isLoading.set(true);
+    this.providerService
+      .createProvider({ providerName: event.name, userId })
+      .subscribe({
+        next: (provider) => {
+          this.providerStore.userProviders.update((list) => [
+            ...list,
+            provider,
+          ]);
+          this.providerStore.isLoading.set(false);
+          this.notification.success(
+            'Fournisseur créé',
+            `Le fournisseur "${provider.providerName}" a été ajouté avec succès !`,
+            { nzDuration: 3000 }
+          );
+        },
+        error: () => {
+          this.providerStore.isLoading.set(false);
+          this.notification.error(
+            'Erreur',
+            'Impossible de créer le fournisseur. Veuillez réessayer.'
+          );
+        },
+      });
+  }
   editProvider(providerId: number): void {
     console.log('Edit provider:', providerId);
-  }
-
-  // ===== GENERIC =====
-  deleteItem(itemId: number): void {
-    console.log('Delete item:', itemId);
-    switch (this.activeTab()) {
-      case 'categories':
-        this.deleteSelectedCategories();
-        break;
-      case 'tags':
-        this.tags.update((items) => items.filter((item) => item.id !== itemId));
-        break;
-      case 'providers':
-        this.providers.update((items) =>
-          items.filter((item) => item.id !== itemId)
-        );
-        break;
-    }
   }
 }
