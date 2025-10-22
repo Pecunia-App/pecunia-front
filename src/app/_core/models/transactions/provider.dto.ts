@@ -7,3 +7,7 @@ export interface ProviderCreateDTO {
   providerName: string;
   userId: number;
 }
+
+export interface ProviderUpdateDTO {
+  providerName: string;
+}

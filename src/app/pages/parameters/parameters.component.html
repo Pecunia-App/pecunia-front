@@ -74,6 +74,7 @@
           [getDisplayInfo]="getTagDisplayInfo"
           (toggleItem)="toggleTagSelection($event)"
           (deleteItem)="openDeleteTagModal($event)"
+          (editItem)="openEditTagModal($event)"
         />
       </section>
     }
@@ -109,6 +110,7 @@
           [getDisplayInfo]="getProviderDisplayInfo"
           (toggleItem)="toggleProviderSelection($event)"
           (deleteItem)="openDeleteProviderModal($event)"
+          (editItem)="openEditProviderModal($event)"
         />
       </section>
       <!-- ====== CREATE PROVIDER MODAL ====== -->
@@ -138,5 +140,28 @@
         (create)="handleCreateTag($event)"
         (closeModal)="modalOpenTag.set(false)"
       />
+      <app-edit-entity-modal
+        [entityType]="'tag'"
+        [isOpen]="modalEditTag().open"
+        [title]="`Modifier l'étiquette`"
+        [fieldLabel]="`Nom de l'étiquette`"
+        [currentName]="modalEditTag().tagName ?? ''"
+        [placeholder]="'Ex : Vacances, Anniversaire...'"
+        [errorMessage]="`Le nom de l'étiquette est obligatoire (1-20 caractères).`"
+        (save)="handleUpdateTag($event)"
+        (closeModal)="modalEditTag.set({ open: false })"
+      />
+      <app-edit-entity-modal
+        [entityType]="'provider'"
+        [isOpen]="modalEditProvider().open"
+        [title]="`Modifier le fournisseur`"
+        [fieldLabel]="`Nom du fournisseur`"
+        [currentName]="modalEditProvider().providerName ?? ''"
+        [placeholder]="'Ex : Amazon, Leclerd, Boulangerie'"
+        [errorMessage]="'Le nom du fournisseur est obligatoire (1-20 caractères).'"
+        (save)="handleUpdateProvider($event)"
+        (closeModal)="modalEditProvider.set({ open: false })"
+      />
+
   </main>
 </app-connected-layout>

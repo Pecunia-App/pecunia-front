@@ -4,7 +4,10 @@ import { ProvidersMockService } from './providers.mock.service';
 import { ProvidersApiService } from './providers.api.service';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
-import { ProviderDTO } from '../../models/transactions/provider.dto';
+import {
+  ProviderDTO,
+  ProviderUpdateDTO,
+} from '../../models/transactions/provider.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +30,12 @@ export class ProvidersService implements ProvidersDataSource {
     userId: number;
   }): Observable<ProviderDTO> {
     return this.source.createProvider(provider);
+  }
+  updateProvider(
+    id: number,
+    dto: ProviderUpdateDTO
+  ): Observable<ProviderUpdateDTO> {
+    return this.source.updateProvider(id, dto);
   }
   deleteProvider(id: number): Observable<void> {
     return this.source.deleteProvider(id);

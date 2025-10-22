@@ -3,8 +3,8 @@ import {
   EventEmitter,
   Input,
   Output,
-  OnInit,
   inject,
+  OnChanges,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -16,57 +16,51 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { CommonModule } from '@angular/common';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
-export interface CreateEntityEvent {
+// --- Event output ---
+export interface UpdateEntityEvent {
   name: string;
 }
-
 @Component({
-  selector: 'app-create-entity-modal',
+  selector: 'app-edit-entity-modal',
   standalone: true,
   imports: [ReactiveFormsModule, NzModalModule, CommonModule, NzInputModule],
-  templateUrl: './create-entity-modal.component.html',
+  templateUrl: './edit-entity-modal.component.html',
 })
-export class CreateEntityModalComponent implements OnInit {
-  private readonly fb = inject(FormBuilder);
+export class EditEntityModalComponent implements OnChanges {
+  private fb = inject(FormBuilder);
 
   @Input() isOpen = false;
-  @Input() title = 'Créer';
+  @Input() title = 'Modifier';
   @Input() fieldLabel = 'Nom';
-  @Input() placeholder = 'Entrez un nom...';
-  @Input() fieldName = 'entityName';
-  @Input() minLength = 1;
-  @Input() maxLength = 20;
+  @Input() placeholder = '';
   @Input() errorMessage = 'Ce champ est obligatoire.';
-
+  @Input() entityType: 'tag' | 'provider' = 'tag';
+  @Input() currentName = '';
+  @Output() save = new EventEmitter<UpdateEntityEvent>();
   @Output() closeModal = new EventEmitter<void>();
-  @Output() create = new EventEmitter<CreateEntityEvent>();
 
   form!: FormGroup;
   isSubmitting = false;
 
-  ngOnInit() {
+  ngOnChanges() {
     this.form = this.fb.group({
-      [this.fieldName]: [
+      name: [
         '',
         [
           Validators.required,
-          Validators.minLength(this.minLength),
-          Validators.maxLength(this.maxLength),
+          Validators.minLength(1),
+          Validators.maxLength(20),
         ],
       ],
     });
   }
 
-  onSubmit() {
+  onSave() {
     if (this.form.invalid) return;
 
     this.isSubmitting = true;
-    const value = { name: this.form.value[this.fieldName] };
+    this.save.emit({ name: this.form.value.name });
 
-    // On émet l’événement vers le parent
-    this.create.emit(value);
-
-    // Reset form après création
     this.form.reset();
     this.isSubmitting = false;
     this.onClose();
@@ -75,9 +69,5 @@ export class CreateEntityModalComponent implements OnInit {
   onClose() {
     this.form.reset();
     this.closeModal.emit();
-  }
-
-  get fieldControl() {
-    return this.form.get(this.fieldName);
   }
 }

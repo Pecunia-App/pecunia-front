@@ -25,6 +25,9 @@ export class TagsService implements TagsDataSource {
   createTag(dto: TagRequestDto): Observable<TagDTO> {
     return this.source.createTag(dto);
   }
+  updateTag(id: number, dto: TagRequestDto): Observable<TagRequestDto> {
+    return this.source.updateTag(id, dto);
+  }
   deleteTag(id: number): Observable<void> {
     return this.source.deleteTag(id);
   }
