@@ -3,6 +3,7 @@ import { ProvidersDataSource } from './providers.data-source';
 import {
   ProviderCreateDTO,
   ProviderDTO,
+  ProviderUpdateDTO,
 } from '../../models/transactions/provider.dto';
 import { Observable, of } from 'rxjs';
 import { MOCK_PROVIDERS } from '../../mocks/mock-providers';
@@ -30,6 +31,20 @@ export class ProvidersMockService implements ProvidersDataSource {
     };
     MOCK_PROVIDERS.push(newProvider);
     return of(newProvider);
+  }
+  updateProvider(
+    id: number,
+    dto: ProviderUpdateDTO
+  ): Observable<ProviderUpdateDTO> {
+    const providerIndex = MOCK_PROVIDERS.findIndex((p) => p.id === id);
+    if (providerIndex === -1) {
+      throw new Error('provider not found');
+    }
+    MOCK_PROVIDERS[providerIndex] = {
+      ...MOCK_PROVIDERS[providerIndex],
+      providerName: dto.providerName,
+    };
+    return of(dto);
   }
 
   deleteProvider(id: number): Observable<void> {

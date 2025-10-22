@@ -1,0 +1,27 @@
+<nz-modal
+  [(nzVisible)]="isOpen"
+  [nzTitle]="title"
+  (nzOnCancel)="onClose()"
+  (nzOnOk)="onSave()"
+  [nzOkLoading]="isSubmitting"
+  [nzOkDisabled]="form.invalid"
+  [nzCancelDisabled]="isSubmitting"
+  nzCentered
+>
+  <ng-container *nzModalContent>
+    <form [formGroup]="form">
+      <label [for]="`field-` + entityType" class="form-label">{{
+        fieldLabel
+      }}</label>
+      <input
+        [id]="`field-` + entityType"
+        nz-input
+        formControlName="name"
+        [placeholder]="placeholder"
+      />
+      @if (form.controls['name'].invalid && form.controls['name'].touched) {
+        <p class="error-message">{{ errorMessage }}</p>
+      }
+    </form>
+  </ng-container>
+</nz-modal>

@@ -28,6 +28,10 @@ import {
 } from './create-entity-modal/create-entity-modal.component';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import {
+  EditEntityModalComponent,
+  UpdateEntityEvent,
+} from './edit-entity-modal/edit-entity-modal.component';
 export type ParametersTabs = 'categories' | 'tags' | 'providers';
 
 @Component({
@@ -39,6 +43,7 @@ export type ParametersTabs = 'categories' | 'tags' | 'providers';
     TabsNavigationComponent,
     ParameterListComponent,
     CreateEntityModalComponent,
+    EditEntityModalComponent,
     NzModalModule,
     NzButtonModule,
   ],
@@ -69,6 +74,16 @@ export class ParametersComponent implements OnInit {
   modalDeleteTag = signal<{ open: boolean; tagId?: number; tagName?: string }>({
     open: false,
   });
+  modalEditTag = signal<{ open: boolean; tagId?: number; tagName?: string }>({
+    open: false,
+  });
+  modalEditProvider = signal<{
+    open: boolean;
+    providerId?: number;
+    providerName?: string;
+  }>({
+    open: false,
+  });
   activeTab = signal<ParametersTabs>('categories');
   selectedIncomeCategoryIds = signal<Set<number>>(new Set());
   selectedExpenseCategoryIds = signal<Set<number>>(new Set());
@@ -94,6 +109,22 @@ export class ParametersComponent implements OnInit {
       nzOnOk: () => this.handleDeleteTag(tagId),
       nzCancelText: 'Non',
       nzCentered: true,
+    });
+  }
+
+  openEditTagModal(tagId: number) {
+    const tag = this.tags().find((t) => t.id === tagId);
+    if (!tag) return;
+    this.modalEditTag.set({ open: true, tagId: tag.id, tagName: tag.tagName });
+  }
+
+  openEditProviderModal(providerId: number) {
+    const provider = this.providers().find((p) => p.id === providerId);
+    if (!provider) return;
+    this.modalEditProvider.set({
+      open: true,
+      providerId: provider.id,
+      providerName: provider.providerName,
     });
   }
 
@@ -276,6 +307,38 @@ export class ParametersComponent implements OnInit {
   }
 
   // TAG CRUD
+  handleUpdateTag(event: UpdateEntityEvent) {
+    const tagId = this.modalEditTag().tagId;
+    const userId = this.userStore.userId;
+    if (!userId || !tagId) return;
+    this.tagService
+      .updateTag(tagId, {
+        tagName: event.name,
+        userId: userId,
+      })
+      .subscribe({
+        next: (updatedTag) => {
+          this.tagStore.userTags.update((tags) =>
+            tags.map((t) =>
+              t.id === tagId
+                ? {
+                    ...t,
+                    tagName: updatedTag.tagName,
+                    updatedAt: new Date().toISOString(),
+                  }
+                : t
+            )
+          );
+          this.modalEditTag.set({ open: false });
+        },
+        error: () => {
+          this.notification.error(
+            'Erreur',
+            'Impossible de mettre à jour l’étiquette.'
+          );
+        },
+      });
+  }
 
   handleCreateTag(event: CreateEntityEvent): void {
     if (!event.name.trim()) return;
@@ -326,7 +389,37 @@ export class ParametersComponent implements OnInit {
         );
       },
     });
-  } // PROVIDERS crud
+  }
+
+  // PROVIDERS crud
+  handleUpdateProvider(event: UpdateEntityEvent) {
+    const providerId = this.modalEditProvider().providerId;
+    const userId = this.userStore.userId;
+    if (!userId || !providerId) return;
+    this.providerService
+      .updateProvider(providerId, { providerName: event.name })
+      .subscribe({
+        next: (updatedProvider) => {
+          this.providerStore.userProviders.update((providers) =>
+            providers.map((p) =>
+              p.id === providerId
+                ? {
+                    ...p,
+                    providerName: updatedProvider.providerName,
+                  }
+                : p
+            )
+          );
+          this.modalEditProvider.set({ open: false });
+        },
+        error: () => {
+          this.notification.error(
+            'Erreur',
+            'Impossible de mettre à jour le fournisseur.'
+          );
+        },
+      });
+  }
   handleDeleteProvider(providerId: number): void {
     this.providerStore.isLoading.set(true);
     this.providerService.deleteProvider(providerId).subscribe({
