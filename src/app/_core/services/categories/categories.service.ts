@@ -14,15 +14,12 @@ export class CategoriesService implements CategoriesDataSource {
     // Basculer ici selon .env
     this.source = environment.useMocks ? mock : api;
   }
-
   getGlobalCategories() {
     return this.source.getGlobalCategories();
   }
-
   getUserCategories(userId: number) {
     return this.source.getUserCategories(userId);
   }
-
   getCategoryById(id: number) {
     return this.source.getCategoryById(id);
   }
