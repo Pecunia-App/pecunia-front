@@ -22,4 +22,7 @@ export class TagsApiService implements TagsDataSource {
   createTag(dto: TagRequestDto): Observable<TagDTO> {
     return this.http.post<TagDTO>(`${this.baseUrl}/tags`, dto);
   }
+  deleteTag(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/tags/${id}`);
+  }
 }

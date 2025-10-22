@@ -5,4 +5,5 @@ export interface TagsDataSource {
   getUserTags(userId: number): Observable<TagDTO[]>;
   getTagById(id: number): Observable<TagDTO>;
   createTag(dto: TagRequestDto): Observable<TagDTO>;
+  deleteTag(id: number): Observable<void>;
 }

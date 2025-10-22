@@ -73,7 +73,7 @@
           [isSelected]="isTagSelected"
           [getDisplayInfo]="getTagDisplayInfo"
           (toggleItem)="toggleTagSelection($event)"
-          (editItem)="editTag($event)"
+          (deleteItem)="openDeleteTagModal($event)"
         />
       </section>
     }
@@ -108,7 +108,7 @@
           [isSelected]="isProviderSelected"
           [getDisplayInfo]="getProviderDisplayInfo"
           (toggleItem)="toggleProviderSelection($event)"
-          (editItem)="editProvider($event)"
+          (deleteItem)="openDeleteProviderModal($event)"
         />
       </section>
       <!-- ====== CREATE PROVIDER MODAL ====== -->
