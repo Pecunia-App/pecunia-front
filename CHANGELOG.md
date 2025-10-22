@@ -1,3 +1,17 @@
+## 0.11.0 (2025-10-22)
+
+### Feat
+
+- **transactions**: add form in update page and implement data transaction loading
+- **tag-provider-update**: updating working with modal
+- **tag-provider-delete**: delete crud working
+- **tag-provider-create**: create in parameters page are working
+- **settings-page**: create settings page component
+- **transactions**: test api create transactions
+- **transactions**: update mock data and service to create transaction
+- **transactions**: create-form implement error handling before submit
+- **transactions**: create input to select tags for creation
+
 ## 0.10.0 (2025-10-18)
 
 ### Feat
