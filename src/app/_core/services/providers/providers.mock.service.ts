@@ -31,4 +31,11 @@ export class ProvidersMockService implements ProvidersDataSource {
     MOCK_PROVIDERS.push(newProvider);
     return of(newProvider);
   }
+
+  deleteProvider(id: number): Observable<void> {
+    const remaining = MOCK_PROVIDERS.filter((provider) => provider.id != id);
+    MOCK_PROVIDERS.length = 0;
+    MOCK_PROVIDERS.push(...remaining);
+    return of(void 0);
+  }
 }

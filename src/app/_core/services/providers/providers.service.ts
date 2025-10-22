@@ -28,4 +28,7 @@ export class ProvidersService implements ProvidersDataSource {
   }): Observable<ProviderDTO> {
     return this.source.createProvider(provider);
   }
+  deleteProvider(id: number): Observable<void> {
+    return this.source.deleteProvider(id);
+  }
 }

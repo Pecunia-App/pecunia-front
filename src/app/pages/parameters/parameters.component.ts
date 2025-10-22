@@ -26,6 +26,8 @@ import {
   CreateEntityEvent,
   CreateEntityModalComponent,
 } from './create-entity-modal/create-entity-modal.component';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 export type ParametersTabs = 'categories' | 'tags' | 'providers';
 
 @Component({
@@ -37,6 +39,8 @@ export type ParametersTabs = 'categories' | 'tags' | 'providers';
     TabsNavigationComponent,
     ParameterListComponent,
     CreateEntityModalComponent,
+    NzModalModule,
+    NzButtonModule,
   ],
   templateUrl: './parameters.component.html',
   styleUrl: './parameters.component.scss',
@@ -50,10 +54,21 @@ export class ParametersComponent implements OnInit {
   private readonly tagService = inject(TagsService);
   private readonly userStore = inject(UserStoreService);
   private readonly notification = inject(NzNotificationService);
+  private readonly modal = inject(NzModalService);
 
   // === Signals ===
   modalOpenProvider = signal(false);
+  modelDeleteProvider = signal<{
+    open: boolean;
+    providerId?: number;
+    providerName?: string;
+  }>({
+    open: false,
+  });
   modalOpenTag = signal(false);
+  modalDeleteTag = signal<{ open: boolean; tagId?: number; tagName?: string }>({
+    open: false,
+  });
   activeTab = signal<ParametersTabs>('categories');
   selectedIncomeCategoryIds = signal<Set<number>>(new Set());
   selectedExpenseCategoryIds = signal<Set<number>>(new Set());
@@ -65,6 +80,35 @@ export class ParametersComponent implements OnInit {
   }
   openCreateTagModal() {
     this.modalOpenTag.set(true);
+  }
+
+  openDeleteTagModal(tagId: number): void {
+    const tag = this.tags().find((t) => t.id === tagId);
+    if (!tag) return;
+
+    this.modal.confirm({
+      nzTitle: `Supprimer l'étiquette "${tag.tagName}" ?`,
+      nzContent: 'Cette action est irréversible.',
+      nzOkText: 'Oui',
+      nzOkDanger: true,
+      nzOnOk: () => this.handleDeleteTag(tagId),
+      nzCancelText: 'Non',
+      nzCentered: true,
+    });
+  }
+
+  openDeleteProviderModal(providerId: number): void {
+    const provider = this.providers().find((p) => p.id === providerId);
+    if (!provider) return;
+    this.modal.confirm({
+      nzTitle: `Supprimer le fournisseur "${provider.providerName}" ?`,
+      nzContent: 'Cette action est irréversible.',
+      nzOkText: 'Oui',
+      nzOkDanger: true,
+      nzOnOk: () => this.handleDeleteProvider(providerId),
+      nzCancelText: 'Non',
+      nzCentered: true,
+    });
   }
 
   // === Data ===
@@ -231,13 +275,7 @@ export class ParametersComponent implements OnInit {
     this.selectedProviderIds.set(new Set());
   }
 
-  createItem(): void {
-    console.log('Create tag');
-  }
-
-  editTag(tagId: number): void {
-    console.log('Edit tag:', tagId);
-  }
+  // TAG CRUD
 
   handleCreateTag(event: CreateEntityEvent): void {
     if (!event.name.trim()) return;
@@ -261,6 +299,53 @@ export class ParametersComponent implements OnInit {
         this.notification.error(
           'Erreur',
           `Impossible de créer l'étiquette. Veuillez réessayer.`
+        );
+      },
+    });
+  }
+
+  handleDeleteTag(tagId: number): void {
+    this.tagStore.isLoading.set(true);
+    this.tagService.deleteTag(tagId).subscribe({
+      next: () => {
+        this.tagStore.userTags.update((tags) =>
+          tags.filter((t) => t.id !== tagId)
+        );
+        this.tagStore.isLoading.set(false);
+        this.notification.success(
+          'Étiquette supprimée',
+          'L’étiquette a été supprimée avec succès.',
+          { nzDuration: 3000 }
+        );
+      },
+      error: () => {
+        this.tagStore.isLoading.set(false);
+        this.notification.error(
+          'Erreur',
+          'Impossible de supprimer l’étiquette. Veuillez réessayer.'
+        );
+      },
+    });
+  } // PROVIDERS crud
+  handleDeleteProvider(providerId: number): void {
+    this.providerStore.isLoading.set(true);
+    this.providerService.deleteProvider(providerId).subscribe({
+      next: () => {
+        this.providerStore.userProviders.update((providers) =>
+          providers.filter((p) => p.id !== providerId)
+        );
+        this.providerStore.isLoading.set(false);
+        this.notification.success(
+          'Fournisseur supprimé',
+          'Le fournisseur a été supprimé avec succès.',
+          { nzDuration: 3000 }
+        );
+      },
+      error: () => {
+        this.providerStore.isLoading.set(false);
+        this.notification.error(
+          'Erreur',
+          'Impossible de supprimer le fournisseur. Veuillez réessayer.'
         );
       },
     });
@@ -295,8 +380,5 @@ export class ParametersComponent implements OnInit {
           );
         },
       });
-  }
-  editProvider(providerId: number): void {
-    console.log('Edit provider:', providerId);
   }
 }

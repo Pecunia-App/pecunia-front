@@ -29,4 +29,11 @@ export class TagsMockService implements TagsDataSource {
     MOCK_TAGS.push(newTag);
     return of(newTag);
   }
+
+  deleteTag(id: number): Observable<void> {
+    const remaining = MOCK_TAGS.filter((tag) => tag.id != id);
+    MOCK_TAGS.length = 0;
+    MOCK_TAGS.push(...remaining);
+    return of(void 0);
+  }
 }
