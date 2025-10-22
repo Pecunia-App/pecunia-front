@@ -1,0 +1,36 @@
+<section class="tab-content">
+  <!-- Action Buttons -->
+  <article class="action-buttons">
+    <app-ui-button
+      variant="primary"
+      size="medium"
+      ariaLabel="Créer une nouvelle catégorie"
+      (buttonClick)="createCategory()"
+    >
+      Créer une catégorie
+    </app-ui-button>
+    @if (hasSelectedCategories()) {
+      <app-ui-button
+        variant="alert"
+        size="medium"
+        [ariaLabel]="'Supprimer ' + selectedCategoriesCount() + ' catégorie(s)'"
+        (buttonClick)="deleteSelectedCategories()"
+      >
+        Supprimer des catégories
+      </app-ui-button>
+    }
+  </article>
+  <!-- Category Sections (Income + Expense) -->
+  @for (section of sections; track section.prefix) {
+    <app-parameter-list
+      [sections]="[section]"
+      [prefix]="section.prefix"
+      [isSelected]="isCategorySelected"
+      [getDisplayInfo]="getCategoryDisplayInfo"
+      (toggleItem)="
+        toggleCategorySelection($event, section.prefix === 'income-category')
+      "
+      (editItem)="editCategory($event)"
+    />
+  }
+</section>

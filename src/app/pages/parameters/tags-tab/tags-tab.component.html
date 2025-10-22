@@ -1,0 +1,53 @@
+<section class="tab-content">
+  <article class="action-buttons">
+    <app-ui-button
+      variant="primary"
+      size="medium"
+      ariaLabel="Créer un nouveau tag"
+      (buttonClick)="openCreateTagModal()"
+    >
+      Créer un tag
+    </app-ui-button>
+    @if (hasSelectedTags()) {
+      <app-ui-button
+        variant="alert"
+        size="medium"
+        [ariaLabel]="'Supprimer ' + selectedTagsCount() + ' tag(s)'"
+      >
+        Supprimer des tags
+      </app-ui-button>
+    }
+  </article>
+  <app-parameter-list
+    [sections]="[{ title: 'Tags', prefix: 'tag', items: tags }]"
+    prefix="tag"
+    [isSelected]="isTagSelected"
+    [getDisplayInfo]="getTagDisplayInfo"
+    (toggleItem)="toggleTagSelection($event)"
+    (deleteItem)="openDeleteTagModal($event)"
+    (editItem)="openEditTagModal($event)"
+  />
+  <app-create-entity-modal
+    [isOpen]="modalOpenTag()"
+    title="Créer une étiquette"
+    fieldLabel="Nom de l'étiquette"
+    placeholder="Ex : Vacances, Anniversaire de..."
+    fieldName="tagName"
+    [minLength]="1"
+    [maxLength]="20"
+    errorMessage="Le nom de l'étiquette est obligatoire."
+    (create)="handleCreateTag($event)"
+    (closeModal)="modalOpenTag.set(false)"
+  />
+  <app-edit-entity-modal
+    [entityType]="'tag'"
+    [isOpen]="modalEditTag().open"
+    [title]="`Modifier l'étiquette`"
+    [fieldLabel]="`Nom de l'étiquette`"
+    [currentName]="modalEditTag().tagName ?? ''"
+    [placeholder]="'Ex : Vacances, Anniversaire...'"
+    [errorMessage]="`Le nom de l'étiquette est obligatoire (1-20 caractères).`"
+    (save)="handleUpdateTag($event)"
+    (closeModal)="modalEditTag.set({ open: false })"
+  />
+</section>
