@@ -1,0 +1,58 @@
+<section class="tab-content">
+  <article class="action-buttons">
+    <app-ui-button
+      variant="primary"
+      size="medium"
+      ariaLabel="Créer un nouveau fournisseur"
+      (buttonClick)="openCreateProviderModal()"
+    >
+      Créer un fournisseur
+    </app-ui-button>
+    @if (hasSelectedProviders()) {
+      <app-ui-button
+        variant="alert"
+        size="medium"
+        [ariaLabel]="
+          'Supprimer ' + selectedProvidersCount() + ' fournisseur(s)'
+        "
+        (buttonClick)="deleteSelectedProviders()"
+      >
+        Supprimer des fournisseurs
+      </app-ui-button>
+    }
+  </article>
+  <app-parameter-list
+    [sections]="[
+      { title: 'Fournisseurs', prefix: 'provider', items: providers },
+    ]"
+    prefix="'provider'"
+    [isSelected]="isProviderSelected"
+    [getDisplayInfo]="getProviderDisplayInfo"
+    (toggleItem)="toggleProviderSelection($event)"
+    (deleteItem)="openDeleteProviderModal($event)"
+    (editItem)="openEditProviderModal($event)"
+  />
+  <app-create-entity-modal
+    [isOpen]="modalOpenProvider()"
+    title="Créer un fournisseur"
+    fieldLabel="Nom du fournisseur"
+    placeholder="Ex : Carrefour, EDF..."
+    fieldName="providerName"
+    [minLength]="1"
+    [maxLength]="20"
+    errorMessage="Le nom du fournisseur est obligatoire."
+    (create)="handleCreateProvider($event)"
+    (closeModal)="modalOpenProvider.set(false)"
+  />
+  <app-edit-entity-modal
+    [entityType]="'provider'"
+    [isOpen]="modalEditProvider().open"
+    [title]="`Modifier le fournisseur`"
+    [fieldLabel]="`Nom du fournisseur`"
+    [currentName]="modalEditProvider().providerName ?? ''"
+    [placeholder]="'Ex : Amazon, Leclerd, Boulangerie'"
+    [errorMessage]="'Le nom du fournisseur est obligatoire (1-20 caractères).'"
+    (save)="handleUpdateProvider($event)"
+    (closeModal)="modalEditProvider.set({ open: false })"
+  />
+</section>

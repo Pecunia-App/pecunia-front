@@ -13,22 +13,6 @@
     @include layout.padding(space-32, space-24);
   }
 
-  // Tab Content
-  .tab-content {
-    @include theme.themed-block(
-      (
-        background-color: 'background-neutral-primary',
-      )
-    );
-    @include layout.padding(space-24, space-16);
-    @include layout.radius(md);
-    @include shadows.shadow(xs);
-
-    @include breakpoints.mq(desktop) {
-      @include layout.padding(space-32, space-24);
-    }
-  }
-
   // Action Buttons
   .action-buttons {
     @include layout.flex($gap: space-12, $wrap: wrap, $justify: center);
