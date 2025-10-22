@@ -29,6 +29,20 @@ export class TagsMockService implements TagsDataSource {
     MOCK_TAGS.push(newTag);
     return of(newTag);
   }
+  updateTag(id: number, dto: TagRequestDto): Observable<TagRequestDto> {
+    const tagIndex = MOCK_TAGS.findIndex((t) => t.id === id);
+    if (tagIndex === -1) {
+      throw new Error('Tag not found');
+    }
+
+    MOCK_TAGS[tagIndex] = {
+      ...MOCK_TAGS[tagIndex],
+      tagName: dto.tagName,
+      updatedAt: new Date().toISOString(),
+    };
+
+    return of(dto);
+  }
 
   deleteTag(id: number): Observable<void> {
     const remaining = MOCK_TAGS.filter((tag) => tag.id != id);
