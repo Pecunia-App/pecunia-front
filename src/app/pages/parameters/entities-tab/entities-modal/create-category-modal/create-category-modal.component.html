@@ -1,0 +1,102 @@
+<nz-modal
+  [nzTitle]="title"
+  [(nzVisible)]="isOpen"
+  [nzOkLoading]="isSubmitting"
+  [nzOkDisabled]="form.invalid"
+  [nzClosable]="!isSubmitting"
+  [nzMaskClosable]="!isSubmitting"
+  (nzOnCancel)="onCancel()"
+  (nzOnOk)="onSubmit()"
+  nzOkText="Créer"
+  nzCancelText="Annuler"
+>
+  <ng-container *nzModalContent>
+    <form [formGroup]="form" class="form-container">
+      <fieldset class="form-field">
+        <label for="categoryName" class="form-label">
+          Nom de la catégorie *
+        </label>
+        <input
+          id="categoryName"
+          nz-input
+          placeholder="Ex: Alimentation, Transport..."
+          formControlName="categoryName"
+        />
+        @if (isFieldInvalid('categoryName')) {
+          <p class="error-message">{{ getFieldError('categoryName') }}</p>
+        }
+      </fieldset>
+
+      <fieldset class="form-field">
+        <label for="type" class="form-label">
+          Type *
+        </label>
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          id="type"
+          formControlName="type"
+          nzPlaceHolder="Sélectionner un type"
+        >
+          <nz-option nzValue="DEBIT" nzLabel="Débit"></nz-option>
+          <nz-option nzValue="CREDIT" nzLabel="Crédit"></nz-option>
+        </nz-select>
+        @if (isFieldInvalid('type')) {
+          <p class="error-message">{{ getFieldError('type') }}</p>
+        }
+      </fieldset>
+
+      <fieldset class="form-field">
+        <label for="icon" class="form-label">
+           Sélectionner une icône*
+        </label>
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          id="icon"
+          formControlName="icon"
+          nzPlaceHolder="Sélectionner une icône"
+        >
+          @for (iconName of availableIcons; track iconName) {
+            <nz-option [nzValue]="iconName" [nzLabel]="iconName"></nz-option>
+          }
+        </nz-select>
+        @if (isFieldInvalid('icon')) {
+          <p class="error-message">{{ getFieldError('icon') }}</p>
+        }
+      </fieldset>
+
+      <fieldset class="form-field">
+        <label for="color" class="form-label">
+          Sélectionnez une couleur *
+        </label>
+        <nz-select
+          id="color"
+          formControlName="color"
+          nzPlaceHolder="Sélectionner une couleur"
+          nzShowSearch
+          nzAllowClear
+        >
+          @for (badgeColor of badgeColors; track badgeColor.value) {
+            <nz-option
+              [nzValue]="badgeColor.value"
+              [nzLabel]="badgeColor.label"
+              [nzCustomContent]="true"
+            >
+              <div class="color-option">
+                <span
+                  class="color-preview"
+                  [ngClass]="badgeColor.cssClass"
+                ></span>
+                <span class="color-label">{{ badgeColor.label }}</span>
+              </div>
+            </nz-option>
+          }
+        </nz-select>
+        @if (isFieldInvalid('color')) {
+          <p class="error-message">{{ getFieldError('color') }}</p>
+        }
+      </fieldset>
+    </form>
+  </ng-container>
+</nz-modal>

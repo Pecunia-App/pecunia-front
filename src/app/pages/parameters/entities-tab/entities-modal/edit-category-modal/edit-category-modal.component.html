@@ -1,0 +1,71 @@
+<nz-modal
+  [nzVisible]="isOpen"
+  [nzTitle]="title"
+  (nzOnCancel)="onClose()"
+  (nzOnOk)="onSave()"
+  [nzOkLoading]="isSubmitting"
+  nzOkText="Sauvegarder"
+  nzCancelText="Annuler"
+>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="form" (ngSubmit)="onSave()">
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true">Nom de la catégorie</nz-form-label>
+        <nz-form-control
+          [nzErrorTip]="'Le nom est obligatoire (2-50 caractères)'"
+        >
+          <input
+            nz-input
+            formControlName="categoryName"
+            placeholder="Ex: Épicerie, Salaire, etc."
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true">Type de transaction</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="type">
+            @for (type of categoryTypes; track type) {
+              <nz-option
+                [nzValue]="type"
+                [nzLabel]="type === 'DEBIT' ? 'Dépense' : 'Revenu'"
+              />
+            }
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true">Couleur (Badge)</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="color">
+            @for (color of badgeColors; track color.value) {
+              <nz-option [nzValue]="color.value" [nzLabel]="color.label">
+                <span>
+                  <span [ngClass]="color.cssClass"></span>
+                  {{ color.label }}
+                </span>
+              </nz-option>
+            }
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzRequired]="true">Icône</nz-form-label>
+        <nz-form-control>
+          <nz-select
+            formControlName="icon"
+            nzShowSearch
+            nzPlaceHolder="Choisir une icône"
+          >
+            @for (icon of availableIcons; track icon) {
+              <nz-option [nzValue]="icon" [nzLabel]="icon" />
+            }
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

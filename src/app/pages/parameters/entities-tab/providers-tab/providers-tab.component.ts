@@ -1,25 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { ButtonComponent } from '../../../shared/ui/button/button.component';
-import {
-  DisplayInfo,
-  ParameterListComponent,
-} from '../parameter-list/parameter-list.component';
-import {
-  CreateEntityEvent,
-  CreateEntityModalComponent,
-} from '../create-entity-modal/create-entity-modal.component';
-import {
-  EditEntityModalComponent,
-  UpdateEntityEvent,
-} from '../edit-entity-modal/edit-entity-modal.component';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { ProvidersStoreService } from '../../../_core/store/providers.store.service';
-import { UserStoreService } from '../../../_core/store/user.store.service';
-import { ProvidersService } from '../../../_core/services/providers/providers.service';
-import { ProviderDTO } from '../../../_core/models/transactions/provider.dto';
+import { ProviderDTO } from '../../../../_core/models/transactions/provider.dto';
+import { ProvidersService } from '../../../../_core/services/providers/providers.service';
+import { ProvidersStoreService } from '../../../../_core/store/providers.store.service';
+import { UserStoreService } from '../../../../_core/store/user.store.service';
+import { ButtonComponent } from '../../../../shared/ui/button/button.component';
+import {
+  CreateEntityModalComponent,
+  CreateEntityEvent,
+} from '../entities-modal/create-entity-modal/create-entity-modal.component';
+import {
+  EditEntityModalComponent,
+  UpdateEntityEvent,
+} from '../entities-modal/edit-entity-modal/edit-entity-modal.component';
+import {
+  ParameterListComponent,
+  DisplayInfo,
+} from '../../parameter-list/parameter-list.component';
 
 @Component({
   selector: 'app-providers-tab',

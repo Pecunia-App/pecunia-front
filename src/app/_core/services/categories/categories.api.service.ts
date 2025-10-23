@@ -2,7 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { CategoriesDataSource } from './categories.data-source';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { CategoryDTO } from '../../models/transactions/category.dto';
+import {
+  CategoryDTO,
+  CategoryUpsertDTO,
+} from '../../models/transactions/category.dto';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -25,5 +28,21 @@ export class CategoriesApiService implements CategoriesDataSource {
 
   getCategoryById(id: number): Observable<CategoryDTO> {
     return this.http.get<CategoryDTO>(`${this.baseUrl}/categories/${id}`);
+  }
+
+  createCategory(dto: CategoryUpsertDTO): Observable<CategoryDTO> {
+    return this.http.post<CategoryDTO>(`${this.baseUrl}/categories`, dto);
+  }
+  updateCategory(
+    id: number,
+    dto: CategoryUpsertDTO
+  ): Observable<CategoryUpsertDTO> {
+    return this.http.put<CategoryUpsertDTO>(
+      `${this.baseUrl}/categories/${id}`,
+      dto
+    );
+  }
+  deleteCategory(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/categories/${id}`);
   }
 }

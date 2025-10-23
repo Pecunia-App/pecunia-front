@@ -1,8 +1,8 @@
-@use '../../../../styles/themes/tokens' as theme;
-@use '../../../../styles/abstracts/typography' as typography;
-@use '../../../../styles/abstracts/layout' as layout;
-@use '../../../../styles/abstracts/shadows' as shadows;
-@use '../../../../styles/abstracts/breakpoints' as breakpoints;
+@use '../../../../../styles/themes/tokens' as theme;
+@use '../../../../../styles/abstracts/typography' as typography;
+@use '../../../../../styles/abstracts/layout' as layout;
+@use '../../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../../styles/abstracts/breakpoints' as breakpoints;
 
 .tab-content {
   @include theme.themed-block(
