@@ -1,3 +1,13 @@
+## 0.12.0 (2025-10-23)
+
+### Feat
+
+- **categories-parameters**: crud category
+
+### Refactor
+
+- **parameters**: decouple monolithic tab components
+
 ## 0.11.0 (2025-10-22)
 
 ### Feat
