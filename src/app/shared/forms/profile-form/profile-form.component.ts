@@ -25,7 +25,8 @@ import { ButtonComponent } from '../../ui/button/button.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserStoreService } from '../../../_core/store/user.store.service';
 import { ThemeService } from '../../../_core/services/theme/theme.service';
-import { catchError, finalize, forkJoin, of, tap } from 'rxjs';
+import { catchError, finalize, forkJoin, of, switchMap, tap } from 'rxjs';
+import { ThemeSwitchComponent } from '../../theme-switch/theme-switch.component';
 
 @Component({
   selector: 'app-profile-form',
@@ -36,6 +37,7 @@ import { catchError, finalize, forkJoin, of, tap } from 'rxjs';
     InputComponent,
     IconComponent,
     ButtonComponent,
+    ThemeSwitchComponent,
   ],
   templateUrl: './profile-form.component.html',
   styleUrls: ['./profile-form.component.scss'],
@@ -172,15 +174,26 @@ export class ProfileFormComponent implements OnInit {
 
     forkJoin(jobs)
       .pipe(
+        tap(() => {
+          // Mettre à jour le store avec les données qu'on vient de sauvegarder
+          // SANS faire un nouvel appel HTTP
+          const currentUser = this.userStore.user();
+          if (currentUser) {
+            const updatedUser = {
+              ...currentUser,
+              firstname: formValue.firstname || currentUser.firstname,
+              lastname: formValue.lastname || currentUser.lastname,
+              email: formValue.email || currentUser.email,
+              // La profilePicture reste inchangée puisqu'on ne l'a pas modifiée
+            };
+            this.userStore.user.set(updatedUser);
+          }
+        }),
         finalize(() => {
           this.formUtils.showSuccess('Modifications enregistrées');
-          this.userStore.refreshUser(); // Lance le refresh du store
-          // Délai pour s'assurer que le store est à jour
-          setTimeout(() => {
-            this.toggleEditMode();
-            this.profileForm.markAsPristine();
-            this.cleanUploadState();
-          }, 300);
+          this.cleanUploadState();
+          this.toggleEditMode();
+          this.profileForm.markAsPristine();
         })
       )
       .subscribe({
@@ -196,15 +209,34 @@ export class ProfileFormComponent implements OnInit {
       return of(null);
     }
 
-    // Toujours utiliser PUT (crée ou met à jour)
     return this.userService
       .uploadProfilePicture(this.currentUserId, this.uploadFile, true)
       .pipe(
-        tap((response) => {
-          if (response) {
+        switchMap((response) => {
+          if (response && response.picture) {
             this.hasProfilePicture = true;
             this.tempAvatarPreview = null;
+            // Récupérer les données à jour du serveur pour avoir la photo mise à jour
+            return this.userService.getCurrentUser().pipe(
+              tap((updatedUser) => {
+                // Vérifier que profilePicture est bien une string
+                const profilePicture =
+                  typeof updatedUser.profilePicture === 'string'
+                    ? updatedUser.profilePicture
+                    : '';
+
+                const userData = {
+                  id: updatedUser.id ?? 0,
+                  firstname: updatedUser.firstname ?? '',
+                  lastname: updatedUser.lastname ?? '',
+                  email: updatedUser.email ?? '',
+                  profilePicture: profilePicture,
+                };
+                this.userStore.user.set(userData);
+              })
+            );
           }
+          return of(null);
         }),
         catchError((error) => {
           console.error('Erreur upload:', error);

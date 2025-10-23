@@ -5,41 +5,35 @@
 
 // variables projet / fallback
 $primary-color: var(--primary, #0b6b4a);
-$card-bg: var(--card-bg, #f2f4f3);
 $card-max-width: 460px;
 $avatar-size: 44px;
 
-/* wrapper réutilisable (comme .login-wrapper) : permet de centrer et limiter la width */
-.profile-wrapper {
-  width: 100%;
-  max-width: 392px; // même valeur que login pour small forms; ajuster si besoin
-  margin: 0 auto;
-  @include layout.flex($dir: column, $gap: space-12);
-}
-
-/* host garde full width si le composant est utilisé directement */
-:host {
-  display: block;
-  width: 100%;
-}
-
-/* wrapper principal utilisé dans le template : <form class="profile-card"> */
+/* carte principale */
 .profile-card {
   width: 100%;
   display: block;
   box-sizing: border-box;
   padding: 0;
 
+  // Icônes des inputs = couleur primaire
+  .form-group app-ui-input app-ui-icon,
+  .password-fields app-ui-input app-ui-icon {
+    @include theme.themed-block(
+      (
+        color: 'background-primary-default',
+      )
+    );
+    color: $primary-color;
+  }
+
   .card-inner {
     width: 100%;
-    max-width: 460px;
+    max-width: $card-max-width;
     margin: 0 auto;
     border: 3px solid transparent;
     border-radius: 8px;
     padding: layout.$space-24;
     box-sizing: border-box;
-
-    // couleurs & bordures selon thème
     @include theme.themed-block(
       (
         background: 'background-neutral-primary',
@@ -47,32 +41,12 @@ $avatar-size: 44px;
         color: 'text-neutral-default',
       )
     );
-
-    // ombre réutilisant la map shadows
     @include shadows.shadow(sm);
   }
 
   .form-header {
     text-align: center;
-    margin-bottom: layout.$space-12;
-
-    h2 {
-      margin: 0 0 layout.$space-12 0;
-      font-weight: 700;
-      font-size: 1.125rem;
-      // couleur du titre selon token primaire
-      @include theme.themed-block(
-        (
-          color: 'background-primary-default',
-        )
-      );
-    }
-
-    .top-action {
-      display: flex;
-      justify-content: center;
-      margin-bottom: layout.$space-8;
-    }
+    margin-bottom: layout.$space-24;
   }
 
   .card-body {
@@ -91,13 +65,19 @@ $avatar-size: 44px;
 
     .avatar-section {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: layout.$space-12;
 
+      #avatar-label {
+        flex: 0 0 100%;
+        margin-bottom: layout.$space-8;
+      }
+
       .avatar-placeholder {
         position: relative;
-        width: 44px;
-        height: 44px;
+        width: $avatar-size;
+        height: $avatar-size;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -105,8 +85,6 @@ $avatar-size: 44px;
         overflow: hidden;
         flex-shrink: 0;
         border: 1px solid transparent;
-
-        // background / border selon thème
         @include theme.themed-block(
           (
             background-color: 'background-neutral-primary-static',
@@ -123,7 +101,6 @@ $avatar-size: 44px;
 
         .avatar-icon {
           font-size: 18px;
-          // utiliser couleur primaire
           @include theme.themed-block(
             (
               color: 'background-primary-default',
@@ -156,7 +133,6 @@ $avatar-size: 44px;
         &:hover {
           transform: translateY(-1px);
         }
-
         &:active {
           transform: translateY(0);
         }
@@ -204,7 +180,6 @@ $avatar-size: 44px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-
         @include theme.themed-block(
           (
             background-color: 'background-neutral-secondary',
@@ -221,30 +196,8 @@ $avatar-size: 44px;
     display: flex;
     flex-direction: column;
     gap: layout.$space-12;
-
-    // Ajout des styles pour les inputs en lecture seule
-    ::ng-deep app-ui-input {
-      &.readonly {
-        input {
-          cursor: default;
-          @include theme.themed-block(
-            (
-              background-color: 'background-neutral-secondary',
-              color: 'text-neutral-secondary',
-            )
-          );
-
-          &::placeholder {
-            @include theme.themed-block(
-              (
-                color: 'text-neutral-tertiary',
-              )
-            );
-          }
-        }
-      }
-    }
   }
+
   .password-fields {
     width: 100%;
     display: flex;
@@ -274,7 +227,6 @@ $avatar-size: 44px;
     app-ui-button {
       min-width: layout.px-to-rem(120);
 
-      // Style pour les boutons danger
       &[variant='danger'] {
         @include theme.themed-block(
           (
@@ -282,7 +234,6 @@ $avatar-size: 44px;
             color: 'text-alert-default-darker',
           )
         );
-
         &:hover {
           @include theme.themed-block(
             (
@@ -296,7 +247,7 @@ $avatar-size: 44px;
   }
 }
 
-/* modal simple */
+/* modal */
 .avatar-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -349,7 +300,6 @@ $avatar-size: 44px;
       align-items: center;
       justify-content: center;
       gap: layout.$space-8;
-
       @include theme.themed-block(
         (
           color: 'text-neutral-secondary',
@@ -359,7 +309,6 @@ $avatar-size: 44px;
       .download-icon {
         font-size: 24px;
       }
-
       span {
         font-size: 0.875rem;
       }
@@ -376,20 +325,170 @@ $avatar-size: 44px;
 
   .avatar-modal-actions {
     display: flex;
+    flex-direction: column;
     gap: layout.$space-12;
     justify-content: center;
+    align-items: stretch;
+  }
+
+  .avatar-modal-actions app-ui-button {
+    width: 100%;
   }
 }
 
-/* Desktop : espacement supérieur et centrage vertical plus marqué */
+/* Desktop */
 @include bp.mq(desktop) {
   .profile-card {
     padding: layout.$space-24;
+
     .card-inner {
       padding: layout.$space-24;
     }
-    :host {
-      max-width: none;
+
+    .form-header {
+      margin-bottom: layout.$space-24;
+    }
+  }
+}
+
+/* Global deep overrides (mode lecture) */
+:host(.read-only) ::ng-deep {
+  /* Désactive interactions sur les champs */
+  app-ui-input,
+  input,
+  textarea,
+  select {
+    pointer-events: none !important;
+  }
+
+  /* Supprime les styles de focus/hover (cadre vert) */
+  .ui-input__field-group,
+  input,
+  textarea,
+  select {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  app-ui-input:focus-within .ui-input__field-group,
+  .ui-input__field-group:focus-within,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}
+
+/* Icônes: hériter de currentColor (garde le comportement normal) */
+:host ::ng-deep {
+  app-ui-input app-ui-icon,
+  app-ui-input app-ui-icon svg,
+  app-ui-input app-ui-icon path,
+  app-ui-input app-ui-icon [fill],
+  app-ui-input app-ui-icon [stroke] {
+    fill: currentColor !important;
+    stroke: currentColor !important;
+  }
+
+  /* Inputs désactivés / lecture seule (bloc unique) */
+  app-ui-input[disabled],
+  app-ui-input[readonly] {
+    .ui-input__field-group {
+      cursor: not-allowed !important;
+      pointer-events: all !important;
+      @include theme.themed-block(
+        (
+          border-color: 'border-neutral-subtle',
+        )
+      );
+    }
+
+    app-ui-icon {
+      opacity: 0.5 !important;
+      @include theme.themed-block(
+        (
+          color: 'text-neutral-disabled',
+        )
+      );
+
+      svg {
+        @include theme.themed-block(
+          (
+            fill: 'text-neutral-disabled',
+            stroke: 'text-neutral-disabled',
+          )
+        );
+      }
+    }
+
+    input {
+      cursor: not-allowed !important;
+      @include theme.themed-block(
+        (
+          color: 'text-neutral-disabled',
+          background-color: 'background-neutral-subtle',
+        )
+      );
+
+      &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+
+      &::placeholder {
+        @include theme.themed-block(
+          (
+            color: 'text-neutral-tertiary',
+          )
+        );
+      }
+    }
+  }
+
+  /* Theme switch désactivé */
+  app-theme-switch[disabled] {
+    button {
+      cursor: not-allowed !important;
+      pointer-events: all !important;
+      @include theme.themed-block(
+        (
+          background-color: 'background-neutral-subtle',
+          border-color: 'border-neutral-subtle',
+          color: 'text-neutral-disabled',
+        )
+      );
+
+      &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+    }
+
+    app-ui-icon {
+      opacity: 0.5 !important;
+      @include theme.themed-block(
+        (
+          color: 'text-neutral-disabled',
+        )
+      );
+      svg {
+        @include theme.themed-block(
+          (
+            fill: 'text-neutral-disabled',
+            stroke: 'text-neutral-disabled',
+          )
+        );
+      }
+    }
+
+    .label {
+      @include theme.themed-block(
+        (
+          color: 'text-neutral-disabled',
+        )
+      );
     }
   }
 }
