@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,6 +23,9 @@ import { InputComponent } from '../../ui/input/input.component';
 import { IconComponent } from '../../ui/icon/icon.component';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserStoreService } from '../../../_core/store/user.store.service';
+import { ThemeService } from '../../../_core/services/theme/theme.service';
+import { catchError, finalize, forkJoin, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-profile-form',
@@ -35,7 +44,22 @@ export class ProfileFormComponent implements OnInit {
   private formUtils = inject(FormUtilsService);
   private userService = inject(UserService);
   private formBuilder = inject(FormBuilder);
+  private userStore = inject(UserStoreService);
+  private themeService = inject(ThemeService);
+
+  showUploadModal = false;
   showPassword = false;
+  isEditMode = false;
+  hasProfilePicture = false;
+
+  currentUserId: number | null = null;
+  tempAvatarPreview: string | null = null;
+  uploadPreview: string | null = null;
+  uploadFile: File | null = null;
+
+  readonly DEFAULT_AVATAR = 'assets/images/default-user.svg';
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   profileForm: TypedFormGroup<ProfileForm> = this.formBuilder.group(
     {
@@ -50,31 +74,51 @@ export class ProfileFormComponent implements OnInit {
     }
   ) as TypedFormGroup<ProfileForm>;
 
-  isEditMode = false;
+  get avatarSrc(): string {
+    const profilePicture = this.userStore.user()?.profilePicture;
+    if (this.tempAvatarPreview) return this.tempAvatarPreview;
+    if (profilePicture) return `data:image/png;base64,${profilePicture}`;
+    return this.DEFAULT_AVATAR;
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadUserData();
-    // Désactiver tous les champs au chargement
-    Object.keys(this.profileForm.controls).forEach((key) => {
-      const control = this.profileForm.get(key);
-      if (control) {
-        control.disable();
-      }
-    });
+    this.disableFormControls();
   }
 
   private loadUserData(): void {
     this.userService.getCurrentUser().subscribe({
-      next: (user) => {
+      next: (user: ProfileForm) => {
+        this.currentUserId = user.id || null;
+
         this.profileForm.patchValue({
           firstname: user.firstname,
           lastname: user.lastname,
           email: user.email,
         });
+
+        this.hasProfilePicture = !!this.userStore.user()?.profilePicture;
+        this.tempAvatarPreview = null; // Réinitialiser la prévisualisation
       },
       error: (err) => {
-        console.error('Erreur lors de la récupération du user :', err);
+        console.error('Erreur lors de la récupération du user:', err);
       },
+    });
+  }
+
+  setDefaultAvatar(): void {
+    this.hasProfilePicture = false;
+  }
+
+  private disableFormControls(): void {
+    Object.keys(this.profileForm.controls).forEach((key) => {
+      this.profileForm.get(key)?.disable();
+    });
+  }
+
+  private enableFormControls(): void {
+    Object.keys(this.profileForm.controls).forEach((key) => {
+      this.profileForm.get(key)?.enable();
     });
   }
 
@@ -84,92 +128,119 @@ export class ProfileFormComponent implements OnInit {
     }
   }
 
-  // Amélioration de handleConfirm
   handleConfirm(): void {
-    if (!this.profileForm.valid) return;
+    if (!this.currentUserId) {
+      this.formUtils.showError('Utilisateur non identifié');
+      return;
+    }
 
+    const jobs = [];
+
+    // Upload/Update photo si sélectionnée (utilise toujours PUT)
+    if (this.uploadFile) {
+      jobs.push(this.uploadProfilePicture());
+    }
+
+    // Mise à jour profil
     const formValue = this.profileForm.value;
     const updates: Partial<ProfileForm> = {};
 
-    // ajoute uniquement les champs remplis
-    if (formValue.firstname) {
-      updates.firstname = formValue.firstname;
-    }
-    if (formValue.lastname) {
-      updates.lastname = formValue.lastname;
-    }
-    if (formValue.email) {
-      updates.email = formValue.email;
+    if (formValue.firstname) updates.firstname = formValue.firstname;
+    if (formValue.lastname) updates.lastname = formValue.lastname;
+    if (formValue.email) updates.email = formValue.email;
+
+    if (Object.keys(updates).length > 0) {
+      jobs.push(this.userService.updateProfile(this.currentUserId, updates));
     }
 
-    // n'appelle le backend que s'il y a au moins un champ à mettre à jour
-    if (Object.keys(updates).length > 0) {
-      this.userService.updateProfile(updates).subscribe({
-        next: () => {
-          this.formUtils.showSuccess('Profil mis à jour avec succès');
-          this.toggleEditMode();
-          this.resetPasswordFields();
-        },
-        error: (err: HttpErrorResponse) => {
-          this.formUtils.showError('Erreur lors de la mise à jour du profil');
-          console.error('Erreur :', err);
-        },
-      });
-    }
-    // 🔑 Mise à jour du mot de passe (si renseigné et confirmé)
+    // Mise à jour mot de passe
     if (
       formValue.password &&
       formValue.password === formValue.confirmPassword
     ) {
-      const passwordUpdate: PasswordUpdateForm = {
+      const pwd: PasswordUpdateForm = {
         newPassword: formValue.password,
         confirmNewPassword: formValue.confirmPassword,
       };
+      jobs.push(this.userService.updatePassword(this.currentUserId, pwd));
+    }
 
-      this.userService.updatePassword(passwordUpdate).subscribe({
-        next: () => {
-          this.formUtils.showSuccess('Mot de passe mis à jour avec succès');
-          this.resetPasswordFields();
-        },
-        error: (err: HttpErrorResponse) => {
-          this.formUtils.showError(
-            'Erreur lors de la mise à jour du mot de passe'
-          );
-          console.error('Erreur mot de passe :', err);
+    if (jobs.length === 0) {
+      this.formUtils.showSuccess('Aucune modification à enregistrer');
+      return;
+    }
+
+    forkJoin(jobs)
+      .pipe(
+        finalize(() => {
+          this.formUtils.showSuccess('Modifications enregistrées');
+          this.userStore.refreshUser(); // Lance le refresh du store
+          // Délai pour s'assurer que le store est à jour
+          setTimeout(() => {
+            this.toggleEditMode();
+            this.profileForm.markAsPristine();
+            this.cleanUploadState();
+          }, 300);
+        })
+      )
+      .subscribe({
+        error: (err) => {
+          console.error('Erreur globale:', err);
+          this.formUtils.showError('Une erreur est survenue');
         },
       });
-    }
   }
 
-  // Nouvelle méthode pour réinitialiser les champs de mot de passe
-  private resetPasswordFields(): void {
-    this.profileForm.patchValue({
-      password: '',
-      confirmPassword: '',
-    });
+  private uploadProfilePicture() {
+    if (!this.uploadFile || !this.currentUserId) {
+      return of(null);
+    }
+
+    // Toujours utiliser PUT (crée ou met à jour)
+    return this.userService
+      .uploadProfilePicture(this.currentUserId, this.uploadFile, true)
+      .pipe(
+        tap((response) => {
+          if (response) {
+            this.hasProfilePicture = true;
+            this.tempAvatarPreview = null;
+          }
+        }),
+        catchError((error) => {
+          console.error('Erreur upload:', error);
+          this.formUtils.showError("Erreur lors de l'upload de la photo");
+          return of(null);
+        })
+      );
   }
 
   toggleEditMode(): void {
     this.isEditMode = !this.isEditMode;
+
     if (!this.isEditMode) {
       this.loadUserData();
+      this.cleanUploadState();
     }
-    // Activer/désactiver tous les champs du formulaire
-    Object.keys(this.profileForm.controls).forEach((key) => {
-      const control = this.profileForm.get(key);
-      if (control && !this.isEditMode) {
-        control.disable();
-      } else if (control && this.isEditMode) {
-        control.enable();
-      }
-    });
+
+    if (this.isEditMode) {
+      this.enableFormControls();
+    } else {
+      this.disableFormControls();
+    }
   }
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
-  // Amélioration du validateur de mot de passe
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
+
+  isDarkTheme(): boolean {
+    return this.themeService.isDarkTheme();
+  }
+
   private passwordMatchValidator(
     form: FormGroup
   ): null | { passwordMismatch: boolean } {
@@ -181,7 +252,6 @@ export class ProfileFormComponent implements OnInit {
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  // Amélioration de la gestion des erreurs
   getErrorMessage(controlName: string): string {
     const control = this.profileForm.get(controlName);
     if (!control || !control.errors) return '';
@@ -193,5 +263,82 @@ export class ProfileFormComponent implements OnInit {
       return 'Les mots de passe ne correspondent pas';
 
     return '';
+  }
+
+  openFilePicker(): void {
+    this.fileInput?.nativeElement?.click();
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    const allowedTypes = ['image/png', 'image/jpeg'];
+
+    if (!allowedTypes.includes(file.type)) {
+      this.formUtils.showError('Seules les images PNG et JPEG sont acceptées.');
+      input.value = '';
+      return;
+    }
+
+    this.uploadFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.uploadPreview = reader.result as string;
+      this.showUploadModal = true;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  confirmUpload(): void {
+    if (this.uploadFile && this.uploadPreview) {
+      this.tempAvatarPreview = this.uploadPreview;
+      this.profileForm.markAsDirty();
+      this.showUploadModal = false;
+    }
+  }
+
+  cancelUpload(): void {
+    this.cleanUploadState();
+    this.showUploadModal = false;
+  }
+
+  private cleanUploadState(): void {
+    this.uploadPreview = null;
+    this.uploadFile = null;
+    this.tempAvatarPreview = null;
+    if (this.fileInput?.nativeElement) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
+  deleteProfilePicture(): void {
+    if (!this.currentUserId) {
+      this.formUtils.showError('Utilisateur non identifié');
+      return;
+    }
+
+    if (
+      !confirm('Êtes-vous sûr de vouloir supprimer votre photo de profil ?')
+    ) {
+      return;
+    }
+
+    this.userService.deleteProfilePicture(this.currentUserId).subscribe({
+      next: () => {
+        this.hasProfilePicture = false;
+        this.userStore.refreshUser();
+        this.formUtils.showSuccess('Photo de profil supprimée');
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Erreur suppression:', err);
+        this.formUtils.showError('Erreur lors de la suppression de la photo');
+      },
+    });
+  }
+
+  openUploadModal(): void {
+    this.showUploadModal = true;
   }
 }
