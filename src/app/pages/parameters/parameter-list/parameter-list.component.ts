@@ -11,6 +11,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
 import { CheckboxComponent } from '../../../shared/ui/checkbox/checkbox.component';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { BadgeComponent } from '../../../shared/ui/badge/badge.component';
+import { BadgeColorValue } from '../../../_core/models/transactions/category.dto';
 
 export interface Displayable {
   id: number;
@@ -19,7 +20,7 @@ export interface Displayable {
 export interface DisplayInfo {
   name: string;
   icon?: string;
-  color?: string;
+  color?: BadgeColorValue;
 }
 
 export interface ParameterSection<T extends Displayable> {

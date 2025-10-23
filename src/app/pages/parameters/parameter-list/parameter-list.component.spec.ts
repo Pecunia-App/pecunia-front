@@ -11,15 +11,15 @@ import {
 import { IconComponent } from '../../../shared/ui/icon/icon.component';
 import { CheckboxComponent } from '../../../shared/ui/checkbox/checkbox.component';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { BadgeColorValue } from '../../../_core/models/transactions/category.dto';
+import { IconName } from '../../../shared/ui/icon/icon.model';
 
-// Interface pour nos items de test
 interface TestItem extends Displayable {
   name: string;
-  icon?: string;
-  color?: string;
+  icon?: IconName;
+  color?: BadgeColorValue;
 }
 
-// Host component pour tester le composant générique
 @Component({
   imports: [ParameterListComponent],
   template: `
@@ -33,8 +33,18 @@ interface TestItem extends Displayable {
 })
 class TestHostComponent {
   items: TestItem[] = [
-    { id: 1, name: 'Item 1', icon: 'star', color: 'red' },
-    { id: 2, name: 'Item 2', icon: 'circle', color: 'blue' },
+    {
+      id: 1,
+      name: 'Item 1',
+      icon: 'landmark',
+      color: 'background-badge-blue-low',
+    },
+    {
+      id: 2,
+      name: 'Item 2',
+      icon: 'factory',
+      color: 'background-badge-orange-low',
+    },
   ];
 
   sections: ParameterSection<TestItem>[] = [
@@ -94,7 +104,7 @@ describe('ParameterListComponent<T>', () => {
   it('should provide correct display info', () => {
     const info = component.getDisplayInfo(host.items[0]);
     expect(info.name).toBe('Item 1');
-    expect(info.icon).toBe('star');
-    expect(info.color).toBe('red');
+    expect(info.icon).toBe('landmark');
+    expect(info.color).toBe('background-badge-blue-low');
   });
 });
