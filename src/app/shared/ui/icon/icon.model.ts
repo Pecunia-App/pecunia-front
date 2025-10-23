@@ -5,6 +5,7 @@ export type IconSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export const AVAILABLE_ICONS = [
   'album',
+  'arrow-down-to-line',
   'arrow-left',
   'arrow-right',
   'baby',

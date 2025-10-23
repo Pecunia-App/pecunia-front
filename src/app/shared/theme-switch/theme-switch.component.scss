@@ -3,3 +3,10 @@
   width: 100%;
   max-width: 100%;
 }
+
+/* Cacher le texte sur mobile, garder l’icône */
+@media (max-width: 600px) {
+  :host .label {
+    display: none;
+  }
+}

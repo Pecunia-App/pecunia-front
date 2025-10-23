@@ -17,7 +17,11 @@
 
     <div class="card-body">
       <div class="profile-top">
-        <div class="avatar-section">
+        <div class="avatar-section" role="group" aria-labelledby="avatar-label">
+          <div id="avatar-label" class="section-label label-mobile-hidden">
+            Photo de profil
+          </div>
+
           <div
             class="avatar-placeholder"
             role="img"
@@ -69,11 +73,15 @@
           }
         </div>
 
-        <div class="appearance-area">
-          <div class="appearance-label">Apparence</div>
-          <button type="button" class="appearance-btn" title="Apparence">
-            <app-ui-icon name="sun-moon"></app-ui-icon>
-          </button>
+        <div
+          class="appearance-area"
+          role="group"
+          aria-labelledby="appearance-label"
+        >
+          <div id="appearance-label" class="section-label label-mobile-hidden">
+            Apparence
+          </div>
+          <app-theme-switch></app-theme-switch>
         </div>
       </div>
 
@@ -180,38 +188,57 @@
     <div class="avatar-modal">
       <h3>Ajouter une photo</h3>
 
-      <div
-        class="avatar-modal-preview"
-        (click)="openFilePicker()"
-        (keydown.enter)="openFilePicker()"
-        (keydown.space)="openFilePicker()"
-        role="button"
-        tabindex="0"
-        aria-label="Cliquez ou appuyez sur Entrée pour sélectionner une photo"
-      >
+      <div class="avatar-modal-preview" role="img" aria-label="Aperçu photo">
         @if (uploadPreview) {
           <img [src]="uploadPreview" alt="Aperçu" />
         } @else {
-          <div class="upload-zone">
-            <app-ui-icon name="download" class="download-icon"></app-ui-icon>
-            <span>Cliquez pour ajouter une photo</span>
-          </div>
+          <img src="assets/images/downloadProfilPicture.png" alt="Aperçu" />
         }
       </div>
 
-      <div class="avatar-modal-actions">
-        <app-ui-button
-          variant="primary"
-          type="button"
-          (click)="confirmUpload()"
-          [disabled]="!uploadPreview"
-        >
-          Valider
-        </app-ui-button>
-        <app-ui-button variant="alert" type="button" (click)="cancelUpload()">
-          Annuler
-        </app-ui-button>
-      </div>
+      <!-- Bouton download visible uniquement si aucune image sélectionnée -->
+      @if (!uploadPreview) {
+        <div class="avatar-modal-actions">
+          <app-ui-button
+            type="button"
+            (click)="openFilePicker()"
+            variant="primary"
+            aria-label="Télécharger une photo"
+          >
+            <app-ui-icon name="arrow-down-to-line"></app-ui-icon>
+          </app-ui-button>
+
+          <app-ui-button type="button" variant="alert" (click)="cancelUpload()">
+            Annuler
+          </app-ui-button>
+        </div>
+      }
+
+      <!-- Boutons d'action visibles uniquement si une image est sélectionnée -->
+      @if (uploadPreview) {
+        <div class="avatar-modal-actions">
+          <app-ui-button
+            variant="primary"
+            type="button"
+            (click)="confirmUpload()"
+            [disabled]="!uploadPreview"
+          >
+            Valider
+          </app-ui-button>
+          <app-ui-button variant="alert" type="button" (click)="cancelUpload()">
+            Annuler
+          </app-ui-button>
+        </div>
+      }
+
+      <!-- Input file caché -->
+      <input
+        #fileInput
+        type="file"
+        accept="image/png,image/jpeg"
+        (change)="onFileSelected($event)"
+        hidden
+      />
     </div>
   </div>
 }
