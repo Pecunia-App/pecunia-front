@@ -1,11 +1,10 @@
 <section class="tab-content">
-  <!-- Action Buttons -->
   <article class="action-buttons">
     <app-ui-button
       variant="primary"
       size="medium"
       ariaLabel="Créer une nouvelle catégorie"
-      (buttonClick)="createCategory()"
+      (buttonClick)="openCreateCategoryModal()"
     >
       Créer une catégorie
     </app-ui-button>
@@ -20,7 +19,6 @@
       </app-ui-button>
     }
   </article>
-  <!-- Category Sections (Income + Expense) -->
   @for (section of sections; track section.prefix) {
     <app-parameter-list
       [sections]="[section]"
@@ -30,7 +28,21 @@
       (toggleItem)="
         toggleCategorySelection($event, section.prefix === 'income-category')
       "
-      (editItem)="editCategory($event)"
+      (deleteItem)="openDeleteCategoryModal($event)"
+      (editItem)="openEditCategoryModal($event)"
     />
   }
+    <app-create-category-modal
+      [isOpen]="modalOpenCategory()"
+      title="Créer une catégorie"
+      (closeModal)="modalOpenCategory.set(false)"
+      (create)="handleCreateCategory($event)"
+    />
+    <app-edit-category-modal
+      [isOpen]="modalEditCategory().open"
+      title="Modifier une catégorie"
+      [currentCategory]="modalEditCategory().category!"
+      (closeModal)="modalEditCategory.set({open: false})"
+      (save)="handleUpdateCategory($event)"
+    />
 </section>

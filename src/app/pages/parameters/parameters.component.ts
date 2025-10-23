@@ -8,9 +8,9 @@ import {
 import { UserStoreService } from '../../_core/store/user.store.service';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { TagsTabComponent } from './tags-tab/tags-tab.component';
-import { ProvidersTabComponent } from './providers-tab/providers-tab.component';
-import { CategoriesTabComponent } from './categories-tab/categories-tab.component';
+import { CategoriesTabComponent } from './entities-tab/categories-tab/categories-tab.component';
+import { ProvidersTabComponent } from './entities-tab/providers-tab/providers-tab.component';
+import { TagsTabComponent } from './entities-tab/tags-tab/tags-tab.component';
 export type ParametersTabs = 'categories' | 'tags' | 'providers';
 
 @Component({

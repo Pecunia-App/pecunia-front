@@ -1,24 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import {
   DisplayInfo,
   ParameterListComponent,
-} from '../parameter-list/parameter-list.component';
+} from '../../parameter-list/parameter-list.component';
 import {
   CreateEntityEvent,
   CreateEntityModalComponent,
-} from '../create-entity-modal/create-entity-modal.component';
+} from '../entities-modal/create-entity-modal/create-entity-modal.component';
 import {
   EditEntityModalComponent,
   UpdateEntityEvent,
-} from '../edit-entity-modal/edit-entity-modal.component';
+} from '../entities-modal/edit-entity-modal/edit-entity-modal.component';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { TagsService } from '../../../_core/services/tags/tags.service';
-import { TagStoreService } from '../../../_core/store/tag.store.service';
-import { UserStoreService } from '../../../_core/store/user.store.service';
-import { TagDTO } from '../../../_core/models/transactions/tag.dto';
+import { TagsService } from '../../../../_core/services/tags/tags.service';
+import { TagStoreService } from '../../../../_core/store/tag.store.service';
+import { UserStoreService } from '../../../../_core/store/user.store.service';
+import { TagDTO } from '../../../../_core/models/transactions/tag.dto';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
@@ -140,7 +140,6 @@ export class TagsTabComponent {
     this.tagService.createTag({ tagName: event.name, userId }).subscribe({
       next: (tag) => {
         this.tagStore.userTags.update((list) => [...list, tag]);
-        this.tagStore.loadAllTags(userId, true);
         this.tagStore.isLoading.set(false);
         this.notification.success(
           'Étiquette créée',

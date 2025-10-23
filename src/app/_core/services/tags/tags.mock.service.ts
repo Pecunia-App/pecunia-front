@@ -43,7 +43,6 @@ export class TagsMockService implements TagsDataSource {
 
     return of(dto);
   }
-
   deleteTag(id: number): Observable<void> {
     const remaining = MOCK_TAGS.filter((tag) => tag.id != id);
     MOCK_TAGS.length = 0;
