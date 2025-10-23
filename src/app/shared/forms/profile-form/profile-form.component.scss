@@ -1,55 +1,395 @@
 @use '../../../../styles/abstracts/layout' as layout;
 @use '../../../../styles/abstracts/breakpoints' as bp;
+@use '../../../../styles/themes/tokens' as theme;
+@use '../../../../styles/abstracts/shadows' as shadows;
 
-:host {
+// variables projet / fallback
+$primary-color: var(--primary, #0b6b4a);
+$card-bg: var(--card-bg, #f2f4f3);
+$card-max-width: 460px;
+$avatar-size: 44px;
+
+/* wrapper réutilisable (comme .login-wrapper) : permet de centrer et limiter la width */
+.profile-wrapper {
   width: 100%;
-  max-width: 392px;
+  max-width: 392px; // même valeur que login pour small forms; ajuster si besoin
+  margin: 0 auto;
+  @include layout.flex($dir: column, $gap: space-12);
 }
 
-.register-form {
-  margin-top: layout.$space-24;
-  @include layout.flex($dir: column, $gap: space-16);
+/* host garde full width si le composant est utilisé directement */
+:host {
+  display: block;
+  width: 100%;
+}
 
-  @include bp.mq(desktop) {
-    margin-top: layout.$space-32;
+/* wrapper principal utilisé dans le template : <form class="profile-card"> */
+.profile-card {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  padding: 0;
+
+  .card-inner {
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    padding: layout.$space-24;
+    box-sizing: border-box;
+
+    // couleurs & bordures selon thème
+    @include theme.themed-block(
+      (
+        background: 'background-neutral-primary',
+        border-color: 'background-primary-default',
+        color: 'text-neutral-default',
+      )
+    );
+
+    // ombre réutilisant la map shadows
+    @include shadows.shadow(sm);
   }
-}
-fieldset {
-  @include layout.flex($dir: column, $gap: space-8);
-}
 
-.form-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
+  .form-header {
+    text-align: center;
+    margin-bottom: layout.$space-12;
 
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+    h2 {
+      margin: 0 0 layout.$space-12 0;
+      font-weight: 700;
+      font-size: 1.125rem;
+      // couleur du titre selon token primaire
+      @include theme.themed-block(
+        (
+          color: 'background-primary-default',
+        )
+      );
+    }
 
-  app-ui-button:last-child {
-    margin-left: auto;
+    .top-action {
+      display: flex;
+      justify-content: center;
+      margin-bottom: layout.$space-8;
+    }
   }
-}
 
-:host ::ng-deep {
-  // Style pour les inputs désactivés
-  .disabled-input {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: layout.$space-12;
+    align-items: center;
   }
-}
 
-.password-fields {
-  margin-top: 1rem;
+  .profile-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: layout.$space-8;
+
+    .avatar-section {
+      display: flex;
+      align-items: center;
+      gap: layout.$space-12;
+
+      .avatar-placeholder {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        flex-shrink: 0;
+        border: 1px solid transparent;
+
+        // background / border selon thème
+        @include theme.themed-block(
+          (
+            background-color: 'background-neutral-primary-static',
+            border-color: 'border-neutral-primary-inverse',
+          )
+        );
+
+        .avatar-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .avatar-icon {
+          font-size: 18px;
+          // utiliser couleur primaire
+          @include theme.themed-block(
+            (
+              color: 'background-primary-default',
+            )
+          );
+        }
+      }
+
+      .avatar-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+      }
+
+      .avatar-action-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        app-ui-icon {
+          font-size: 16px;
+        }
+
+        &:hover {
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+
+      .avatar-add-btn {
+        @include theme.themed-block(
+          (
+            background-color: 'background-primary-default',
+            color: 'text-neutral-default-inverse',
+          )
+        );
+      }
+
+      .avatar-delete-btn {
+        @include theme.themed-block(
+          (
+            background-color: 'background-alert-default-low',
+            color: 'text-alert-default-darker',
+          )
+        );
+      }
+    }
+
+    .appearance-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: layout.$space-8;
+
+      .appearance-label {
+        font-size: 0.75rem;
+        @include theme.themed-block(
+          (
+            color: 'text-neutral-secondary',
+          )
+        );
+      }
+
+      .appearance-btn {
+        border: 1px solid transparent;
+        border-radius: 6px;
+        padding: 6px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        @include theme.themed-block(
+          (
+            background-color: 'background-neutral-secondary',
+            border-color: 'border-neutral-primary-inverse',
+            color: 'text-neutral-default',
+          )
+        );
+      }
+    }
+  }
+
+  .form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: layout.$space-12;
+
+    // Ajout des styles pour les inputs en lecture seule
+    ::ng-deep app-ui-input {
+      &.readonly {
+        input {
+          cursor: default;
+          @include theme.themed-block(
+            (
+              background-color: 'background-neutral-secondary',
+              color: 'text-neutral-secondary',
+            )
+          );
+
+          &::placeholder {
+            @include theme.themed-block(
+              (
+                color: 'text-neutral-tertiary',
+              )
+            );
+          }
+        }
+      }
+    }
+  }
+  .password-fields {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: layout.$space-12;
+  }
 
   .show-password {
-    margin-top: 0.5rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: layout.$space-8;
+    font-size: 0.875rem;
+    @include theme.themed-block(
+      (
+        color: 'text-neutral-secondary',
+      )
+    );
+  }
+
+  .form-actions {
+    margin-top: layout.$space-8;
+    display: flex;
+    gap: layout.$space-12;
+    justify-content: center;
+    width: 100%;
+
+    app-ui-button {
+      min-width: layout.px-to-rem(120);
+
+      // Style pour les boutons danger
+      &[variant='danger'] {
+        @include theme.themed-block(
+          (
+            background-color: 'background-alert-default-low',
+            color: 'text-alert-default-darker',
+          )
+        );
+
+        &:hover {
+          @include theme.themed-block(
+            (
+              background-color: 'background-alert-hover-low',
+              color: 'text-alert-hover-darker',
+            )
+          );
+        }
+      }
+    }
+  }
+}
+
+/* modal simple */
+.avatar-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+.avatar-modal {
+  width: 320px;
+  border-radius: 8px;
+  padding: layout.$space-16;
+  text-align: center;
+  @include theme.themed-block(
+    (
+      background-color: 'background-neutral-primary',
+      color: 'text-neutral-default',
+    )
+  );
+  @include shadows.shadow(md);
+
+  h3 {
+    margin: 0 0 layout.$space-12 0;
+    @include theme.themed-block(
+      (
+        color: 'background-primary-default',
+      )
+    );
+  }
+
+  .avatar-modal-preview {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto layout.$space-12 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #{theme.themed('background-neutral-primary', 'light')};
+    cursor: pointer;
+
+    .upload-zone {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: layout.$space-8;
+
+      @include theme.themed-block(
+        (
+          color: 'text-neutral-secondary',
+        )
+      );
+
+      .download-icon {
+        font-size: 24px;
+      }
+
+      span {
+        font-size: 0.875rem;
+      }
+    }
+
+    &:hover .upload-zone {
+      @include theme.themed-block(
+        (
+          color: 'text-primary-default',
+        )
+      );
+    }
+  }
+
+  .avatar-modal-actions {
+    display: flex;
+    gap: layout.$space-12;
+    justify-content: center;
+  }
+}
+
+/* Desktop : espacement supérieur et centrage vertical plus marqué */
+@include bp.mq(desktop) {
+  .profile-card {
+    padding: layout.$space-24;
+    .card-inner {
+      padding: layout.$space-24;
+    }
+    :host {
+      max-width: none;
+    }
   }
 }

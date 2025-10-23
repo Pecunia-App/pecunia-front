@@ -1,87 +1,217 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-  <div class="form-header">
-    <h2>Profil</h2>
-    <app-ui-button
-      *ngIf="!isEditMode"
-      type="button"
-      (click)="toggleEditMode()"
-      variant="primary"
-    >
-      Modifier
-    </app-ui-button>
-  </div>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-card">
+  <div class="card-inner">
+    <div class="form-header">
+      <h2>Profil</h2>
+      <div class="top-action">
+        @if (!isEditMode) {
+          <app-ui-button
+            type="button"
+            (click)="toggleEditMode()"
+            variant="primary"
+          >
+            Modifier
+          </app-ui-button>
+        }
+      </div>
+    </div>
 
-  <div class="form-group">
-    <app-ui-input
-      label="Prénom"
-      formControlName="firstname"
-      [placeholder]="'Votre prénom'"
-      [readonly]="!isEditMode"
-      type="text"
-    >
-      <app-ui-icon name="user" icon-left></app-ui-icon>
-    </app-ui-input>
+    <div class="card-body">
+      <div class="profile-top">
+        <div class="avatar-section">
+          <div
+            class="avatar-placeholder"
+            role="img"
+            aria-label="Photo de profil"
+          >
+            <img
+              [src]="avatarSrc"
+              alt="Avatar"
+              class="avatar-img"
+              (error)="setDefaultAvatar()"
+            />
+          </div>
 
-    <app-ui-input
-      label="Nom"
-      formControlName="lastname"
-      [placeholder]="'Votre nom'"
-      [readonly]="!isEditMode"
-      type="text"
-    >
-      <app-ui-icon name="user" icon-left></app-ui-icon>
-    </app-ui-input>
+          <!-- Boutons à droite de l'avatar -->
+          @if (isEditMode) {
+            <div class="avatar-actions">
+              <button
+                type="button"
+                class="avatar-action-btn avatar-add-btn"
+                (click)="openUploadModal()"
+                [attr.aria-label]="
+                  hasProfilePicture ? 'Modifier la photo' : 'Ajouter une photo'
+                "
+                [title]="hasProfilePicture ? 'Modifier' : 'Ajouter'"
+              >
+                <app-ui-icon name="plus"></app-ui-icon>
+              </button>
 
-    <app-ui-input
-      label="Email"
-      formControlName="email"
-      [placeholder]="'Votre email'"
-      type="email"
-      [readonly]="!isEditMode"
-    >
-      <app-ui-icon name="mail" icon-left></app-ui-icon>
-    </app-ui-input>
-  </div>
+              @if (hasProfilePicture) {
+                <button
+                  type="button"
+                  class="avatar-action-btn avatar-delete-btn"
+                  (click)="deleteProfilePicture()"
+                  aria-label="Supprimer la photo"
+                  title="Supprimer"
+                >
+                  <app-ui-icon name="trash-2"></app-ui-icon>
+                </button>
+              }
 
-  <div class="password-fields" *ngIf="isEditMode">
-    <app-ui-input
-      label="Mot de passe"
-      formControlName="password"
-      [type]="showPassword ? 'text' : 'password'"
-      [placeholder]="'Votre nouveau mot de passe'"
-    >
-      <app-ui-icon name="lock" icon-left></app-ui-icon>
-    </app-ui-input>
+              <input
+                #fileInput
+                type="file"
+                accept="image/png,image/jpeg"
+                (change)="onFileSelected($event)"
+                hidden
+              />
+            </div>
+          }
+        </div>
 
-    <app-ui-input
-      label="Confirmer le mot de passe"
-      formControlName="confirmPassword"
-      [type]="showPassword ? 'text' : 'password'"
-      [placeholder]="'Confirmez votre mot de passe'"
-    >
-      <app-ui-icon name="lock" icon-left></app-ui-icon>
-    </app-ui-input>
+        <div class="appearance-area">
+          <div class="appearance-label">Apparence</div>
+          <button type="button" class="appearance-btn" title="Apparence">
+            <app-ui-icon name="sun-moon"></app-ui-icon>
+          </button>
+        </div>
+      </div>
 
-    <div class="show-password">
-      <input
-        type="checkbox"
-        id="showPassword"
-        (change)="togglePasswordVisibility()"
-      />
-      <label for="showPassword">Afficher le mot de passe</label>
+      <div class="form-group">
+        <app-ui-input
+          label="Prénom"
+          formControlName="firstname"
+          placeholder="Votre prénom"
+          [readonly]="!isEditMode"
+          type="text"
+        >
+          <app-ui-icon name="user" icon-left></app-ui-icon>
+        </app-ui-input>
+
+        <app-ui-input
+          label="Nom"
+          formControlName="lastname"
+          placeholder="Votre nom"
+          [readonly]="!isEditMode"
+          type="text"
+        >
+          <app-ui-icon name="user" icon-left></app-ui-icon>
+        </app-ui-input>
+
+        <app-ui-input
+          label="Email"
+          formControlName="email"
+          placeholder="Votre email"
+          type="email"
+          [readonly]="!isEditMode"
+        >
+          <app-ui-icon name="mail" icon-left></app-ui-icon>
+        </app-ui-input>
+
+        @if (!isEditMode) {
+          <app-ui-input
+            label="Mot de passe"
+            [value]="'••••••••••••'"
+            [readonly]="true"
+            type="password"
+            class="password-display"
+          >
+            <app-ui-icon name="lock" icon-left></app-ui-icon>
+          </app-ui-input>
+        }
+      </div>
+
+      @if (isEditMode) {
+        <div class="password-fields">
+          <app-ui-input
+            label="Mot de passe"
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Votre nouveau mot de passe"
+          >
+            <app-ui-icon name="lock" icon-left></app-ui-icon>
+          </app-ui-input>
+
+          <app-ui-input
+            label="Confirmer le mot de passe"
+            formControlName="confirmPassword"
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Confirmez votre mot de passe"
+          >
+            <app-ui-icon name="lock" icon-left></app-ui-icon>
+          </app-ui-input>
+
+          <div class="show-password">
+            <input
+              type="checkbox"
+              id="showPassword"
+              (change)="togglePasswordVisibility()"
+            />
+            <label for="showPassword">Afficher le mot de passe</label>
+          </div>
+        </div>
+      }
+
+      @if (isEditMode) {
+        <div class="form-actions">
+          <app-ui-button
+            type="submit"
+            [disabled]="!profileForm.valid || profileForm.pristine"
+            variant="primary"
+          >
+            Valider
+          </app-ui-button>
+          <app-ui-button
+            type="button"
+            (click)="toggleEditMode()"
+            variant="alert"
+          >
+            Annuler
+          </app-ui-button>
+        </div>
+      }
     </div>
   </div>
-
-  <div class="form-actions" *ngIf="isEditMode">
-    <app-ui-button
-      type="submit"
-      [disabled]="!profileForm.valid || profileForm.pristine"
-      variant="primary"
-    >
-      Valider
-    </app-ui-button>
-    <app-ui-button type="button" (click)="toggleEditMode()" variant="secondary">
-      Annuler
-    </app-ui-button>
-  </div>
 </form>
+
+<!-- Modal d'upload -->
+@if (showUploadModal) {
+  <div class="avatar-modal-backdrop">
+    <div class="avatar-modal">
+      <h3>Ajouter une photo</h3>
+
+      <div
+        class="avatar-modal-preview"
+        (click)="openFilePicker()"
+        (keydown.enter)="openFilePicker()"
+        (keydown.space)="openFilePicker()"
+        role="button"
+        tabindex="0"
+        aria-label="Cliquez ou appuyez sur Entrée pour sélectionner une photo"
+      >
+        @if (uploadPreview) {
+          <img [src]="uploadPreview" alt="Aperçu" />
+        } @else {
+          <div class="upload-zone">
+            <app-ui-icon name="download" class="download-icon"></app-ui-icon>
+            <span>Cliquez pour ajouter une photo</span>
+          </div>
+        }
+      </div>
+
+      <div class="avatar-modal-actions">
+        <app-ui-button
+          variant="primary"
+          type="button"
+          (click)="confirmUpload()"
+          [disabled]="!uploadPreview"
+        >
+          Valider
+        </app-ui-button>
+        <app-ui-button variant="alert" type="button" (click)="cancelUpload()">
+          Annuler
+        </app-ui-button>
+      </div>
+    </div>
+  </div>
+}
