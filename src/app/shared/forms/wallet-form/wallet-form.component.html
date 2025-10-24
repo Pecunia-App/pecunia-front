@@ -1,62 +1,85 @@
-<form class="wallet-form" (ngSubmit)="walletForm.valid && onSubmit()" #walletForm="ngForm">
+<form class="wallet-form" [formGroup]="walletForm" (ngSubmit)="onSubmit()">
   <fieldset>
     <app-ui-input
-      name="name"
       label="Nom de portefeuille"
-      [(ngModel)]="newWallet.name"
-      #name="ngModel"
+      formControlName="name"
       placeholder="Compte courant"
       width="full"
-      [required]="true"
       [type]="'text'"
     >
     </app-ui-input>
 
-    @if (name.errors && walletForm.submitted) {
+    @if (walletForm.get('name')?.errors && walletForm.touched) {
       <div>
-          @if (name.errors['required']) {
+        @if (walletForm.get('name')?.hasError('required')) {
           <span>Le nom est requis</span>
-          }
-          @if (name.errors['maxlength']) {
+        }
+        @if (walletForm.get('name')?.hasError('maxlength')) {
           <span>La longueur maximale doit être inférieure à 100</span>
-          }
+        }
       </div>
     }
   </fieldset>
 
   <fieldset>
     <app-ui-input
-      name="amount-balance"
       label="Solde initial"
-      [(ngModel)]="newWallet.balance"
-      #amountBalance="ngModel"
+      formControlName="balance"
       placeholder="1000"
       width="full"
-      [required]="true"
       [type]="'number'"
     >
     </app-ui-input>
+
+    @if (walletForm.get('balance')?.errors && walletForm.touched) {
+      <div>
+        @if (walletForm.get('balance')?.hasError('required')) {
+          <span>Le montant est requis</span>
+        }
+        @if (walletForm.get('balance')?.hasError('min')) {
+          <span>Le montant doit être positif</span>
+        }
+      </div>
+    }
   </fieldset>
 
-  @if (amountBalance.errors && walletForm.submitted) {
-    <div>
-        @if (amountBalance.errors['required']) {
-        <span>Le montant est requis</span>
-        }
-    </div>
-  }
+  <fieldset class="currency-fieldset">
+    <legend>Sélectionnez la devise</legend>
 
-  <app-ui-radio-group
-    name="currency"
-    [options]="currencyOptions"
-    [(ngModel)]="newWallet.currency"
-    legend="Sélectionnez la devise"
-  ></app-ui-radio-group>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input
+          type="radio"
+          formControlName="currency"
+          value="EUR"
+        />
+        <span>EUR</span>
+      </label>
+
+      <label class="radio-option">
+        <input
+          type="radio"
+          formControlName="currency"
+          value="USD"
+        />
+        <span>USD</span>
+      </label>
+    </div>
+
+    @if (walletForm.get('currency')?.errors && walletForm.touched) {
+      <div>
+        @if (walletForm.get('currency')?.hasError('required')) {
+          <span>La devise est requise</span>
+        }
+      </div>
+    }
+  </fieldset>
 
   <app-ui-button 
     type="submit" 
     width="full"
     variant="primary"
+    [disabled]="walletForm.invalid"
   >
     Créer un portefeuille
   </app-ui-button>

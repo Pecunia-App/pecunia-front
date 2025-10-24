@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WalletFormComponent } from './wallet-form.component';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('WalletFormComponent', () => {
   let component: WalletFormComponent;
@@ -9,6 +9,7 @@ describe('WalletFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WalletFormComponent],
+      providers: [provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WalletFormComponent);
