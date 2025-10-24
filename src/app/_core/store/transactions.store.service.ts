@@ -26,13 +26,17 @@ export class TransactionStore {
     this.isLoading.set(true);
     this.transactionService.getTransactions(walletId, page).subscribe({
       next: (res) => {
-        this.transactions.set(res.content);
-        this.page.set(res.page);
+        if (res && res.content) {
+          this.transactions.set(res.content);
+          this.page.set(res.page);
+        }
         this.currentPage.set(page);
         this.isLoading.set(false);
         this.loaded = true;
       },
       error: () => {
+        this.transactions.set([]);
+        this.page.set(null);
         this.isLoading.set(false);
       },
     });
