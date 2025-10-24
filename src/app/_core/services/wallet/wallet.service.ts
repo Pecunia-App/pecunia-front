@@ -24,12 +24,20 @@ export class WalletService {
       catchError((err) => {
         if (err.status === 404) {
           console.warn('Aucun wallet trouvé pour cet utilisateur.');
-          // rediriger vers la création d’un wallet
           this.router.navigate(['/wallet/create']);
           return of(null);
         }
         console.error('Erreur lors de la récupération du wallet :', err);
         return of(null);
+      })
+    );
+  }
+
+  createWallet(walletData: Partial<Wallet>) {
+    const url = `${environment.apiUrl}/wallets`;
+    return this.http.post<Wallet>(url, walletData).pipe(
+      tap((wallet) => {
+        this.wallet.set(wallet);
       })
     );
   }

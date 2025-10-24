@@ -121,8 +121,10 @@ export class AuthService {
   }
 
   getUserId(): number | null {
-    const decoded = this.getDecodedToken();
-    return decoded && typeof decoded.id === 'number' ? decoded.id : null;
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    const payload = jwtDecode(token) as { sub: string; id?: number };
+    return payload?.id ?? null;
   }
 
   getUserEmail(): string | null {

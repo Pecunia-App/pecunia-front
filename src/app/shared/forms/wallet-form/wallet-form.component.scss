@@ -43,3 +43,7 @@ label {
     )
   );
 }
+
+.radio-group {
+  @include layout.flex($dir: row, $gap: space-16);
+}

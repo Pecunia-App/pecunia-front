@@ -115,10 +115,10 @@ export class LoginFormComponent {
                   if (wallet) {
                     this.router.navigate(['/transactions']);
                   } else {
-                    this.router.navigate(['/first-wallet']);
+                    this.router.navigate(['/first-login']);
                   }
                 },
-                error: () => this.router.navigate(['/first-wallet']),
+                error: () => this.router.navigate(['/first-login']),
               });
             },
             error: () => this.router.navigate(['/login']),
