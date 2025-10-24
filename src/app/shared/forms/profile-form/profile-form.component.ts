@@ -7,9 +7,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
-  FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { FormUtilsService } from '../../../_core/services/form-utils.service';
@@ -27,6 +28,10 @@ import { UserStoreService } from '../../../_core/store/user.store.service';
 import { ThemeService } from '../../../_core/services/theme/theme.service';
 import { catchError, finalize, forkJoin, of, switchMap, tap } from 'rxjs';
 import { ThemeSwitchComponent } from '../../theme-switch/theme-switch.component';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+
+const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg'];
+const DEFAULT_AVATAR = 'assets/images/default-user.svg';
 
 @Component({
   selector: 'app-profile-form',
@@ -38,6 +43,7 @@ import { ThemeSwitchComponent } from '../../theme-switch/theme-switch.component'
     IconComponent,
     ButtonComponent,
     ThemeSwitchComponent,
+    NzModalModule,
   ],
   templateUrl: './profile-form.component.html',
   styleUrls: ['./profile-form.component.scss'],
@@ -48,6 +54,7 @@ export class ProfileFormComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private userStore = inject(UserStoreService);
   private themeService = inject(ThemeService);
+  private readonly modal = inject(NzModalService);
 
   showUploadModal = false;
   showPassword = false;
@@ -59,7 +66,7 @@ export class ProfileFormComponent implements OnInit {
   uploadPreview: string | null = null;
   uploadFile: File | null = null;
 
-  readonly DEFAULT_AVATAR = 'assets/images/default-user.svg';
+  readonly DEFAULT_AVATAR = DEFAULT_AVATAR;
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -72,7 +79,7 @@ export class ProfileFormComponent implements OnInit {
       confirmPassword: ['', [Validators.minLength(12)]],
     },
     {
-      validators: this.passwordMatchValidator.bind(this),
+      validators: [this.passwordMatchValidator.bind(this)],
     }
   ) as TypedFormGroup<ProfileForm>;
 
@@ -102,8 +109,10 @@ export class ProfileFormComponent implements OnInit {
         this.hasProfilePicture = !!this.userStore.user()?.profilePicture;
         this.tempAvatarPreview = null; // Réinitialiser la prévisualisation
       },
-      error: (err) => {
-        console.error('Erreur lors de la récupération du user:', err);
+      error: () => {
+        this.formUtils.showError(
+          "Erreur lors de la récupération de l'utilisateur"
+        );
       },
     });
   }
@@ -130,7 +139,7 @@ export class ProfileFormComponent implements OnInit {
     }
   }
 
-  handleConfirm(): void {
+  private handleConfirm(): void {
     if (!this.currentUserId) {
       this.formUtils.showError('Utilisateur non identifié');
       return;
@@ -168,7 +177,7 @@ export class ProfileFormComponent implements OnInit {
     }
 
     if (jobs.length === 0) {
-      this.formUtils.showSuccess('Aucune modification à enregistrer');
+      this.formUtils.showInfo('Aucune modification à enregistrer');
       return;
     }
 
@@ -177,17 +186,7 @@ export class ProfileFormComponent implements OnInit {
         tap(() => {
           // Mettre à jour le store avec les données qu'on vient de sauvegarder
           // SANS faire un nouvel appel HTTP
-          const currentUser = this.userStore.user();
-          if (currentUser) {
-            const updatedUser = {
-              ...currentUser,
-              firstname: formValue.firstname || currentUser.firstname,
-              lastname: formValue.lastname || currentUser.lastname,
-              email: formValue.email || currentUser.email,
-              // La profilePicture reste inchangée puisqu'on ne l'a pas modifiée
-            };
-            this.userStore.user.set(updatedUser);
-          }
+          this.updateUserStore();
         }),
         finalize(() => {
           this.formUtils.showSuccess('Modifications enregistrées');
@@ -197,11 +196,25 @@ export class ProfileFormComponent implements OnInit {
         })
       )
       .subscribe({
-        error: (err) => {
-          console.error('Erreur globale:', err);
+        error: () => {
           this.formUtils.showError('Une erreur est survenue');
         },
       });
+  }
+
+  private updateUserStore() {
+    const currentUser = this.userStore.user();
+    const formValue = this.profileForm.value;
+    if (currentUser) {
+      const updatedUser = {
+        ...currentUser,
+        firstname: formValue.firstname || currentUser.firstname,
+        lastname: formValue.lastname || currentUser.lastname,
+        email: formValue.email || currentUser.email,
+        // La profilePicture reste inchangée puisqu'on ne l'a pas modifiée
+      };
+      this.userStore.user.set(updatedUser);
+    }
   }
 
   private uploadProfilePicture() {
@@ -238,8 +251,7 @@ export class ProfileFormComponent implements OnInit {
           }
           return of(null);
         }),
-        catchError((error) => {
-          console.error('Erreur upload:', error);
+        catchError(() => {
           this.formUtils.showError("Erreur lors de l'upload de la photo");
           return of(null);
         })
@@ -274,10 +286,10 @@ export class ProfileFormComponent implements OnInit {
   }
 
   private passwordMatchValidator(
-    form: FormGroup
-  ): null | { passwordMismatch: boolean } {
-    const password = form.get('password')?.value;
-    const confirmPassword = form.get('confirmPassword')?.value;
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
 
     if (!password && !confirmPassword) return null;
 
@@ -301,12 +313,21 @@ export class ProfileFormComponent implements OnInit {
     this.fileInput?.nativeElement?.click();
   }
 
+  private previewFile(file: File): void {
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.uploadPreview = reader.result as string;
+      this.showUploadModal = true;
+    };
+    reader.readAsDataURL(file);
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) return;
+    if (!input.files || !input.files.length) return;
 
     const file = input.files[0];
-    const allowedTypes = ['image/png', 'image/jpeg'];
+    const allowedTypes = ALLOWED_IMAGE_TYPES;
 
     if (!allowedTypes.includes(file.type)) {
       this.formUtils.showError('Seules les images PNG et JPEG sont acceptées.');
@@ -315,12 +336,7 @@ export class ProfileFormComponent implements OnInit {
     }
 
     this.uploadFile = file;
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.uploadPreview = reader.result as string;
-      this.showUploadModal = true;
-    };
-    reader.readAsDataURL(file);
+    this.previewFile(file);
   }
 
   confirmUpload(): void {
@@ -345,18 +361,8 @@ export class ProfileFormComponent implements OnInit {
     }
   }
 
-  deleteProfilePicture(): void {
-    if (!this.currentUserId) {
-      this.formUtils.showError('Utilisateur non identifié');
-      return;
-    }
-
-    if (
-      !confirm('Êtes-vous sûr de vouloir supprimer votre photo de profil ?')
-    ) {
-      return;
-    }
-
+  private performDeleteProfilePicture() {
+    if (!this.currentUserId) return;
     this.userService.deleteProfilePicture(this.currentUserId).subscribe({
       next: () => {
         this.hasProfilePicture = false;
@@ -364,9 +370,24 @@ export class ProfileFormComponent implements OnInit {
         this.formUtils.showSuccess('Photo de profil supprimée');
       },
       error: (err: HttpErrorResponse) => {
-        console.error('Erreur suppression:', err);
-        this.formUtils.showError('Erreur lors de la suppression de la photo');
+        this.formUtils.showError(
+          `Erreur lors de la suppression de la photo, ${err}`
+        );
       },
+    });
+  }
+  deleteProfilePicture(): void {
+    if (!this.currentUserId) {
+      this.formUtils.showError('Utilisateur non identifié');
+      return;
+    }
+    this.modal.confirm({
+      nzTitle: 'Confirmer la suppression',
+      nzContent: 'Êtes-vous sûr de vouloir supprimer votre photo de profil ?',
+      nzOkText: 'Supprimer',
+      nzOkDanger: true,
+      nzCancelText: 'Annuler',
+      nzOnOk: () => this.performDeleteProfilePicture(),
     });
   }
 
