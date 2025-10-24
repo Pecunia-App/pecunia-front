@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { TypedFormGroup } from '../models/forms.model';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormUtilsService {
+  private readonly message = inject(NzMessageService);
   isFieldInError<T extends object>(
     /**
      * Détecte si un champ est en erreur dans un FormGroup typé
@@ -98,11 +100,15 @@ export class FormUtilsService {
   }
 
   showSuccess(message: string): void {
-    alert('✅ ' + message);
+    this.message.success(message);
   }
 
   showError(message: string): void {
-    alert('❌ ' + message);
+    this.message.error(message);
+  }
+
+  showInfo(message: string): void {
+    this.message.info(message);
   }
 
   getMinNumberError(control: AbstractControl, label = 'Ce champ'): string {
