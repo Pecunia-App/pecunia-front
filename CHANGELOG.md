@@ -1,3 +1,16 @@
+## 0.13.0 (2025-10-24)
+
+### Feat
+
+- **wallet-form-component**: make the wallet form works
+- **radio-group-component-test**: add five tests on the radio group component
+- **add-radiogroup-component**: add radio component and it style
+- **first-login**: add first login page. add the wallet form inside this page
+
+### Fix
+
+- **transaction-store**: when no transactions add an empty array
+
 ## 0.12.1 (2025-10-24)
 
 ### Fix
