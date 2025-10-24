@@ -1,3 +1,14 @@
+## 0.12.1 (2025-10-24)
+
+### Fix
+
+- **profile-form-files,-add-icon,-theme-switch**: change style page profil and add tests
+- **user.service,-profile-form**: add possibility to change profil picture
+
+### Refactor
+
+- **form-utils**: replace native js alert with message component from ng-zorro
+
 ## 0.12.0 (2025-10-23)
 
 ### Feat
