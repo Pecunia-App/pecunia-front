@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LoginFormComponent } from './login-form.component';
-import { provideHttpClient, withFetch } from '@angular/common/http';
-// import { ActivatedRoute, provideRouter, Router } from '@angular/router';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
 describe('LoginFormComponent', () => {
@@ -13,11 +10,7 @@ describe('LoginFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LoginFormComponent],
-      providers: [
-        provideHttpClient(withFetch()),
-        provideHttpClientTesting(),
-        provideRouter([]),
-      ],
+      providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginFormComponent);
