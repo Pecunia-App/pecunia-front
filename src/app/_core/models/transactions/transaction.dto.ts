@@ -26,3 +26,7 @@ export interface TransactionCreateDTO {
   categoryId: number;
   providerId?: number;
 }
+
+export interface TransactionUpdateDTO extends Partial<TransactionCreateDTO> {
+  id: number;
+}
