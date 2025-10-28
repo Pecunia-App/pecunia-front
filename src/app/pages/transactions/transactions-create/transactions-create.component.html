@@ -1,8 +1,11 @@
 <app-connected-layout>
   <section class="transactions-create-wrapper">
+    @if(!isLoaded){
+      <div>En cours de chargement...</div>
+    } @else{
     <h1>Ajouter une transaction</h1>
     <div class="form-wrapper">
-      <app-transaction-form />
+      <app-transaction-form [(isLoaded)]="isLoaded"/>
     </div>
     <div class="btn-group-wrapper">
       <app-ui-button
@@ -13,5 +16,6 @@
         >retour</app-ui-button
       >
     </div>
+    }
   </section>
 </app-connected-layout>

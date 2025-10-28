@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import {
   TransactionCreateDTO,
+  TransactionUpdateDTO,
   TransactionDTO,
 } from '../../models/transactions/transaction.dto';
 
@@ -28,4 +29,9 @@ export interface TransactionsDataSource {
     transaction: TransactionCreateDTO
   ): Observable<TransactionDTO>;
   // + create/update/delete plus tard
+
+  updateTransaction(
+    TransactionId: number,
+    transaction: TransactionUpdateDTO
+  ): Observable<TransactionDTO>;
 }

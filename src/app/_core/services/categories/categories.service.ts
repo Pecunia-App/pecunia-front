@@ -26,6 +26,8 @@ export class CategoriesService implements CategoriesDataSource {
     return this.source.getUserCategories(userId);
   }
   getCategoryById(id: number) {
+    console.log('appel');
+
     return this.source.getCategoryById(id);
   }
   createCategory(dto: CategoryUpsertDTO): Observable<CategoryDTO> {

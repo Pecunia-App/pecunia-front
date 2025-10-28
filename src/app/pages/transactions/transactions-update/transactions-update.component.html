@@ -3,11 +3,15 @@
     @if (transaction() !== undefined) {
       <!--fomulaire start--->
       <section class="transactions-update-wrapper">
+                  @if(!isLoaded){
+      <div>En cours de chargement...</div>
+    } @else{
         <h1>transaction du {{ formatDate(transaction()?.createdAt ?? '') }}</h1>
         <div class="form-wrapper">
           <app-transaction-form
             [mode]="'edit'"
             [transactionToEdit]="transaction() ?? undefined"
+            [(isLoaded)]="isLoaded"
           ></app-transaction-form>
         </div>
         <div class="btn-group-wrapper">
@@ -19,6 +23,7 @@
         >retour</app-ui-button
       >
     </div>
+    }
       </section>
       <!--fomulaire end--->
     } @else {

@@ -68,6 +68,14 @@ export const routes: Routes = [
         './pages/transactions/transactions-list/transactions-list.component'
       ).then((m) => m.TransactionsListComponent),
     canActivate: [authGuard],
+    resolve: {
+      user: UserResolver,
+      wallet: WalletResolver,
+      transactions: TransactionListResolver,
+      categories: CategoriesResolver,
+      tags: TagsResolver,
+      providers: ProvidersResolver,
+    },
   },
   {
     path: 'transactions/add',
