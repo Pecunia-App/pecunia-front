@@ -26,8 +26,8 @@ export class TransactionsCreateComponent {
   readonly categories = this.categoryStore.allCategories;
   readonly tags = this.tagStore.userTags;
   readonly providers = this.providerStore.userProviders;
-
   readonly router = inject(Router);
+  isLoaded = true;
 
   testValue = false;
 

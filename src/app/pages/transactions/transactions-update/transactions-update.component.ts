@@ -22,10 +22,10 @@ export class TransactionsUpdateComponent implements OnInit {
   readonly router = inject(Router);
   readonly transaction = signal<TransactionDTO | undefined | null>(undefined);
   readonly loading = this.transactionStore.isLoading;
+  isLoaded = true;
 
   ngOnInit(): void {
     const selectedTransaction = this.transactionStore.selectedTransaction();
-    console.log(selectedTransaction);
     this.transaction.set(selectedTransaction);
   }
 

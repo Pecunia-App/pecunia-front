@@ -1,4 +1,11 @@
-import { Component, inject, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { CategoriesStoreService } from '../../../_core/store/categories.store.service';
 import { TagStoreService } from '../../../_core/store/tag.store.service';
 import { ProvidersStoreService } from '../../../_core/store/providers.store.service';
@@ -14,6 +21,7 @@ import { ProviderSelectComponent } from './components/inputs/provider-select/pro
 import {
   TransactionCreateDTO,
   TransactionDTO,
+  TransactionUpdateDTO,
 } from '../../../_core/models/transactions/transaction.dto';
 import { TagSelectComponent } from './components/inputs/tag-select/tag-select.component';
 import { UserStoreService } from '../../../_core/store/user.store.service';
@@ -61,10 +69,16 @@ export class TransactionFormComponent implements OnChanges {
 
   @Input() mode: 'create' | 'edit' = 'create';
   @Input() transactionToEdit?: TransactionDTO;
+  @Input() isLoaded = true;
+  @Output() isLoadedChange = new EventEmitter<boolean>();
+
+  private setLoading(loading: boolean) {
+    this.isLoaded = loading;
+    this.isLoadedChange.emit(loading);
+  }
 
   ngOnChanges(): void {
     if (this.mode === 'edit') {
-      console.log(this.transactionToEdit);
       setTimeout(() => {
         if (this.transactionToEdit) {
           this.transactionsForm.patchValue({
@@ -131,16 +145,9 @@ export class TransactionFormComponent implements OnChanges {
     }
   }
 
-  onSubmit(): void {
-    this.isSubmitted = true;
-    if (this.transactionsForm.invalid) {
-      this.isSubmitted = false;
-      this.transactionsForm.markAllAsTouched();
-      return;
-    }
+  createTransaction() {
     const { category, provider, tags, note, amount } =
       this.transactionsForm.value;
-
     const payload: TransactionCreateDTO = {
       amount: {
         amount: Number(amount), // Number(amount),
@@ -152,23 +159,76 @@ export class TransactionFormComponent implements OnChanges {
       ...(tags && tags.length ? { tagsIds: tags } : {}),
       ...(note ? { note } : {}),
     };
+    return payload;
+  }
 
-    this.transactionsService.createTransaction(payload).subscribe({
-      next: () => {
-        this.isSubmitted = false;
-        this.transactionStore.loadTransactions(this.walletId!, 0);
-        this.router.navigate(['/transactions']);
-      },
-      error: (err) => {
-        this.apiError =
-          typeof err.error === 'string' ? err.error : 'Erreur inconnue';
-        // Marque les champs comme touchés pour forcer l'affichage de l'erreur
-        this.transactionsForm.controls['category'].markAsTouched();
-        this.transactionsForm.controls['provider'].markAsTouched();
-        this.transactionsForm.controls['tags'].markAsTouched();
-        this.transactionsForm.controls['amount'].markAsTouched();
-        this.transactionsForm.controls['note'].markAsTouched();
-      },
-    });
+  updateTransaction() {
+    const update = {
+      ...this.createTransaction(),
+      id: this.transactionToEdit?.id,
+    } as TransactionUpdateDTO;
+
+    console.log(update);
+    return update;
+  }
+
+  resetOnSuccess() {
+    this.isSubmitted = false;
+    this.transactionStore.loadTransactions(this.walletId!, 0, true);
+    this.setLoading(true);
+    this.router.navigate(['/transactions']);
+  }
+
+  resetOnError() {
+    // Marque les champs comme touchés pour forcer l'affichage de l'erreur
+    this.transactionsForm.controls['category'].markAsTouched();
+    this.transactionsForm.controls['provider'].markAsTouched();
+    this.transactionsForm.controls['tags'].markAsTouched();
+    this.transactionsForm.controls['amount'].markAsTouched();
+    this.transactionsForm.controls['note'].markAsTouched();
+  }
+
+  onSubmit(): void {
+    this.isSubmitted = true;
+    this.setLoading(false);
+    if (this.transactionsForm.invalid) {
+      this.isSubmitted = false;
+      this.setLoading(true);
+      this.transactionsForm.markAllAsTouched();
+      return;
+    }
+
+    if (this.mode === 'create') {
+      const payload = this.createTransaction();
+
+      this.transactionsService.createTransaction(payload).subscribe({
+        next: () => {
+          this.resetOnSuccess();
+        },
+        error: (err) => {
+          this.setLoading(true);
+          this.apiError =
+            typeof err.error === 'string' ? err.error : 'Erreur inconnue';
+          this.resetOnError();
+        },
+      });
+    }
+    if (this.mode === 'edit') {
+      const payload = this.updateTransaction();
+
+      const id = payload.id as number;
+
+      this.transactionsService.updateTransaction(id, payload).subscribe({
+        next: () => {
+          this.resetOnSuccess();
+        },
+        error: (err) => {
+          this.setLoading(true);
+          this.apiError =
+            typeof err.error === 'string' ? err.error : 'Erreur inconnue';
+          this.resetOnError();
+        },
+      });
+    }
   }
 }

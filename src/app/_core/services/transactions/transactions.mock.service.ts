@@ -7,10 +7,12 @@ import {
 import {
   getMockTransactionsResponse,
   MOCK_TRANSACTIONS_CREATED,
+  MOCK_TRANSACTIONS_UPDATED,
 } from '../../mocks/mock-transactions';
 import {
   TransactionCreateDTO,
   TransactionDTO,
+  TransactionUpdateDTO,
 } from '../../models/transactions/transaction.dto';
 import { MOCK_PROVIDERS } from '../../mocks/mock-providers';
 import { MOCK_TAGS } from '../../mocks/mock-tags';
@@ -102,5 +104,50 @@ export class TransactionsMockService implements TransactionsDataSource {
     MOCK_TRANSACTIONS_CREATED.unshift(created);
 
     return of(created).pipe();
+  }
+
+  updateTransaction(
+    transactionId: number,
+    transaction: TransactionUpdateDTO
+  ): Observable<TransactionDTO> {
+    const category = this.categoriesStore.getCategoryById(
+      transaction.categoryId as number
+    );
+
+    const providerObj = MOCK_PROVIDERS.find(
+      (p) => p.id === transaction.providerId
+    );
+    const provider = {
+      id: transaction.providerId,
+      providerName: providerObj ? providerObj.providerName : '',
+    };
+    const tags =
+      transaction.tagsIds?.map((id) => MOCK_TAGS.find((t) => t.id === id)!) ??
+      [];
+
+    // Déterminer le type à partir de la catégorie (logique du back)
+    const type = category?.type ?? 'DEBIT';
+
+    const updated: TransactionDTO = {
+      id: transactionId,
+      type,
+      amount: {
+        amount: transaction.amount?.amount as number,
+        currency: 'EUR',
+        currencySymbol: '€',
+        currencyCode: 'EUR',
+      },
+      note: transaction.note ?? '',
+      tags,
+      provider: provider as ProviderDTO,
+      category: category!,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    MOCK_TRANSACTIONS_UPDATED.unshift(updated);
+    console.log(MOCK_TRANSACTIONS_UPDATED);
+
+    return of(updated);
   }
 }
