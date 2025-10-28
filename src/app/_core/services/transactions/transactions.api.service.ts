@@ -8,6 +8,7 @@ import {
 import {
   TransactionCreateDTO,
   TransactionDTO,
+  TransactionUpdateDTO,
 } from '../../models/transactions/transaction.dto';
 import { environment } from '../../../../environments/environment';
 
@@ -54,6 +55,19 @@ export class TransactionsApiService implements TransactionsDataSource {
   ): Observable<TransactionDTO> {
     return this.http.post<TransactionDTO>(
       `${this.baseUrl}/transactions`,
+      transaction
+    );
+  }
+  /**
+   * Récupère une transaction par son ID global.
+   * POST /transactions
+   */
+  updateTransaction(
+    transactionId: number,
+    transaction: TransactionUpdateDTO
+  ): Observable<TransactionDTO> {
+    return this.http.put<TransactionDTO>(
+      `${this.baseUrl}/transactions/${transactionId}`,
       transaction
     );
   }

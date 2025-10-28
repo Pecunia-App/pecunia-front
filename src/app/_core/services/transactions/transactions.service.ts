@@ -7,6 +7,7 @@ import { TransactionResponse } from './transactions.data-source';
 import {
   TransactionCreateDTO,
   TransactionDTO,
+  TransactionUpdateDTO,
 } from '../../models/transactions/transaction.dto';
 import { environment } from '../../../../environments/environment';
 
@@ -34,6 +35,12 @@ export class TransactionsService implements TransactionsDataSource {
     transaction: TransactionCreateDTO
   ): Observable<TransactionDTO> {
     return this.source.createTransaction(transaction);
+  }
+  updateTransaction(
+    transactionId: number,
+    transaction: TransactionUpdateDTO
+  ): Observable<TransactionDTO> {
+    return this.source.updateTransaction(transactionId, transaction);
   }
   // create(walletId: number, dto: TransactionDTO)
   // update(id: number, dto: TransactionDTO)

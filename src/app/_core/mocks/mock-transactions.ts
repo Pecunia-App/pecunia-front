@@ -12,8 +12,9 @@ const EUR = (amount: number): MoneyDTO => ({
 });
 
 export const MOCK_TRANSACTIONS_CREATED: TransactionDTO[] = [];
+export const MOCK_TRANSACTIONS_UPDATED: TransactionDTO[] = [];
 
-const MOCK_TRANSACTIONS_BASE = [
+const MOCK_TRANSACTIONS_BASE: TransactionDTO[] = [
   {
     id: 1,
     type: 'DEBIT',
@@ -182,7 +183,27 @@ const MOCK_TRANSACTIONS_BASE = [
 ];
 
 export const getMockTransactionsResponse = () => {
-  const merged = [...MOCK_TRANSACTIONS_CREATED, ...MOCK_TRANSACTIONS_BASE];
+  const allSources = [
+    ...MOCK_TRANSACTIONS_CREATED,
+    ...MOCK_TRANSACTIONS_BASE,
+    ...MOCK_TRANSACTIONS_UPDATED,
+  ];
+
+  const merged = allSources.reduce<TransactionDTO[]>(
+    (accumulator, transaction) => {
+      const existingIndex = accumulator.findIndex(
+        (existing) => existing.id === transaction.id
+      );
+      if (existingIndex >= 0) {
+        accumulator[existingIndex] = transaction;
+      } else {
+        accumulator.push(transaction);
+      }
+      return accumulator;
+    },
+    []
+  );
+
   return {
     content: merged as TransactionDTO[],
     page: {
