@@ -15,7 +15,8 @@
 
     .category-modal,
     .provider-modal,
-    .tags-modal {
+    .tags-modal,
+    .delete-transaction-modal {
       .ant-modal-content,
       .ant-modal-header,
       .ant-modal-title,
@@ -42,7 +43,8 @@
 
     .category-modal,
     .provider-modal,
-    .tags-modal {
+    .tags-modal,
+    .delete-transaction-modal {
       background-color: #{theme.themed('background-neutral-primary', $theme)};
       @include shadows.shadow(inner, $theme);
       color: #{theme.themed('text-neutral-default', $theme)};

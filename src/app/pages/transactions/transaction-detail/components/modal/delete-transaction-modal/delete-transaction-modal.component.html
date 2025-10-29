@@ -1,0 +1,31 @@
+<section class="delete-transaction-modal">
+<p>
+    Êtes-vous sûr de vouloir supprimer cette transaction
+    @if (transactionName) {
+      <strong>"{{ transactionName }}"</strong>
+    } ?
+  </p>
+
+  <p><em>Cette action est irréversible.</em></p>
+
+    <div class="modal-actions">
+  <app-ui-button
+    width="auto"
+    [minWidth]="'100px'"
+    size="medium"
+    variant="alert"
+    (click)="handleConfirm()"
+    (keyup.enter)="handleConfirm()"
+    >Supprimer</app-ui-button
+  >
+  <app-ui-button
+    width="auto"
+    [minWidth]="'100px'"
+    size="medium"
+    variant="primary"
+    (click)="handleCancel()"
+    (keyup.enter)="handleCancel()"
+    >Annuler</app-ui-button
+  >
+</div>
+</section>

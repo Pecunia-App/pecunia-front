@@ -90,6 +90,7 @@ export class TagsTabComponent {
       nzOnOk: () => this.handleDeleteTag(tagId),
       nzCancelText: 'Non',
       nzCentered: true,
+      nzNoAnimation: true,
     });
   }
 
