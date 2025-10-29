@@ -71,4 +71,8 @@ export class TransactionsApiService implements TransactionsDataSource {
       transaction
     );
   }
+
+  deleteTransaction(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/transactions/${id}`);
+  }
 }

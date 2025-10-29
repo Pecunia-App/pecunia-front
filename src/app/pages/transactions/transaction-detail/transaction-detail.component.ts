@@ -11,6 +11,8 @@ import {
 } from '../../../_core/utils/format.utils';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { DeleteTransactionModalComponent } from './components/modal/delete-transaction-modal/delete-transaction-modal.component';
+import { TransactionsService } from '../../../_core/services/transactions/transactions.service';
+import { UserStoreService } from '../../../_core/store/user.store.service';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -27,7 +29,10 @@ import { DeleteTransactionModalComponent } from './components/modal/delete-trans
 export class TransactionDetailComponent {
   private readonly router = inject(Router);
   private readonly transactionStore = inject(TransactionStore);
+  private readonly transactionService = inject(TransactionsService);
   private readonly modal = inject(NzModalService);
+  private readonly userStore = inject(UserStoreService);
+  readonly walletId = this.userStore.wallet()?.id;
 
   readonly loading = this.transactionStore.isLoading;
   readonly transaction = this.transactionStore.selectedTransaction;
@@ -58,12 +63,13 @@ export class TransactionDetailComponent {
         const id = this.transaction()?.id;
         if (!id) return;
 
-        console.log('simule transaction supprimée');
-
-        //  this.transactionsService.deleteTransaction(id).subscribe({
-        //    next: () => this.router.navigate(['/transactions']),
-        //    error: (err) => console.error('Erreur suppression :', err),
-        //  });
+        this.transactionService.deleteTransaction(id).subscribe({
+          next: () => {
+            this.transactionStore.loadTransactions(this.walletId!, 0, true);
+            this.router.navigate(['/transactions']);
+          },
+          error: (err) => console.error('Erreur suppression :', err),
+        });
       }
     });
   }
