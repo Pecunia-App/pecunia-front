@@ -14,7 +14,10 @@
     "format": "prettier --write .",
     "generate-token-map": "node scripts/generate-token-map.mjs",
     "build-tokens": "node scripts/build-tokens.mjs",
-    "build-color-tokens": "npm run build-tokens && npm run generate-token-map"
+    "build-color-tokens": "npm run build-tokens && npm run generate-token-map",
+    "e2e": "ng e2e --configuration testing",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +40,7 @@
     "@angular/compiler-cli": "^20.1.0",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@cypress/schematic": "^4.1.4",
     "@ngx-env/builder": "^20.1.1",
     "@types/jasmine": "~5.1.0",
     "angular-eslint": "19.4.0",
@@ -53,7 +57,8 @@
     "prettier": "^3.5.3",
     "style-dictionary": "^5.0.0",
     "typescript": "~5.8.3",
-    "typescript-eslint": "8.32.0"
+    "typescript-eslint": "8.32.0",
+    "cypress": "15.5.0"
   },
   "config": {
     "commitizen": {
