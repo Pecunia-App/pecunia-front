@@ -9,6 +9,8 @@ import {
   formatDateFr,
   formattedAmountTransaction,
 } from '../../../_core/utils/format.utils';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { DeleteTransactionModalComponent } from './components/modal/delete-transaction-modal/delete-transaction-modal.component';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -17,14 +19,15 @@ import {
     BadgeComponent,
     CommonModule,
     ButtonComponent,
+    NzModalModule,
   ],
   templateUrl: './transaction-detail.component.html',
   styleUrl: './transaction-detail.component.scss',
 })
 export class TransactionDetailComponent {
-  // private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly transactionStore = inject(TransactionStore);
+  private readonly modal = inject(NzModalService);
 
   readonly loading = this.transactionStore.isLoading;
   readonly transaction = this.transactionStore.selectedTransaction;
@@ -41,7 +44,28 @@ export class TransactionDetailComponent {
   }
 
   deleteTransaction(): void {
-    // à faire plus tard (Jour 4)
+    const modalRef = this.modal.create({
+      nzTitle: 'Confirmer la suppression',
+      nzContent: DeleteTransactionModalComponent,
+      nzCentered: true,
+      nzFooter: null,
+      nzClosable: true,
+      nzClassName: 'delete-transaction-modal',
+      nzNoAnimation: true,
+    });
+    modalRef.afterClose.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        const id = this.transaction()?.id;
+        if (!id) return;
+
+        console.log('simule transaction supprimée');
+
+        //  this.transactionsService.deleteTransaction(id).subscribe({
+        //    next: () => this.router.navigate(['/transactions']),
+        //    error: (err) => console.error('Erreur suppression :', err),
+        //  });
+      }
+    });
   }
 
   formatDate(dateStr: string): string {

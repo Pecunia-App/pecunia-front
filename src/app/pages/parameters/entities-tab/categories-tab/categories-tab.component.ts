@@ -113,6 +113,7 @@ export class CategoriesTabComponent {
       nzOnOk: () => this.handleDeleteCategory(categoryId),
       nzCancelText: 'Non',
       nzCentered: true,
+      nzNoAnimation: true,
     });
   }
 
