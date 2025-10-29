@@ -1,3 +1,12 @@
+## 0.14.0 (2025-10-29)
+
+### Feat
+
+- **e2e-login**: add e2e test on login
+- **transactions**: implement delete methods for mock and api service
+- **transactions**: implement delete transaction  modal (html, css, ts)
+- **transactions**: implement update api call
+
 ## 0.13.0 (2025-10-24)
 
 ### Feat
