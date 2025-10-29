@@ -34,4 +34,6 @@ export interface TransactionsDataSource {
     TransactionId: number,
     transaction: TransactionUpdateDTO
   ): Observable<TransactionDTO>;
+
+  deleteTransaction(id: number): Observable<void>;
 }

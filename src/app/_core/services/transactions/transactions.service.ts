@@ -42,7 +42,8 @@ export class TransactionsService implements TransactionsDataSource {
   ): Observable<TransactionDTO> {
     return this.source.updateTransaction(transactionId, transaction);
   }
-  // create(walletId: number, dto: TransactionDTO)
-  // update(id: number, dto: TransactionDTO)
-  // delete(id: number)
+
+  deleteTransaction(id: number): Observable<void> {
+    return this.source.deleteTransaction(id);
+  }
 }

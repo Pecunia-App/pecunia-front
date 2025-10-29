@@ -167,8 +167,6 @@ export class TransactionFormComponent implements OnChanges {
       ...this.createTransaction(),
       id: this.transactionToEdit?.id,
     } as TransactionUpdateDTO;
-
-    console.log(update);
     return update;
   }
 
