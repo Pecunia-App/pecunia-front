@@ -16,6 +16,7 @@
 <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <fieldset>
     <app-ui-input
+      data-cy="email-input"
       label="Email"
       placeholder="ex: xxx@xxx.com"
       width="full"
@@ -41,6 +42,7 @@
       }
     </app-ui-input>
     <app-ui-input
+      data-cy="password-input"
       label="Mot de passe"
       placeholder="password"
       width="full"
@@ -68,8 +70,9 @@
       }
     </app-ui-input>
   </fieldset>
-  <app-ui-button 
-  type="submit" 
+  <app-ui-button
+  data-cy="login-button"
+  type="submit"
   width="full"
   size="large"
   variant="primary"
