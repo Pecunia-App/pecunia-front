@@ -1,0 +1,23 @@
+@use '../../../../../../../styles/themes/tokens' as theme;
+@use '../../../../../../../styles/abstracts/typography' as typo;
+@use '../../../../../../../styles/abstracts/layout' as layout;
+@use '../../../../../../../styles/abstracts/shadows' as shadows;
+@use '../../../../../../../styles/abstracts/breakpoints' as breakpoints;
+
+.modal-actions {
+  @include layout.flex(
+    $dir: row,
+    $align: center,
+    $justify: center,
+    $gap: space-16
+  );
+  @include layout.padding(space-16, space-24, space-24, space-24);
+}
+
+.delete-transaction-modal {
+  text-align: center;
+  @include typo.text-style(text-md, regular, mobile);
+  @include breakpoints.mq(desktop) {
+    @include typo.text-style(text-md, regular, desktop);
+  }
+}

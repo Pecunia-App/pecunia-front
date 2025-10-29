@@ -107,6 +107,7 @@ export class ProvidersTabComponent {
       nzOnOk: () => this.handleDeleteProvider(providerId),
       nzCancelText: 'Non',
       nzCentered: true,
+      nzNoAnimation: true,
     });
   }
 
