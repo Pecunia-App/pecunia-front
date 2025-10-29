@@ -6,6 +6,7 @@ import {
 } from './transactions.data-source';
 import {
   getMockTransactionsResponse,
+  MOCK_TRANSACTION_DELETED,
   MOCK_TRANSACTIONS_CREATED,
   MOCK_TRANSACTIONS_UPDATED,
 } from '../../mocks/mock-transactions';
@@ -22,7 +23,7 @@ import { CategoriesStoreService } from '../../store/categories.store.service';
 @Injectable({ providedIn: 'root' })
 export class TransactionsMockService implements TransactionsDataSource {
   private readonly categoriesStore = inject(CategoriesStoreService);
-  private readonly categorie = this.categoriesStore.getCategoryById(1);
+
   getTransactions(
     walletId: number,
     page = 0,
@@ -101,7 +102,7 @@ export class TransactionsMockService implements TransactionsDataSource {
       updatedAt: new Date().toISOString(),
     };
 
-    MOCK_TRANSACTIONS_CREATED.unshift(created);
+    MOCK_TRANSACTIONS_CREATED.push(created);
 
     return of(created).pipe();
   }
@@ -146,8 +147,12 @@ export class TransactionsMockService implements TransactionsDataSource {
     };
 
     MOCK_TRANSACTIONS_UPDATED.unshift(updated);
-    console.log(MOCK_TRANSACTIONS_UPDATED);
 
     return of(updated);
+  }
+
+  deleteTransaction(id: number): Observable<void> {
+    MOCK_TRANSACTION_DELETED.push(id);
+    return of(void 0);
   }
 }

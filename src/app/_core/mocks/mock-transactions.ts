@@ -13,6 +13,7 @@ const EUR = (amount: number): MoneyDTO => ({
 
 export const MOCK_TRANSACTIONS_CREATED: TransactionDTO[] = [];
 export const MOCK_TRANSACTIONS_UPDATED: TransactionDTO[] = [];
+export const MOCK_TRANSACTION_DELETED: number[] = [];
 
 const MOCK_TRANSACTIONS_BASE: TransactionDTO[] = [
   {
@@ -189,8 +190,9 @@ export const getMockTransactionsResponse = () => {
     ...MOCK_TRANSACTIONS_UPDATED,
   ];
 
-  const merged = allSources.reduce<TransactionDTO[]>(
-    (accumulator, transaction) => {
+  const merged = allSources
+    .filter((transaction) => !MOCK_TRANSACTION_DELETED.includes(transaction.id))
+    .reduce<TransactionDTO[]>((accumulator, transaction) => {
       const existingIndex = accumulator.findIndex(
         (existing) => existing.id === transaction.id
       );
@@ -200,9 +202,7 @@ export const getMockTransactionsResponse = () => {
         accumulator.push(transaction);
       }
       return accumulator;
-    },
-    []
-  );
+    }, []);
 
   return {
     content: merged as TransactionDTO[],
