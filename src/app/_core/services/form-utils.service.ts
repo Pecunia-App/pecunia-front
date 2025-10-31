@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { TypedFormGroup } from '../models/forms.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -35,6 +35,7 @@ export class FormUtilsService {
     }
     return '';
   }
+
   /**
    * Message d'erreur générique pour n'importe quel champ
    */
@@ -96,7 +97,20 @@ export class FormUtilsService {
     if (control.hasError('required')) return 'Le champ est obligatoire';
     if (control.hasError('minlength')) return this.getMinLengthError(control);
     if (control.hasError('maxlength')) return this.getMaxLengthError(control);
+    if (control.hasError('invalidName'))
+      return 'Le nom ne peut contenir que des lettres et des tirets';
     return this.getStandardErrorMessage(control);
+  }
+
+  static nameValidator(
+    nameRe = /^(?=.*[A-Za-zÀ-ÿ])[A-Za-zÀ-ÿ\\-]+$/i
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) return null;
+
+      const isValid: boolean = nameRe.test(control.value);
+      return isValid ? null : { invalidName: { value: control.value } };
+    };
   }
 
   showSuccess(message: string): void {

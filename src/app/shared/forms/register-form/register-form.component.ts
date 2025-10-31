@@ -33,8 +33,24 @@ export class RegisterFormComponent {
   public isSubmitted = false;
   registerForm: FormGroup = this.formBuilder.group(
     {
-      firstname: ['', [Validators.required, Validators.minLength(2)]],
-      lastname: ['', [Validators.required, Validators.minLength(2)]],
+      firstname: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+          FormUtilsService.nameValidator(),
+        ],
+      ],
+      lastname: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+          FormUtilsService.nameValidator(),
+        ],
+      ],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(12)]],
       confirmPassword: ['', [Validators.required]],
@@ -77,8 +93,10 @@ export class RegisterFormComponent {
 
     switch (field) {
       case 'firstname':
-        return this.formUtils.getNameError(control);
       case 'lastname':
+        if (control.hasError('invalidName')) {
+          return 'Le nom ne peut contenir que des lettres et des tirets.';
+        }
         return this.formUtils.getNameError(control);
       case 'email':
         return this.formUtils.getEmailError(control);
