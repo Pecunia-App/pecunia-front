@@ -1,3 +1,9 @@
+## 0.14.1 (2025-10-31)
+
+### Fix
+
+- **register-form**: change error handling fro first and lastnam ; add regexp matchin with api
+
 ## 0.14.0 (2025-10-29)
 
 ### Feat
