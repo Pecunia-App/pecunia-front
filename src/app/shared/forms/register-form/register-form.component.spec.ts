@@ -138,9 +138,11 @@ describe('RegisterFormComponent', () => {
       component.registerForm.controls['email'].setValue(
         'jean.dupont@email.com'
       );
-      component.registerForm.controls['password'].setValue('UnSuperPassword12');
+      component.registerForm.controls['password'].setValue(
+        'UnSuperPassword12!'
+      );
       component.registerForm.controls['confirmPassword'].setValue(
-        'UnSuperPassword12'
+        'UnSuperPassword12!'
       );
       component.registerForm.markAllAsTouched();
       component.registerForm.updateValueAndValidity();
@@ -165,9 +167,11 @@ describe('RegisterFormComponent', () => {
       component.registerForm.controls['email'].setValue(
         'jean.dupont@email.com'
       );
-      component.registerForm.controls['password'].setValue('UnSuperPassword12');
+      component.registerForm.controls['password'].setValue(
+        'UnSuperPassword12!'
+      );
       component.registerForm.controls['confirmPassword'].setValue(
-        'UnSuperPassword12'
+        'UnSuperPassword12!'
       );
       fixture.detectChanges();
 
