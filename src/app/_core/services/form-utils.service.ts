@@ -59,7 +59,9 @@ export class FormUtilsService {
     if (control.hasError('required')) return 'Le mot de passe est obligatoire';
     if (control.hasError('minlength'))
       return this.getMinLengthError(control, 'Le mot de passe');
-
+    if (control.hasError('invalidPassword')) {
+      return 'Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.';
+    }
     return this.getStandardErrorMessage(control);
   }
 
@@ -97,8 +99,9 @@ export class FormUtilsService {
     if (control.hasError('required')) return 'Le champ est obligatoire';
     if (control.hasError('minlength')) return this.getMinLengthError(control);
     if (control.hasError('maxlength')) return this.getMaxLengthError(control);
-    if (control.hasError('invalidName'))
-      return 'Le nom ne peut contenir que des lettres et des tirets';
+    if (control.hasError('invalidName')) {
+      return 'Le nom ne peut contenir que des lettres et des tirets.';
+    }
     return this.getStandardErrorMessage(control);
   }
 
@@ -110,6 +113,16 @@ export class FormUtilsService {
 
       const isValid: boolean = nameRe.test(control.value);
       return isValid ? null : { invalidName: { value: control.value } };
+    };
+  }
+  static passwordValidator(
+    passwordRe = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+!?=])(?=\S+$).{12,}$/
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) return null;
+
+      const isValid: boolean = passwordRe.test(control.value);
+      return isValid ? null : { invalidPassword: { value: control.value } };
     };
   }
 
