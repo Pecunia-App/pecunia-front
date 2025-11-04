@@ -1,3 +1,9 @@
+## 0.14.2 (2025-11-04)
+
+### Fix
+
+- **password-validation**: create static method to validate password with backend regex
+
 ## 0.14.1 (2025-10-31)
 
 ### Fix
