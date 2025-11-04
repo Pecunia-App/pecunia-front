@@ -52,7 +52,14 @@ export class RegisterFormComponent {
         ],
       ],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(12)]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(12),
+          FormUtilsService.passwordValidator(),
+        ],
+      ],
       confirmPassword: ['', [Validators.required]],
     },
     { validators: FormUtilsService.passwordsMatch }
@@ -94,9 +101,6 @@ export class RegisterFormComponent {
     switch (field) {
       case 'firstname':
       case 'lastname':
-        if (control.hasError('invalidName')) {
-          return 'Le nom ne peut contenir que des lettres et des tirets.';
-        }
         return this.formUtils.getNameError(control);
       case 'email':
         return this.formUtils.getEmailError(control);
