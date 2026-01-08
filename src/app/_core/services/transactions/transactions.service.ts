@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TransactionsDataSource } from './transactions.data-source';
 import { TransactionsMockService } from './transactions.mock.service';
 import { TransactionsApiService } from './transactions.api.service';
@@ -15,7 +15,10 @@ import { environment } from '../../../../environments/environment';
 export class TransactionsService implements TransactionsDataSource {
   private readonly source: TransactionsDataSource;
 
-  constructor(mock: TransactionsMockService, api: TransactionsApiService) {
+  constructor() {
+    const mock = inject(TransactionsMockService);
+    const api = inject(TransactionsApiService);
+
     // Basculer ici selon .env
     this.source = environment.useMocks ? mock : api;
   }

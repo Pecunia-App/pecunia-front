@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TagsDataSource } from './tags.data-source';
 import { TagsMockService } from './tags.mock.service';
 import { TagsApiService } from './tags.api.service';
@@ -12,7 +12,10 @@ import { TagDTO, TagRequestDto } from '../../models/transactions/tag.dto';
 export class TagsService implements TagsDataSource {
   private readonly source: TagsDataSource;
 
-  constructor(mock: TagsMockService, api: TagsApiService) {
+  constructor() {
+    const mock = inject(TagsMockService);
+    const api = inject(TagsApiService);
+
     this.source = environment.useMocks ? mock : api;
   }
 
