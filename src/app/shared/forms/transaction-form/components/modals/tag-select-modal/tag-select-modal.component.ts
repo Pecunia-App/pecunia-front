@@ -15,7 +15,7 @@ import { ButtonComponent } from '../../../../../ui/button/button.component';
 export class TagSelectModalComponent implements OnInit {
   // ✅ Intercepte globalement Enter pendant que la modale est ouverte
   @HostListener('document:keydown.enter', ['$event'])
-  handleEnterKey(event: KeyboardEvent): void {
+  handleEnterKey(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
   }
