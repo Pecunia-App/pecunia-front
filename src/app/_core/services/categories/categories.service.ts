@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CategoriesDataSource } from './categories.data-source';
 import { CategoriesMockService } from './categories.mock.service';
 import { CategoriesApiService } from './categories.api.service';
@@ -15,7 +15,10 @@ import {
 export class CategoriesService implements CategoriesDataSource {
   private readonly source: CategoriesDataSource;
 
-  constructor(mock: CategoriesMockService, api: CategoriesApiService) {
+  constructor() {
+    const mock = inject(CategoriesMockService);
+    const api = inject(CategoriesApiService);
+
     // Basculer ici selon .env
     this.source = environment.useMocks ? mock : api;
   }

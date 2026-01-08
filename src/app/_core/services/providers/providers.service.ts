@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProvidersDataSource } from './providers.data-source';
 import { ProvidersMockService } from './providers.mock.service';
 import { ProvidersApiService } from './providers.api.service';
@@ -15,7 +15,10 @@ import {
 export class ProvidersService implements ProvidersDataSource {
   private readonly source: ProvidersDataSource;
 
-  constructor(mock: ProvidersMockService, api: ProvidersApiService) {
+  constructor() {
+    const mock = inject(ProvidersMockService);
+    const api = inject(ProvidersApiService);
+
     this.source = environment.useMocks ? mock : api;
   }
 
