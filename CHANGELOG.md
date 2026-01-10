@@ -1,3 +1,14 @@
+## 0.14.4 (2026-01-10)
+
+### Fix
+
+- **font**: remove src/ in path to get correct download of 800 fonts weight
+
+### Refactor
+
+- **login,register**: add spinner for loading state to have a better UX
+- **button**: add spin and loading state to custom button
+
 ## 0.14.3 (2026-01-08)
 
 ### Fix
