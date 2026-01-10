@@ -15,6 +15,8 @@ import { UserService } from '../../../_core/services/user/user.service';
 import { Router } from '@angular/router';
 import { NzAlertComponent } from 'ng-zorro-antd/alert';
 import { CommonModule } from '@angular/common';
+import { finalize } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-login-form',
@@ -36,9 +38,11 @@ export class LoginFormComponent {
   private userService = inject(UserService);
   private router = inject(Router);
   private apiError: string | null = null;
+  private message = inject(NzMessageService);
 
   public isSubmitted = false;
   public successMessage: string | null = null;
+  public isLoading = false;
 
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -54,13 +58,13 @@ export class LoginFormComponent {
       this.resetApiError()
     );
 
-    const nav = this.router.getCurrentNavigation();
+    const nav = this.router.currentNavigation();
     this.successMessage = nav?.extras?.state?.['successMessage'] ?? null;
 
     if (this.successMessage) {
       setTimeout(() => {
         this.successMessage = null;
-      }, 3000); // 3000 ms = 3 secondes
+      }, 3000);
     }
   }
 
@@ -94,44 +98,50 @@ export class LoginFormComponent {
     this.apiError = null;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.isSubmitted = true;
+    if (this.loginForm.invalid) return;
+    this.isLoading = true;
+    this.loginForm.disable();
 
-    if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
+    this.authService
+      .login(this.loginForm.value)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.loginForm.enable();
+        })
+      )
+      .subscribe({
         next: () => {
+          this.message.success('Connexion réussie 🎉!');
           this.userService.getCurrentUser().subscribe({
             next: (user) => {
               if (!user?.id) {
-                console.error(
-                  'Impossible de récupérer le user depuis le backend'
-                );
+                this.message.error('Impossible de récupérer le compte.');
                 this.router.navigate(['/login']);
                 return;
               }
-
               this.userService.getWalletByUserId(user.id).subscribe({
-                next: (wallet) => {
-                  if (wallet) {
-                    this.router.navigate(['/transactions']);
-                  } else {
-                    this.router.navigate(['/first-login']);
-                  }
-                },
+                next: (wallet) =>
+                  this.router.navigate([
+                    wallet ? '/transactions' : '/first-login',
+                  ]),
                 error: () => this.router.navigate(['/first-login']),
               });
             },
-            error: () => this.router.navigate(['/login']),
+            error: () => {
+              this.message.error('Impossible de récupérer le compte.');
+              this.router.navigate(['/login']);
+            },
           });
         },
         error: (err) => {
           this.isSubmitted = false;
           this.apiError =
             typeof err.error === 'string' ? err.error : 'Erreur inconnue';
-          this.loginForm.controls['email'].markAsTouched();
-          this.loginForm.controls['password'].markAsTouched();
+          this.loginForm.markAllAsTouched();
         },
       });
-    }
   }
 }
