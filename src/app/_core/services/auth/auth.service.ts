@@ -82,7 +82,6 @@ export class AuthService {
       .pipe(
         tap((token) => {
           this.saveToken(token);
-          // this.userStore.loadUser();
         })
       );
   }
@@ -104,8 +103,7 @@ export class AuthService {
     }
   }
 
-  // **** registration *****
-  register(user: User) {
+  register(user: User): Observable<object> {
     return this.http.post(`${AuthService.API_URL}/auth/register`, user);
   }
 

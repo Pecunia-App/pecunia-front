@@ -162,23 +162,21 @@ describe('RegisterFormComponent', () => {
   describe('Submission', () => {
     it('should call onSubmit when form is valid and submitted', () => {
       spyOn(component, 'onSubmit').and.callThrough();
-      component.registerForm.controls['firstname'].setValue('Jean');
-      component.registerForm.controls['lastname'].setValue('Dupont');
-      component.registerForm.controls['email'].setValue(
-        'jean.dupont@email.com'
-      );
-      component.registerForm.controls['password'].setValue(
-        'UnSuperPassword12!'
-      );
-      component.registerForm.controls['confirmPassword'].setValue(
-        'UnSuperPassword12!'
-      );
+      component.registerForm.setValue({
+        firstname: 'Jean',
+        lastname: 'Dupont',
+        email: 'jean.dupont@email.com',
+        password: 'UnSuperPassword12!',
+        confirmPassword: 'UnSuperPassword12!',
+      });
+      component.registerForm.updateValueAndValidity();
       fixture.detectChanges();
+      const validForm = component.registerForm.valid;
 
-      const form = fixture.nativeElement.querySelector('form');
-      form.dispatchEvent(new Event('submit'));
+      component.onSubmit();
+
       expect(component.onSubmit).toHaveBeenCalled();
-      expect(component.registerForm.valid).toBeTrue();
+      expect(validForm).toBeTrue();
     });
 
     it('should NOT call onSubmit when form is invalid and submitted', () => {

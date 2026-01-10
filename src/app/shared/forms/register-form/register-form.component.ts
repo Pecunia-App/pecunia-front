@@ -13,6 +13,7 @@ import { ButtonComponent } from '../../ui/button/button.component';
 import { AuthService } from '../../../_core/services/auth/auth.service';
 import { User } from '../../../_core/models/users/user.model';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-register-form',
@@ -31,6 +32,8 @@ export class RegisterFormComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   public isSubmitted = false;
+  public isLoading = false;
+
   registerForm: FormGroup = this.formBuilder.group(
     {
       firstname: [
@@ -131,26 +134,42 @@ export class RegisterFormComponent {
     return '';
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.isSubmitted = true;
+    if (this.registerForm.invalid) return;
+    this.isLoading = true;
+    this.registerForm.disable();
+
     const { firstname, lastname, email, password, confirmPassword } =
       this.registerForm.value;
-    const user = { firstname, lastname, email, password, confirmPassword };
-    this.authService.register(user as User).subscribe({
-      next: () => {
-        this.registerForm.reset();
-        this.successMessage = '';
-        this.errorMessage = '';
-      },
-      complete: () =>
-        this.router.navigate(['/login'], {
-          state: { successMessage: 'Compte créé avec succès 🎉' },
-        }),
-      error: (error) => {
-        console.error('Error registering user:', error);
-        this.errorMessage =
-          "Une erreur est survenue lors de l'inscription. Veuillez réessayer.";
-      },
-    });
+    const user: User = {
+      firstname,
+      lastname,
+      email,
+      password,
+      confirmPassword,
+    };
+    this.authService
+      .register(user)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.registerForm.enable();
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/login'], {
+            state: {
+              successMessage: 'Compte créé avec succès 🎉',
+            },
+          });
+        },
+        error: (error) => {
+          console.error('Error registering user:', error);
+          this.errorMessage =
+            "Une erreur est survenue lors de l'inscription. Veuillez réessayer.";
+        },
+      });
   }
 }
