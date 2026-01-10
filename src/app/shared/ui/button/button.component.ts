@@ -17,10 +17,11 @@ import {
   ButtonWidth,
   VariantType,
 } from './button.model';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-ui-button',
-  imports: [NgClass, NzButtonModule],
+  imports: [NgClass, NzButtonModule, NzSpinModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
   standalone: true,
@@ -37,6 +38,7 @@ export class ButtonComponent {
   readonly _width = signal<ButtonWidth>('auto');
   readonly _minWidth = signal<ButtonMinWidth>(null);
   readonly _maxWidth = signal<ButtonMaxWidth>(null);
+  readonly _loading = signal<boolean>(false);
 
   // Signal pour gérer le focus du bouton
   //usage interne donc pas de @Input
@@ -78,6 +80,11 @@ export class ButtonComponent {
   @Input() nzType: 'primary' | 'default' | 'dashed' | 'text' | 'link' | null =
     'default';
 
+  @Input() set loading(value: boolean) {
+    this._loading.set(!!value);
+    this._disabled.set(!!value);
+  }
+
   // Getters pour récupérer les valeurs des signaux
   //computed permet d'écouter les signaux et de les utiliser comme des propriétés
   readonly cssClasses = computed(() =>
@@ -100,6 +107,8 @@ export class ButtonComponent {
   readonly isDisabled = computed(() => this._disabled());
 
   readonly btnAriaLabel = computed(() => this._ariaLabel());
+
+  readonly isLoading = computed(() => this._loading());
 
   handleClick(event: Event) {
     if (!this.disabled) this.buttonClick.emit(event);
