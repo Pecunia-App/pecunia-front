@@ -1,2 +1,4 @@
 NG_APP_ENV=development
 NG_APP_API_URL=http://localhost:8080
+CYPRESS_email=
+CYPRESS_password=
