@@ -13,5 +13,12 @@
     typeof _maxWidth() === 'number' ? _maxWidth() + 'px' : _maxWidth()
   "
 >
+<span class="ui-btn__content" [class.is-loading]="isLoading()">
+@if (!isLoading()) {
   <ng-content></ng-content>
+} @else {
+  <nz-spin nzSize="large" />
+}
+</span>
+
 </button>

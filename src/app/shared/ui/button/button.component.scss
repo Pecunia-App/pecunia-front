@@ -53,24 +53,31 @@
 .ui-btn--size--medium {
   @include layout.padding(space-6, space-12);
 }
+
 .ui-btn--size--large {
   @include layout.padding(space-10, space-12);
 }
+
 .ui-btn--size--small {
   @include layout.padding(space-4);
 }
+
 .ui-btn--size--square {
   @include layout.padding(space-6);
 }
+
 .ui-btn--pill--medium {
   @include layout.radius(md);
 }
+
 .ui-btn--pill--large {
   @include layout.radius(pill);
 }
+
 .ui-btn--full {
   width: 100%;
 }
+
 .ui-btn--auto {
   width: auto;
 }
@@ -151,6 +158,7 @@
     );
   }
 }
+
 .ui-btn--secondary-ghost {
   //style identique pour les deux thèmes
   @include theme.themed-block(
@@ -171,6 +179,7 @@
     );
   }
 }
+
 .ui-btn--alert {
   //style identique pour les deux thèmes
   @include theme.themed-block(
@@ -192,6 +201,7 @@
     );
   }
 }
+
 .ui-btn--success {
   //style identique pour les deux thèmes
   @include theme.themed-block(
@@ -265,7 +275,19 @@
 //override classes
 .menu-footer-btn {
   @include shadows.shadow(lg);
+
   :host-context([data-theme='dark']) & {
     @include shadows.shadow(lg, dark);
   }
+}
+
+.ui-btn__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ui-btn__content.is-loading {
+  pointer-events: none;
 }
