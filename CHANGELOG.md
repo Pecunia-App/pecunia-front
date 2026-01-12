@@ -1,3 +1,9 @@
+## 0.15.0 (2026-01-12)
+
+### Feat
+
+- **login-form**: add notification when credentials are wrong but form are correct
+
 ## 0.14.4 (2026-01-10)
 
 ### Fix
