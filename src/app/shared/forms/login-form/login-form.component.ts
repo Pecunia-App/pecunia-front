@@ -140,6 +140,7 @@ export class LoginFormComponent {
           this.isSubmitted = false;
           this.apiError =
             typeof err.error === 'string' ? err.error : 'Erreur inconnue';
+          this.message.error(`${this.apiError}`);
           this.loginForm.markAllAsTouched();
         },
       });
